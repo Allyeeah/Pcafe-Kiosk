@@ -15,7 +15,7 @@ public class MemberDAO {
 	Connection con = null;
 	PreparedStatement pstmt = null;
 	
-	
+	// driver
 	private String driver;
     private String url;
     private String username;
