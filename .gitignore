@@ -93,4 +93,10 @@ local.properties
 hs_err_pid*
 replay_pid*
 
+# Java/Pcafe 디렉터리 허용
+!Java/Pcafe/
+
+# db설정 파일 숨기기
+db.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
