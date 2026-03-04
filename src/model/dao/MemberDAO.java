@@ -15,6 +15,7 @@ public class MemberDAO {
 	Connection con = null;
 	PreparedStatement pstmt = null;
 	
+	
 	private String driver;
     private String url;
     private String username;
@@ -23,7 +24,6 @@ public class MemberDAO {
 	 public MemberDAO() {
 	        try {
 	            Properties prop = new Properties();
-	            // src 폴더의 db.properties 읽기
 	            InputStream is = getClass().getClassLoader().getResourceAsStream("db.properties");
 	            prop.load(is);
 
@@ -33,6 +33,7 @@ public class MemberDAO {
 	            this.password = prop.getProperty("password");
 
 	            Class.forName(driver); 
+	            this.con = getConnection(); //0304 혜진추가
 	            
 	            getConnection();
 	        } catch (Exception e) {
@@ -40,7 +41,7 @@ public class MemberDAO {
 	        }
 	    }
 
-	    // DB 연결 통로 열기
+
 	    public Connection getConnection() {
 	        Connection con = null;
 	        try {
@@ -51,7 +52,7 @@ public class MemberDAO {
 	        return con;
 	    }
 
-	    // 뒷정리 (보내준 finally_ck 스타일)
+
 	    public void finally_ck(PreparedStatement pstmt, Connection con, ResultSet rs) {
 	        try {
 	            if (rs != null) rs.close();
@@ -70,7 +71,7 @@ public class MemberDAO {
 	    String sql = "INSERT INTO member (user_id, user_pw, user_name) VALUES (?, ?, ?)";
 	    
 	    try {
-	        pstmt = con.prepareStatement(sql);
+	        pstmt = con.prepareStatement(sql); //sql
 	        pstmt.setString(1, memberDTO.getUserId());
 	        pstmt.setString(2, memberDTO.getUserPw());
 	        pstmt.setString(3, memberDTO.getUserName());

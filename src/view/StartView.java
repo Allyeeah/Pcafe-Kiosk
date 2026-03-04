@@ -21,8 +21,7 @@ public class StartView {
             System.out.print("번호 입력 : ");
 
                      num = scan.nextInt();
-            scan.nextLine(); // 버퍼 비우기
-
+            scan.nextLine(); 
             if (num == 1) {
                 signUp(); 
             } else if (num == 2) {
