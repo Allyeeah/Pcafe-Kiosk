@@ -99,4 +99,7 @@ replay_pid*
 # db설정 파일 숨기기
 db.properties
 
+# 라이브러리 파일 제외
+lib/
+
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
