@@ -3,11 +3,12 @@ package view;
 import java.util.Scanner;
 
 import model.dao.MemberDAO;
+import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
 
 public class StartView {
     private Scanner scan = new Scanner(System.in);
-    private MemberDAO memberDAO = MemberDAO.getInstance(); 
+    private MemberDAO memberDAO = MemberDAOImpl.getInstance(); 
 
     public void menu() {
         int num;
