@@ -24,9 +24,11 @@ public class MemberDAOImpl implements MemberDAO {
 	    try {
 	    	con = DBManager.getConnection();
 	        pstmt = con.prepareStatement(sql); //sql
+	        
 	        pstmt.setString(1, memberDTO.getUserId());
 	        pstmt.setString(2, memberDTO.getUserPw());
 	        pstmt.setString(3, memberDTO.getUserName());
+	        
 	        re = pstmt.executeUpdate();
 	        System.out.println("회원가입 성공입니다.");
 	    } catch (SQLException e) {
