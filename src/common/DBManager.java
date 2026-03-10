@@ -13,7 +13,7 @@ public class DBManager {
 
 	static {
 		try {
-			InputStream is = DBManager.class.getResourceAsStream("db.properties");
+			InputStream is = DBManager.class.getClassLoader().getResourceAsStream("db.properties");
 			prop.load(is);
 
 			Class.forName(prop.getProperty("driver"));
