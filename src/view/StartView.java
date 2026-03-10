@@ -41,21 +41,30 @@ public class StartView {
         System.out.println("\n--- [회원가입] ---");
         System.out.print("아이디: ");
         String id = scan.nextLine();
-        
+
         System.out.print("비밀번호(4자리): ");
         String pwd = scan.nextLine();
-        
-       
+
         System.out.print("이름: ");
         String name = scan.nextLine();
-
-        // DTO
-        MemberDTO memberDTO = new MemberDTO(id, pwd, name);
         
-        // DAO
-        memberDAO.insert(memberDTO);
-    }
+        System.out.print("관리자로 가입하시겠습니까? (Y/N): ");
+        String isAdminInput = scan.nextLine().trim().toUpperCase();
+        String isAdmin = isAdminInput.equals("Y") ? "Y" : "N";
 
+        //test
+        //
+        MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null);
+
+        // DAO insert 메서드가 int 반환이라 가정
+        int result = memberDAO.insert(memberDTO);
+
+        if (result > 0) {
+            System.out.println("회원가입이 완료되었습니다.\n");
+        } else {
+            System.out.println("회원가입 실패: 아이디 중복 또는 오류.\n");
+        }
+    }
     // 2. 로그인 입력
     private void signIn() {
         System.out.println("\n--- [로그인] ---");
@@ -66,6 +75,9 @@ public class StartView {
 
            }
 
+
+    
+    
     public static void main(String[] args) {
         StartView startView = new StartView();
         startView.menu();

@@ -4,37 +4,48 @@ public class MemberDTO {
     private String userId;
     private String userPw;
     private String userName;
+    private String isAdmin;  // 'Y' or 'N' 식별
+    private java.sql.Timestamp createdAt;
 
     public MemberDTO() {}
 
-    public MemberDTO(String userId, String userPw, String userName) {
+    public MemberDTO(String userId, String userPw, String userName, String isAdmin, java.sql.Timestamp createdAt) {
         this.userId = userId;
         this.userPw = userPw;
         this.userName = userName;
+        this.isAdmin = isAdmin;
+        this.createdAt = createdAt;
     }
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUserPw() {
-		return userPw;
-	}
-
-	public void setUserPw(String userPw) {
-		this.userPw = userPw;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
+    // getter / setter
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    public String getUserPw() {
+        return userPw;
+    }
+    public void setUserPw(String userPw) {
+        this.userPw = userPw;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+    public java.sql.Timestamp getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(java.sql.Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 }

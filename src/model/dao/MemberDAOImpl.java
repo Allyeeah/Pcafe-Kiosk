@@ -18,7 +18,7 @@ public class MemberDAOImpl implements MemberDAO {
 	public int insert(MemberDTO memberDTO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-	    String sql = "INSERT INTO member (user_id, user_pw, user_name) VALUES (?, ?, ?)";
+	    String sql = "INSERT INTO member (user_id, user_pw, user_name, is_admin) VALUES (?, ?, ?,?)";
 	    int re = 0;
 	    
 	    try {
@@ -28,7 +28,8 @@ public class MemberDAOImpl implements MemberDAO {
 	        pstmt.setString(1, memberDTO.getUserId());
 	        pstmt.setString(2, memberDTO.getUserPw());
 	        pstmt.setString(3, memberDTO.getUserName());
-	        
+	        pstmt.setString(4, memberDTO.getIsAdmin());
+
 	        re = pstmt.executeUpdate();
 	        System.out.println("회원가입 성공입니다.");
 	    } catch (SQLException e) {
