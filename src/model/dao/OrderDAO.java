@@ -10,7 +10,7 @@ public interface OrderDAO {
 	
 	int insert(OrdersDTO order);
 	
-	int updateStatus(OrdersDTO order, Status status);
+	int updateStatus(int orderId, Status status);
 	
 	int delete(OrdersDTO order);
 	

@@ -57,9 +57,26 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
-	public int updateStatus(OrdersDTO order, Status status) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateStatus(int orderId, Status status) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update orders set status = ? where order_id = ?";
+	    int re = 0;
+	    
+	    try {
+	    	con = DBManager.getConnection();
+	    	ps = con.prepareStatement(sql);
+	    	ps.setString(1, status.label());
+	    	ps.setInt(2, orderId);
+	    	re = ps.executeUpdate();
+	    	
+	    } catch (SQLException e) {
+	        re = 0;
+	    } finally {
+	    	DBManager.releaseConnection(con, null);
+	    }
+	    
+	    return re;
 	}
 
 	@Override
@@ -130,8 +147,8 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return re;
 	}
-	/*
-	public static void main(String[] args) {
+	
+	/*public static void main(String[] args) {
 		OrdersDTO order = new OrdersDTO();
 		order.setUserId("ljg");
 		List<OrderDetailDTO> details = List.of(
@@ -141,5 +158,6 @@ public class OrderDAOImpl implements OrderDAO {
 		order.setOrderDetails(details);
 		
 		getInstance().insert(order);
+		getInstance().updateStatus(6, Status.CANCELED);
 	}*/
 }
