@@ -87,7 +87,7 @@ public class OrderDAOImpl implements OrderDAO {
 		ResultSet rs = null;
 		String sql = "select * from orders";
 		
-		List<OrdersDTO> orders = new ArrayList<OrdersDTO>();
+		List<OrdersDTO> orders = new ArrayList<>();
 	    
 	    try {
 	    	con = DBManager.getConnection();
@@ -117,7 +117,7 @@ public class OrderDAOImpl implements OrderDAO {
 		ResultSet rs = null;
 		String sql = "select * from orders where user_id = ?";
 		
-		List<OrdersDTO> orders = new ArrayList<OrdersDTO>();
+		List<OrdersDTO> orders = new ArrayList<>();
 	    
 	    try {
 	    	con = DBManager.getConnection();
@@ -142,9 +142,30 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<OrderDetailDTO> selectByItemId(String itemId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OrderDetailDTO> selectByItemId(int itemId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from order_detail where item_id = ?";
+		
+		List<OrderDetailDTO> details = new ArrayList<>();
+	    
+	    try {
+	    	con = DBManager.getConnection();
+	    	ps = con.prepareStatement(sql);
+	    	ps.setInt(1, itemId);
+	    	rs = ps.executeQuery();
+	    	
+	    	while (rs.next()) {
+	    		OrderDetailDTO detail = new OrderDetailDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+	    		
+	    		details.add(detail);
+	    	}
+	    } finally {
+	    	DBManager.releaseConnection(con, ps, rs);
+	    }
+	    
+	    return details;
 	}
 
 	private int insertOrder(Connection con, OrdersDTO order) throws SQLException {
