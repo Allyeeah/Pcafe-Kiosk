@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.dto.OrderDetailDTO;
@@ -12,9 +13,7 @@ public interface OrderDAO {
 	
 	int updateStatus(int orderId, Status status);
 	
-	int delete(OrdersDTO order);
-	
-	List<OrdersDTO> selectAll();
+	List<OrdersDTO> selectAll() throws SQLException;
 	
 	List<OrdersDTO> selectByUserId(String userId);
 	

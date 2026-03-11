@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -80,15 +81,33 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public int delete(OrdersDTO order) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<OrdersDTO> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OrdersDTO> selectAll() throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from orders";
+		
+		List<OrdersDTO> orders = new ArrayList<OrdersDTO>();
+	    
+	    try {
+	    	con = DBManager.getConnection();
+	    	ps = con.prepareStatement(sql);
+	    	rs = ps.executeQuery();
+	    	
+	    	while (rs.next()) {
+	    		Status status = Status.COMPLETE;
+	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
+	    		
+	    		OrdersDTO order = new OrdersDTO(rs.getInt(1), rs.getString(2), rs.getString(3), status);
+	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
+	    		
+	    		orders.add(order);
+	    	}
+	    } finally {
+	    	DBManager.releaseConnection(con, ps, rs);
+	    }
+	    
+	    return orders;
 	}
 
 	@Override
@@ -148,6 +167,29 @@ public class OrderDAOImpl implements OrderDAO {
 		return re;
 	}
 	
+	private List<OrderDetailDTO> selectOrderDetails(Connection con, int orderId) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from order_detail where order_id = ?";
+		
+		List<OrderDetailDTO> details = new ArrayList<OrderDetailDTO>();
+	    
+	    try {
+	    	con = DBManager.getConnection();
+	    	ps = con.prepareStatement(sql);
+	    	ps.setInt(1, orderId);
+	    	rs = ps.executeQuery();
+	    	
+	    	while (rs.next()) {
+	    		details.add(new OrderDetailDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4)));
+	    	}
+	    } finally {
+	    	DBManager.releaseConnection(null, ps, rs);
+	    }
+	    
+	    return details;
+	}
+	
 	/*public static void main(String[] args) {
 		OrdersDTO order = new OrdersDTO();
 		order.setUserId("ljg");
@@ -157,7 +199,12 @@ public class OrderDAOImpl implements OrderDAO {
 				);
 		order.setOrderDetails(details);
 		
-		getInstance().insert(order);
-		getInstance().updateStatus(6, Status.CANCELED);
+//		getInstance().insert(order);
+//		getInstance().updateStatus(6, Status.CANCELED);
+		try {
+			System.out.println(getInstance().selectAll());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}*/
 }
