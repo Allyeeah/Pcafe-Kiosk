@@ -50,8 +50,25 @@ public class OrdersDTO {
     public void setOrderDetails(List<OrderDetailDTO> details) {
     	this.details = details;
     }
-    
-    public enum Status {
+        
+    @Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OrdersDTO [orderId=");
+		builder.append(orderId);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", orderDate=");
+		builder.append(orderDate);
+		builder.append(", status=");
+		builder.append(status);
+		builder.append(", details=");
+		builder.append(details);
+		builder.append("]\n");
+		return builder.toString();
+	}
+
+	public enum Status {
     	COMPLETE("주문 완료"),
     	CANCELED("주문 취소");
     	
