@@ -1,21 +1,25 @@
 package model.dto;
 
 public class OrderDetailDTO {
-    private int orderDetailId;
-    private int orderId;
-    private int itemId;
-    private int quantity;
-
+    private int orderDetailId;  // order_detail_id
+    private int orderId;        // order_id
+    private int itemId;         // item_id
+    private String itemName;    // 상품명 * orderdatil 테이블에는 없음
+    private int unitPrice;      // unit_price 가격
+    private int qty;            // qty 수량 
+    //총금액 필요시 unitPrice * qty 
     public OrderDetailDTO() {}
 
-    public OrderDetailDTO(int orderDetailId, int orderId, int itemId, int quantity) {
+    public OrderDetailDTO(int orderDetailId, int orderId, int itemId, String itemName, int unitPrice, int qty) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.itemId = itemId;
-        this.quantity = quantity;
+        this.itemName = itemName;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
     }
 
-    // getter / setter
+
     public int getOrderDetailId() {
         return orderDetailId;
     }
@@ -34,10 +38,41 @@ public class OrderDetailDTO {
     public void setItemId(int itemId) {
         this.itemId = itemId;
     }
-    public int getQuantity() {
-        return quantity;
+    public String getItemName() {
+        return itemName;
     }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+    public int getQty() {
+        return qty;
+    }
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("OrderDetailDTO [orderDetailId=");
+        builder.append(orderDetailId);
+        builder.append(", orderId=");
+        builder.append(orderId);
+        builder.append(", itemId=");
+        builder.append(itemId);
+        builder.append(", itemName=");
+        builder.append(itemName);
+        builder.append(", unitPrice=");
+        builder.append(unitPrice);
+        builder.append(", qty=");
+        builder.append(qty);
+        builder.append("]");
+        return builder.toString();
     }
 }

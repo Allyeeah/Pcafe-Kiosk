@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import common.DBManager;
 import model.dto.OrderDetailDTO;
@@ -97,8 +96,14 @@ public class OrderDAOImpl implements OrderDAO {
 	    	while (rs.next()) {
 	    		Status status = Status.COMPLETE;
 	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
-	    		
-	    		OrdersDTO order = new OrdersDTO(rs.getInt(1), rs.getString(2), rs.getString(3), status);
+	    		//dto 수정ㄴㄴ
+	    		OrdersDTO order = new OrdersDTO(
+	    			    rs.getInt(1), 
+	    			    rs.getString(2), 
+	    			    rs.getString(3), 
+	    			    status, 
+	    			    rs.getInt(5)
+	    			);
 	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
 	    		
 	    		orders.add(order);
@@ -129,7 +134,15 @@ public class OrderDAOImpl implements OrderDAO {
 	    		Status status = Status.COMPLETE;
 	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
 	    		
-	    		OrdersDTO order = new OrdersDTO(rs.getInt(1), rs.getString(2), rs.getString(3), status);
+	    		//변경된 dto에 맞춰서 수정 - 오혜진
+	    		
+	    		OrdersDTO order = new OrdersDTO(
+	                    rs.getInt("order_id"), 
+	                    rs.getString("user_id"), 
+	                    rs.getString("order_date"), 
+	                    status, 
+	                    rs.getInt("total_amount") 
+	                );
 	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
 	    		
 	    		orders.add(order);
@@ -157,7 +170,15 @@ public class OrderDAOImpl implements OrderDAO {
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {
-	    		OrderDetailDTO detail = new OrderDetailDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+	    		//dto 수정에 따라서 변경2 - 오혜진
+	    		OrderDetailDTO detail = new OrderDetailDTO(
+	                    rs.getInt(1),    
+	                    rs.getInt(2),   
+	                    rs.getInt(3),    
+	                    rs.getString(4), 
+	                    rs.getInt(5),    
+	                    rs.getInt(6)     
+	                );
 	    		
 	    		details.add(detail);
 	    	}
@@ -200,7 +221,8 @@ public class OrderDAOImpl implements OrderDAO {
 			for (OrderDetailDTO detail : order.getOrderDetails()) {
 				ps.setInt(1, order.getOrderId());
 				ps.setInt(2, detail.getItemId());
-				ps.setInt(3, detail.getQuantity());
+				ps.setInt(3, detail.getUnitPrice()); 
+				ps.setInt(4, detail.getQty());//추가
 				
 				ps.addBatch();
 				ps.clearParameters();
@@ -227,7 +249,14 @@ public class OrderDAOImpl implements OrderDAO {
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {
-	    		details.add(new OrderDetailDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4)));
+	    		details.add(new OrderDetailDTO(
+	                    rs.getInt(1), 
+	                    rs.getInt(2), 
+	                    rs.getInt(3), 
+	                    rs.getString(4), // itemName
+	                    rs.getInt(5),    // unitPrice
+	                    rs.getInt(6)     // qty
+	                ));
 	    	}
 	    } finally {
 	    	DBManager.releaseConnection(null, ps, rs);
@@ -239,9 +268,9 @@ public class OrderDAOImpl implements OrderDAO {
 	public static void main(String[] args) {
 		OrdersDTO order = new OrdersDTO();
 		order.setUserId("ljg");
-		List<OrderDetailDTO> details = List.of(
-				new OrderDetailDTO(0, 0, 1, 2),
-				new OrderDetailDTO(0, 0, 2, 3)
+		List<OrderDetailDTO> details = List.of( //dto 추가에 따라서 수정
+				new OrderDetailDTO(0, 0, 101, "신라면", 4500, 1),
+			    new OrderDetailDTO(0, 0, 203, "짜계치", 3500, 2)
 				);
 		order.setOrderDetails(details);
 		
