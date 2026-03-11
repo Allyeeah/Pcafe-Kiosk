@@ -1,5 +1,6 @@
 package controller;
 
+import exception.CancelFailedException;
 import exception.OrderFailedException;
 import model.dto.OrdersDTO;
 import service.OrderService;
@@ -15,6 +16,17 @@ public class OrderController {
 			// TODO - 별도의 View로 출력
 			System.out.println("주문 성공");
 		} catch (OrderFailedException e) {
+			System.out.println("[주문 실패] " + e.getMessage());
+		}
+	}
+	
+	public void cancelOrder(int orderId) {
+		try {
+			orderService.cancelOrder(orderId);
+			
+			// TODO - 별도의 View로 출력
+			System.out.println("주문 취소 성공");
+		} catch (CancelFailedException e) {
 			System.out.println("[주문 실패] " + e.getMessage());
 		}
 	}
