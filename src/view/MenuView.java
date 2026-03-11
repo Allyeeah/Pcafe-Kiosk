@@ -2,11 +2,13 @@ package view;
 
 import java.util.Scanner;
 
-import model.dto.OrderDetailDTO;
-import model.dto.OrdersDTO;
+import model.dao.MemberDAO;
+import model.dao.MemberDAOImpl;
+import model.dto.MemberDTO;
 
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
+	private static MemberDAO memberDAO = MemberDAOImpl.getInstance();
 	
 	public static void menu() {
 		while(true) {
@@ -32,9 +34,41 @@ public class MenuView {
 	}
 	
 	
+	private static void register() {
+		System.out.println("\n--- [회원가입] ---");
+		System.out.print("아이디: ");
+		String id = sc.nextLine();
+
+		System.out.print("비밀번호(4자리): ");
+		String pwd = sc.nextLine();
+
+		System.out.print("이름: ");
+		String name = sc.nextLine();
+
+		System.out.print("관리자로 가입하시겠습니까? (Y/N): ");
+		String isAdminInput = sc.nextLine().trim().toUpperCase();
+		String isAdmin = isAdminInput.equals("Y") ? "Y" : "N";
+
+		//test
+		//
+		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null);
+
+		// DAO insert 메서드가 int 반환이라 가정
+		int result = memberDAO.insert(memberDTO);
+
+		if (result > 0) {
+			System.out.println("회원가입이 완료되었습니다.\n");
+		} else {
+			System.out.println("회원가입 실패: 아이디 중복 또는 오류.\n");
+		}
+	
+	}
+
+
 	public static void printMenu() {
 		System.out.println("=== Pcafe ===");
 		System.out.println("1. 회원가입   |   2. 로그인   |  9. 종료");
+		
 	}
 	
 	
