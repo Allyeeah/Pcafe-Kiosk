@@ -6,13 +6,13 @@ public class OrdersDTO {
     private int orderId;
     private String userId;
     private String orderDate;
-    private String status;
+    private Status status;
     
     private List<OrderDetailDTO> details;
 
     public OrdersDTO() {}
 
-    public OrdersDTO(int orderId, String userId, String orderDate, String status) {
+    public OrdersDTO(int orderId, String userId, String orderDate, Status status) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -38,10 +38,10 @@ public class OrdersDTO {
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
     public List<OrderDetailDTO> getOrderDetails() {
@@ -49,5 +49,20 @@ public class OrdersDTO {
     }
     public void setOrderDetails(List<OrderDetailDTO> details) {
     	this.details = details;
+    }
+    
+    public enum Status {
+    	COMPLETE("주문 완료"),
+    	CANCELED("주문 취소");
+    	
+    	private final String label;
+    	
+    	Status(String label) {
+    		this.label = label;
+    	}
+    	
+    	public String label() {
+    		return label;
+    	}
     }
 }
