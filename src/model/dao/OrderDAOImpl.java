@@ -111,13 +111,38 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<OrdersDTO> selectByUserId(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OrdersDTO> selectByUserId(String userId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from orders where user_id = ?";
+		
+		List<OrdersDTO> orders = new ArrayList<OrdersDTO>();
+	    
+	    try {
+	    	con = DBManager.getConnection();
+	    	ps = con.prepareStatement(sql);
+	    	ps.setString(1, userId);
+	    	rs = ps.executeQuery();
+	    	
+	    	while (rs.next()) {
+	    		Status status = Status.COMPLETE;
+	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
+	    		
+	    		OrdersDTO order = new OrdersDTO(rs.getInt(1), rs.getString(2), rs.getString(3), status);
+	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
+	    		
+	    		orders.add(order);
+	    	}
+	    } finally {
+	    	DBManager.releaseConnection(con, ps, rs);
+	    }
+	    
+	    return orders;
 	}
 
 	@Override
-	public List<OrderDetailDTO> selectByItemId(String itemId) {
+	public List<OrderDetailDTO> selectByItemId(String itemId) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -190,7 +215,7 @@ public class OrderDAOImpl implements OrderDAO {
 	    return details;
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		OrdersDTO order = new OrdersDTO();
 		order.setUserId("ljg");
 		List<OrderDetailDTO> details = List.of(
@@ -201,10 +226,15 @@ public class OrderDAOImpl implements OrderDAO {
 		
 //		getInstance().insert(order);
 //		getInstance().updateStatus(6, Status.CANCELED);
+//		try {
+//			System.out.println(getInstance().selectAll());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 		try {
-			System.out.println(getInstance().selectAll());
+			System.out.println(getInstance().selectByUserId("ljg"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 }

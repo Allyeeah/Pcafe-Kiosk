@@ -15,8 +15,8 @@ public interface OrderDAO {
 	
 	List<OrdersDTO> selectAll() throws SQLException;
 	
-	List<OrdersDTO> selectByUserId(String userId);
+	List<OrdersDTO> selectByUserId(String userId) throws SQLException;
 	
-	List<OrderDetailDTO> selectByItemId(String itemId);
+	List<OrderDetailDTO> selectByItemId(String itemId) throws SQLException;
 
 }

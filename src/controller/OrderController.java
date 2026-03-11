@@ -37,7 +37,16 @@ public class OrderController {
 			// TODO - 별도의 View로 출력
 			System.out.println(orderService.findAllOrders());
 		} catch (OrderNotFoundException e) {
-			System.out.println("[주문 실패] " + e.getMessage());
+			System.out.println("[조회 실패] " + e.getMessage());
+		}
+	}
+	
+	public void listOrdersByUserId() {
+		try {
+			// TODO - 별도의 View로 출력
+			System.out.println();
+		} catch (OrderNotFoundException e) {
+			System.out.println("[조회 실패] " + e.getMessage());
 		}
 	}
 }

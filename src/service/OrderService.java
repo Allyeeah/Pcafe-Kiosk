@@ -11,4 +11,6 @@ public interface OrderService {
 	void cancelOrder(int orderId);
 	
 	List<OrdersDTO> findAllOrders();
+	
+	List<OrdersDTO> findOrdersByUserId(String userId);
 }

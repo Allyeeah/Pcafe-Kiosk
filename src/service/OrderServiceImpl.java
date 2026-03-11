@@ -47,5 +47,18 @@ public class OrderServiceImpl implements OrderService {
 		
 		return orders;
 	}
+	
+	@Override
+	public List<OrdersDTO> findOrdersByUserId(String userId) {
+		List<OrdersDTO> orders = new ArrayList<>();
+		try {
+			orders = orderDAO.selectByUserId(userId);
+		} catch (SQLException e) {
+			throw new OrderNotFoundException();
+		}
+		if (orders.isEmpty()) throw new OrderNotFoundException();
+		
+		return orders;
+	}
 
 }
