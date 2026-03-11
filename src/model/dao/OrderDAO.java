@@ -4,10 +4,13 @@ import java.util.List;
 
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
+import model.dto.OrdersDTO.Status;
 
 public interface OrderDAO {
 	
 	int insert(OrdersDTO order);
+	
+	int updateStatus(OrdersDTO order, Status status);
 	
 	int delete(OrdersDTO order);
 	
@@ -16,4 +19,5 @@ public interface OrderDAO {
 	List<OrdersDTO> selectByUserId(String userId);
 	
 	List<OrderDetailDTO> selectByItemId(String itemId);
+
 }
