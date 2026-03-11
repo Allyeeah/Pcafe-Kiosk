@@ -18,7 +18,7 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
-				//MenuView.register(); // 가입
+				MenuView.register(); // 가입
 				break;
 			case 2 :
 				//MenuView.login();// 로그인
@@ -136,8 +136,8 @@ public class MenuView {
 		 
 		 
 			 
-		 OrdersDTO orders = new OrdersDTO(0, userId, null, null);
-		 OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, quantity);
+		// OrdersDTO orders = new OrdersDTO(0, userId, null, null);
+		// OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, quantity);
 		 //orders.getOrderLineList().add(orderdetail);
 		 
 		 //OrderController.insertOrders(orders);	 
