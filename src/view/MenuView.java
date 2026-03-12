@@ -168,7 +168,7 @@ public class MenuView {
     	
     	
     	System.out.print("주문상품번호 : ");
-    	int itemId = Integer.parseInt(sc.nextLine());
+    	String itemCode = sc.nextLine();
 		 
 		 System.out.print("주문수량 : ");
 		int qty = Integer.parseInt(sc.nextLine());
@@ -176,11 +176,12 @@ public class MenuView {
 		 
 			 
 		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
-		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, null, null, 0, qty);
+		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, 0, itemCode, null, 0, qty);
 		 //orders.getOrderLineList().add(orderdetail);
-		 */
+		 
 		 //OrderController.insertOrders(orders);	 
     }
+
     
     /**
      * 장바구니 담기

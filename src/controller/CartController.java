@@ -1,25 +1,28 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import model.dto.ItemDTO;
 import model.dto.OrdersDTO;
-import service.OrderService;
 import mvc.session.Session;
 import mvc.session.SessionSet;
+import service.ItemService;
+import service.ItemServiceImpl;
 import view.EndView;
 import view.FailView;
 
 public class CartController {
-  private static ItemService itemService = new ItemService();
+  private static ItemService itemService = new ItemServiceImpl();
   
    public static void putCart(String id, String goodsId, int quantity) {
 		
 		try {
 			//상품번호에 해당 상품찾기
-			OrdersDTO item = itemService.itemSelectByitemId(itemId);
+//			OrdersDTO item = itemService.itemSelectByitemId();
+			ItemDTO item = new ItemDTO(
+					
+					);
 			//A01	새우깡	1500	4	20/09/04
 			
 			/*if(item.getStock() < quantity) {
