@@ -262,26 +262,5 @@ public class OrderDAOImpl implements OrderDAO {
 	    
 	    return details;
 	}
-	
-	public static void main(String[] args) {
-		OrdersDTO order = new OrdersDTO();
-		order.setUserId("ljg");
-		List<OrderDetailDTO> details = List.of( //dto 추가에 따라서 수정
-				new OrderDetailDTO(0, 0, 1, "101", "신라면", 4500, 1),
-			    new OrderDetailDTO(0, 0, 3, "203", "짜계치", 3500, 2)
-				);
-		order.setOrderDetails(details);
-		order.updateTotalAmount();
-		
-//		getInstance().insert(order);
-//		getInstance().updateStatus(5, Status.CANCELED);
-		try {
-//			System.out.println(getInstance().selectAll());
-//			System.out.println(getInstance().selectByUserId("ljg"));
-			System.out.println(getInstance().selectByItemId(1));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-	}
 }
