@@ -118,7 +118,7 @@ public class MenuView {
 	public static void printAdminMenu(String userId) {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); //Set객체
+		//	System.out.println(ss.getSet()); //Set객체
 			
 		System.out.println("-- 관리자 메뉴 --");
 		System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  |  9. 나가기");
@@ -134,8 +134,10 @@ public class MenuView {
 			
 		case 3 :
 			AdminController.selectAllMember(); //전체 검색
+			break;
 		case 9 : 
-			System.exit(0);
+			System.out.println("관리자 메뉴를 나갑니다.");			
+			return; // 다시 pCafe메인 printMenu()화면으로
 			
 		}
 		
