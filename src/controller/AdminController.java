@@ -13,7 +13,7 @@ public class AdminController {
 		public static void selectMemberById(String userId) {
 			try {
 				MemberDTO member = adminService.selectMemberById(userId);
-				SuccessView.selectMemberById(member);
+				SuccessView.selectMember(member);
 			}catch(Exception e) {
 				FailView.errorMessage(e.getMessage());
 			}
@@ -24,6 +24,7 @@ public class AdminController {
 	public static void selectMemberByName(String userName) {
 		try {
 			MemberDTO member = adminService.selectMemberByName(userName);
+			SuccessView.selectMember(member);
 		}catch(Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}

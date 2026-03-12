@@ -16,8 +16,9 @@ public class SuccessView {
 		
 	}
 
-	public static void selectMemberById(MemberDTO member) {
+	public static void selectMember(MemberDTO member) {
 		System.out.println(member);
 		
 	}
+	
 }

@@ -112,7 +112,26 @@ public class MemberDAOImpl implements MemberDAO {
 	 */
 	@Override
 	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
-		return null;
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		MemberDTO member=null;
+		String sql="select * from member where user_name=?";
+		try {
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userName);
+		rs=ps.executeQuery();
+		
+		while(rs.next()) {
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+		}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+		return member;
 	}
 
 	

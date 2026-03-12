@@ -26,8 +26,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
-		return null;
-		
+		MemberDTO member = memberDao.selectMemberByName(userName);
+		if(member.equals(null)) {
+			throw new SearchWrongException("검색된 레코드가 없습니다.");
+		}
+		return member;
 	}
 	
 	public List<MemberDTO> selectAllMember() throws SearchWrongException {
