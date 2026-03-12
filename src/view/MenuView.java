@@ -93,7 +93,7 @@ public class MenuView {
 					//break;
 					
 				case 2 :
-					ItemController.itemSelect();//전체 상품조회
+					ItemController.itemSelect(userId);//전체 상품조회
 					break;
 				case 3 :
 					printInputOrder(userId);
