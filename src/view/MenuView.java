@@ -178,7 +178,7 @@ public class MenuView {
 		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
 		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, null, null, 0, qty);
 		 //orders.getOrderLineList().add(orderdetail);
-		 
+		 */
 		 //OrderController.insertOrders(orders);	 
     }
     
