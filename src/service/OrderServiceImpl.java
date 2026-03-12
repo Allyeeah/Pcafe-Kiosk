@@ -9,6 +9,7 @@ import exception.OrderFailedException;
 import exception.OrderNotFoundException;
 import model.dao.OrderDAO;
 import model.dao.OrderDAOImpl;
+import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
@@ -59,6 +60,19 @@ public class OrderServiceImpl implements OrderService {
 		if (orders.isEmpty()) throw new OrderNotFoundException();
 		
 		return orders;
+	}
+
+	@Override
+	public List<OrderDetailDTO> findOrderDetailsByItemId(int itemId) {
+		List<OrderDetailDTO> details = new ArrayList<>();
+		try {
+			details = orderDAO.selectByItemId(itemId);
+		} catch (SQLException e) {
+			throw new OrderNotFoundException();
+		}
+		if (details.isEmpty()) throw new OrderNotFoundException();
+
+		return details;
 	}
 
 }

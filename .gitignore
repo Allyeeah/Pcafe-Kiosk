@@ -102,4 +102,7 @@ db.properties
 # 라이브러리 파일 제외
 lib/
 
+# Intelli 파일 제외
+.idea/
+/Pcafe-Kiosk.iml
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
