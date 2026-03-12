@@ -9,7 +9,7 @@ public class ItemView {
     
     // 카테고리 목록 출력
     public static void printCategoryList(List<CategoryDTO> categoryList) {
-        System.out.println("\n=== Pcafe 카테고리 목록 ===");
+        System.out.println("\n========= Pcafe 카테고리 목록 =========");
         if (categoryList == null || categoryList.isEmpty()) {
             System.out.println("등록된 카테고리가 없습니다.");
         } else {
@@ -17,12 +17,12 @@ public class ItemView {
                 System.out.println(category.getCategoryId() + ". " + category.getCategoryName());
             }
         }
-        System.out.println("=======================");
+        System.out.println("===================================");
     }
 
     // 상품 목록 출력
     public static void printItemList(int categoryId, List<ItemDTO> itemList) {
-        System.out.println("\n=== [" + categoryId + "번 카테고리] 상품 목록 ===");
+        System.out.println("\n=========== [" + categoryId + "번 카테고리] 상품 목록 =============");
         if (itemList == null || itemList.isEmpty()) {
             System.out.println("해당 카테고리에는 상품이 없습니다.");
         } else {
