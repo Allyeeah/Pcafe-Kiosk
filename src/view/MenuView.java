@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.AdminController;
 import controller.ItemController;
 import controller.MemberController;
 import model.dao.MemberDAO;
@@ -33,7 +34,9 @@ public class MenuView {
 				break;
 
 			case 9 : 
+				System.out.println("프로그램을 종료합니다.");
 				System.exit(0);
+				
 			}
 		}
 
@@ -117,12 +120,51 @@ public class MenuView {
 		System.out.println("1. 수정   |  2.탈퇴   | 9. 나가기");
 	}
 	
-	public static void printAdminMenu() {
+	public static void printAdminMenu(String userId) {
+		while(true) {
+			SessionSet ss = SessionSet.getInstance();
+		//	System.out.println(ss.getSet()); //Set객체
+			
 		System.out.println("-- 관리자 메뉴 --");
 		System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  |  9. 나가기");
 		
+		int menu = Integer.parseInt(sc.nextLine());
+		switch(menu) {
+		case 1 :
+			MenuView.selectMemberById(); //ID로 검색
+			break;
+		case 2 :
+		    MenuView.selectMemberByName();// 이름으로 검색
+			break;
+			
+		case 3 :
+			AdminController.selectAllMember(); //전체 검색
+			break;
+		case 9 : 
+			System.out.println("관리자 메뉴를 나갑니다.");			
+			return; // 다시 pCafe메인 printMenu()화면으로
+			
+		}
+		
+		}
 	}
 	
+
+	public static void selectMemberById() {
+		System.out.println("사용자 ID를 입력해 주세요. > ");
+		String userId = sc.nextLine();
+		
+		AdminController.selectMemberById(userId);
+		
+	}
+	
+	public static void selectMemberByName() {
+		System.out.println("사용자의 이름을 입력해주세요. > ");
+		String userName = sc.nextLine();
+		
+		AdminController.selectMemberByName(userName);
+	}
+
 	/**
 	 * 로그인 메뉴
 	 * */
@@ -132,17 +174,22 @@ public class MenuView {
 		 
 		 System.out.print("비번 : ");
 		 String userPw = sc.nextLine();
+		 // 만약 관리자일 경우 printAdminMenu()로 이동
 		 
 		 MemberController.login(userId, userPw); 
+	 
 	}
 	
-	
+	/*
+	 * 로그아웃
+	 */
 	public static void logout(String userId) {
 		Session session = new Session(userId);
 		SessionSet ss = SessionSet.getInstance();
 		ss.remove(session);	
 		System.out.println("로그아웃 되었습니다");
 	}
+	
 	
 	public static void loginMenucategory() {
 		System.out.println("1. 스낵   |  2.라면   | 3. 음료");
