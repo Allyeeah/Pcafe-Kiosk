@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.ItemController;
 import controller.MemberController;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
@@ -92,7 +93,7 @@ public class MenuView {
 					//break;
 					
 				case 2 :
-//					ItemController.ItemSelect();//전체 상품조회
+					ItemController.itemSelect();//전체 상품조회
 					break;
 				case 3 :
 					printInputOrder(userId);
