@@ -25,15 +25,14 @@ CREATE TABLE item (
     FOREIGN KEY (category_id) REFERENCES category(category_id)
 );
 
--- 4. 주문 테이블 0311
+-- 4. 주문 테이블 0312
 CREATE TABLE orders (
 order_id INT PRIMARY KEY AUTO_INCREMENT, -- 주문코드
-order_date DATETIME NOT NULL, -- 주문일자 
+order_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 주문일자
 user_id VARCHAR(30) NOT NULL, -- 주문한 사람
 status VARCHAR(20) DEFAULT '주문 완료', -- 주문 상태
 total_amount INT NOT NULL, -- 총구매금액
 FOREIGN KEY (user_id) REFERENCES member(user_id)
-
 ); 
 
 -- 5. 주문 상세 테이블 0311
