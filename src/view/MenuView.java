@@ -2,9 +2,12 @@ package view;
 
 import java.util.Scanner;
 
+import controller.MemberController;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
+import mvc.session.Session;
+import mvc.session.SessionSet;
 
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
@@ -12,8 +15,8 @@ public class MenuView {
 	
 	public static void menu() {
 		while(true) {
-			//SessionSet ss = SessionSet.getInstance();
-//			System.out.println("ss.getSet() = "+ss.getSet());
+			SessionSet ss = SessionSet.getInstance();
+		//System.out.println("ss.getSet() = "+ss.getSet());
 			
 			MenuView.printMenu();
 			
@@ -23,7 +26,7 @@ public class MenuView {
 				MenuView.register(); // 가입
 				break;
 			case 2 :
-				//MenuView.login();// 로그인
+			    MenuView.login();// 로그인
 				break;
 
 			case 9 : 
@@ -74,15 +77,15 @@ public class MenuView {
 	
 	public static void printUserMenu(String userId) {
 		while(true) {
-//			SessionSet ss = SessionSet.getInstance();
-//			System.out.println(ss.getSet()); //Set객체
+			SessionSet ss = SessionSet.getInstance();
+			System.out.println(ss.getSet()); //Set객체
 			
 			System.out.println("-----" +userId+ " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 ");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
-//					logout(userId);// 
+					logout(userId);
 					return; //함수를 빠져나가라.
 					//break;
 					
@@ -127,17 +130,16 @@ public class MenuView {
 		 System.out.print("비번 : ");
 		 String userPw = sc.nextLine();
 		 
-		 //MemberController.login(userId, userPw); 
+		 MemberController.login(userId, userPw); 
 	}
 	
-	/**
-	 * 로그아웃
-	 * */
-	/*public static void logout(String userId) {
+	
+	public static void logout(String userId) {
 		Session session = new Session(userId);
 		SessionSet ss = SessionSet.getInstance();
 		ss.remove(session);	
-	}*/
+		System.out.println("로그아웃 되었습니다");
+	}
 	
 	public static void loginMenucategory() {
 		System.out.println("1. 스낵   |  2.라면   | 3. 음료");
