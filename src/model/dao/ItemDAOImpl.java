@@ -11,9 +11,14 @@ import common.DBManager;
 import model.dto.ItemDTO;
 
 public class ItemDAOImpl implements ItemDAO {
-	
+	private static ItemDAOImpl instance = new ItemDAOImpl();
+
+    private ItemDAOImpl() {}
+    public static ItemDAOImpl getInstance() {
+        return instance;
+    }
+
 	@Override
-	
     public List<ItemDTO> ItemSelect() throws SQLException {
         List<ItemDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -83,5 +88,39 @@ public class ItemDAOImpl implements ItemDAO {
         }
 
         return list; 
+    }
+
+    @Override
+    public ItemDTO selectItemByCode(String code) throws SQLException {
+        ItemDTO item = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        // item_id로 특정 상품을 조회하는 쿼리
+        String sql = "SELECT * FROM item join category using(category_id) WHERE item_code = ?";
+
+        try {
+            conn = DBManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, code);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                item = new ItemDTO(
+                        rs.getInt("item_id"),
+                        rs.getString("item_code"),
+                        rs.getString("item_name"),
+                        rs.getInt("price"),
+                        rs.getInt("category_id"),
+                        rs.getString("category_name")
+                );
+            }
+        } finally {
+            DBManager.releaseConnection(conn, pstmt, rs);
+        }
+
+        return item;
     }
 }

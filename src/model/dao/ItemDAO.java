@@ -13,4 +13,6 @@ public interface ItemDAO {
 	//카테고리 해당하는 전체 상품정보 검색 (조인쿼리로 같이 가져올예정)
 	List<ItemDTO> selectItemsByCategory(int categoryId) throws SQLException;
 
+	//item_code로 특정 상품 조회
+	ItemDTO selectItemByCode(String code) throws SQLException;
 }
