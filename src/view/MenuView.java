@@ -170,9 +170,7 @@ public class MenuView {
 		 // 만약 관리자일 경우 printAdminMenu()로 이동
 		 
 		 MemberController.login(userId, userPw); 
-		 
-		 
-		 
+	 
 	}
 	
 	/*
