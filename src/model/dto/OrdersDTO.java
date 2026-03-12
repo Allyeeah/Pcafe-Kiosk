@@ -12,7 +12,7 @@ public class OrdersDTO {
     private Status status;     
     private int totalAmount;  //총금액 추가
     
-    private List<OrderDetailDTO> details;
+    private List<OrderDetailDTO> details = new ArrayList<>();
 
     public OrdersDTO() {}
 
@@ -52,13 +52,8 @@ public class OrdersDTO {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("OrdersDTO [orderId=").append(orderId)
-               .append(", userId=").append(userId)
-               .append(", orderDate=").append(orderDate)
-               .append(", status=").append(status)
-               .append(", totalAmount=").append(totalAmount)
-               .append(", details=").append(details)
-               .append("]\n");
+        builder.append("주문 일시: ").append(orderDate)
+               .append(", 주문 상태: ").append(status.label());
         return builder.toString();
     }
 

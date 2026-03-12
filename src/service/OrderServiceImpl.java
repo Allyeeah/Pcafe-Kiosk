@@ -3,12 +3,17 @@ package service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import exception.CancelFailedException;
 import exception.OrderFailedException;
 import exception.OrderNotFoundException;
+import model.dao.ItemDAO;
+import model.dao.ItemDAOImpl;
 import model.dao.OrderDAO;
 import model.dao.OrderDAOImpl;
+import model.dto.ItemDTO;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
@@ -16,7 +21,8 @@ import model.dto.OrdersDTO.Status;
 public class OrderServiceImpl implements OrderService {
 	private static OrderService instance = new OrderServiceImpl();
 	private OrderDAO orderDAO = OrderDAOImpl.getInstance();
-	
+	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
+
 	private OrderServiceImpl() {}
 	public static OrderService getInstance() {
 		return instance;
@@ -24,8 +30,34 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public void placeOrder(OrdersDTO order) {
+		try {
+			List<String> itemCodes = order.getOrderDetails().stream()
+					.map(OrderDetailDTO::getItemCode)
+					.distinct()
+					.toList();
+
+			List<ItemDTO> items = itemDAO.selectItemsByCodes(itemCodes);
+
+			Map<String, ItemDTO> itemMap = items.stream()
+					.collect(Collectors.toMap(ItemDTO::getItemCode, item -> item));
+
+			for (OrderDetailDTO detail : order.getOrderDetails()) {
+				ItemDTO item = itemMap.get(detail.getItemCode());
+				if (item == null) {
+					throw new OrderFailedException();
+				}
+
+				detail.setItemId(item.getItemId());
+				detail.setItemName(item.getItemName());
+				detail.setUnitPrice(item.getPrice());
+			}
+			order.updateTotalAmount();
+		} catch (SQLException e) {
+			throw new OrderFailedException();
+		}
+
 		int result = orderDAO.insert(order);
-		
+
 		if (result == 0) throw new OrderFailedException();
 	}
 	
@@ -63,10 +95,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderDetailDTO> findOrderDetailsByItemId(int itemId) {
+	public List<OrderDetailDTO> findOrderDetailsByItemCode(String itemCode) {
 		List<OrderDetailDTO> details = new ArrayList<>();
 		try {
-			details = orderDAO.selectByItemId(itemId);
+			details = orderDAO.selectByItemCode(itemCode);
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
@@ -75,4 +107,9 @@ public class OrderServiceImpl implements OrderService {
 		return details;
 	}
 
+	public int getTotalPrice(List<OrderDetailDTO> details) {
+		return details.stream()
+				.mapToInt(value -> value.getUnitPrice() * value.getQty())
+				.sum();
+	}
 }

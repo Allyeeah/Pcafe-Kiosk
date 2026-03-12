@@ -149,19 +149,19 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<OrderDetailDTO> selectByItemId(int itemId) throws SQLException {
+	public List<OrderDetailDTO> selectByItemCode(String itemCode) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select order_detail_id, order_id, item_id, item_code, item_name, unit_price, qty " +
-				"from order_detail join item using(item_id) where item_id = ?";
+				"from order_detail join item using(item_id) where item_code = ?";
 		
 		List<OrderDetailDTO> details = new ArrayList<>();
 	    
 	    try {
 	    	con = DBManager.getConnection();
 	    	ps = con.prepareStatement(sql);
-	    	ps.setInt(1, itemId);
+	    	ps.setString(1, itemCode);
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {

@@ -68,21 +68,15 @@ public class OrderDetailDTO {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("OrderDetailDTO [orderDetailId=");
-        builder.append(orderDetailId);
-        builder.append(", orderId=");
-        builder.append(orderId);
-        builder.append(", itemId=");
-        builder.append(itemId);
-        builder.append(", itemCode=");
-        builder.append(itemCode);
-        builder.append(", itemName=");
-        builder.append(itemName);
-        builder.append(", unitPrice=");
-        builder.append(unitPrice);
-        builder.append(", qty=");
-        builder.append(qty);
-        builder.append("]");
+        builder.append("[")
+                .append(itemCode)
+                .append("] ")
+                .append(itemName)
+                .append("-")
+                .append(unitPrice)
+                .append("원 / ")
+                .append(qty)
+                .append("개");
         return builder.toString();
     }
 }

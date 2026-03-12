@@ -5,6 +5,7 @@ import java.util.Scanner;
 import controller.AdminController;
 import controller.ItemController;
 import controller.MemberController;
+import controller.OrderController;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
@@ -36,7 +37,7 @@ public class MenuView {
 			case 9 : 
 				System.out.println("프로그램을 종료합니다.");
 				System.exit(0);
-				
+
 			}
 		}
 
@@ -102,10 +103,10 @@ public class MenuView {
 					printInputOrder(userId);
 					break;
 				case 4 :
-//					OrderController.selectOrdersByUserId(userId);
+					OrderController.getInstance().listOrdersByUserId(userId);
 					break;
 				case 5 :
-					MenuView.putCart(userId);// 
+					MenuView.putCart(userId);
 					break;	
 		
 				case 6 : 
@@ -124,7 +125,7 @@ public class MenuView {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
 		//	System.out.println(ss.getSet()); //Set객체
-			
+
 		System.out.println("-- 관리자 메뉴 --");
 		System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  |  9. 나가기");
 		
@@ -136,32 +137,32 @@ public class MenuView {
 		case 2 :
 		    MenuView.selectMemberByName();// 이름으로 검색
 			break;
-			
+
 		case 3 :
 			AdminController.selectAllMember(); //전체 검색
 			break;
-		case 9 : 
-			System.out.println("관리자 메뉴를 나갑니다.");			
+		case 9 :
+			System.out.println("관리자 메뉴를 나갑니다.");
 			return; // 다시 pCafe메인 printMenu()화면으로
-			
+
 		}
-		
+
 		}
 	}
-	
+
 
 	public static void selectMemberById() {
 		System.out.println("사용자 ID를 입력해 주세요. > ");
 		String userId = sc.nextLine();
-		
+
 		AdminController.selectMemberById(userId);
-		
+
 	}
-	
+
 	public static void selectMemberByName() {
 		System.out.println("사용자의 이름을 입력해주세요. > ");
 		String userName = sc.nextLine();
-		
+
 		AdminController.selectMemberByName(userName);
 	}
 
@@ -175,9 +176,9 @@ public class MenuView {
 		 System.out.print("비번 : ");
 		 String userPw = sc.nextLine();
 		 // 만약 관리자일 경우 printAdminMenu()로 이동
-		 
+
 		 MemberController.login(userId, userPw); 
-	 
+
 	}
 	
 	/*
@@ -190,7 +191,7 @@ public class MenuView {
 		System.out.println("로그아웃 되었습니다");
 	}
 	
-	
+
 	public static void loginMenucategory() {
 		System.out.println("1. 스낵   |  2.라면   | 3. 음료");
 		int categorychoice =Integer.parseInt( sc.nextLine());
@@ -212,24 +213,20 @@ public class MenuView {
 	 * 주문하기
 	 * */
     public static void printInputOrder(String userId) {
-    	
-    	
     	System.out.print("주문상품번호 : ");
     	String itemCode = sc.nextLine();
 		 
-		 System.out.print("주문수량 : ");
+		System.out.print("주문수량 : ");
 		int qty = Integer.parseInt(sc.nextLine());
-		 
-		 
 			 
 		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
-		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, 0, itemCode, null, 0, qty);
-		 //orders.getOrderLineList().add(orderdetail);
-		 
-		 //OrderController.insertOrders(orders);	 
+		OrderDetailDTO orderDetail = new OrderDetailDTO(0, 0, 0, itemCode, null, 0, qty);
+		orders.getOrderDetails().add(orderDetail);
+
+		OrderController.getInstance().startOrder(orders);
     }
 
-    
+
     /**
      * 장바구니 담기
      * */
