@@ -19,16 +19,16 @@ public class AdminServiceImpl implements AdminService {
 	}
 	public MemberDTO selectMemberById(String userId) throws SearchWrongException{
 		MemberDTO member = memberDao.selectMemberById(userId);
-		if(member.equals(null)) {
-			throw new SearchWrongException("검색된 레코드가 없습니다.");
+		if(member == null) {
+			throw new SearchWrongException("검색된 ID의 사용자가 없습니다.");
 		}
 		return member;
 	}
 
 	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
 		MemberDTO member = memberDao.selectMemberByName(userName);
-		if(member.equals(null)) {
-			throw new SearchWrongException("검색된 레코드가 없습니다.");
+		if(member == null) {
+			throw new SearchWrongException("검색된 이름의 사용자가 없습니다.");
 		}
 		return member;
 	}
