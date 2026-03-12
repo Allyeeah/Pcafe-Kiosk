@@ -1,12 +1,14 @@
 package model.dao;
 
-import java.lang.reflect.Member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.DBManager;
+import exception.SearchWrongException;
 import model.dto.MemberDTO;
 
 public class MemberDAOImpl implements MemberDAO {
@@ -75,6 +77,63 @@ public class MemberDAOImpl implements MemberDAO {
 		return member;
 	}
 
+	/*
+	 * id로 검색
+	 */
+	
+	/*
+	 * name으로 검색
+	 */
+	
+	
+	
+	
+	
+	/*
+	 * member 전체 검색 
+	 * select * from member;
+	 */
+	public List<MemberDTO> selectAllMember() throws SearchWrongException{
+		
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<MemberDTO> list = new ArrayList<>();
+		
+		String sql="select * from member";
+		
+		try {
+			con=DBManager.getConnection();
+			ps=con.prepareStatement(sql);
+			rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+				list.add(member);
+				
+			}
+			System.out.println("전체 조회 완료");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			throw new SearchWrongException("DB에 문제가 있어 다시 진행해주세요.");
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+		
+		
+		return list;
+	}
+	@Override
+	public List<MemberDTO> selectMemberAll() throws SearchWrongException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	
+	
 	
 
 	
