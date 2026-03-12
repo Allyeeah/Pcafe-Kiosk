@@ -5,6 +5,8 @@ import java.util.Scanner;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
+import model.dto.OrderDetailDTO;
+import model.dto.OrdersDTO;
 
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
@@ -166,12 +168,12 @@ public class MenuView {
     	int itemId = Integer.parseInt(sc.nextLine());
 		 
 		 System.out.print("주문수량 : ");
-		int quantity = Integer.parseInt(sc.nextLine());
+		int qty = Integer.parseInt(sc.nextLine());
 		 
 		 
 			 
-		// OrdersDTO orders = new OrdersDTO(0, userId, null, null);
-		// OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, quantity);
+		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
+		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, null, 0, qty);
 		 //orders.getOrderLineList().add(orderdetail);
 		 
 		 //OrderController.insertOrders(orders);	 
