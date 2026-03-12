@@ -214,7 +214,7 @@ public class MenuView {
 	 * */
     public static void printInputOrder(String userId) {
     	System.out.print("주문상품번호 : ");
-    	String itemCode = sc.nextLine();
+    	String itemCode = sc.nextLine().toUpperCase();
 		 
 		System.out.print("주문수량 : ");
 		int qty = Integer.parseInt(sc.nextLine());

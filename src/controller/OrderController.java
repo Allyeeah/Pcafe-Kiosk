@@ -58,7 +58,7 @@ public class OrderController {
 		}
 	}
 
-	public void listOrderDetailsByItemId(String itemCode) {
+	public void listOrderDetailsByItemCode(String itemCode) {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
 

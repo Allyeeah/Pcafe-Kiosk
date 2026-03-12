@@ -33,18 +33,19 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			List<String> itemCodes = order.getOrderDetails().stream()
 					.map(OrderDetailDTO::getItemCode)
+					.map(String::toUpperCase)
 					.distinct()
 					.toList();
 
 			List<ItemDTO> items = itemDAO.selectItemsByCodes(itemCodes);
 
 			Map<String, ItemDTO> itemMap = items.stream()
-					.collect(Collectors.toMap(ItemDTO::getItemCode, item -> item));
+					.collect(Collectors.toMap(item -> item.getItemCode().toUpperCase(), item -> item));
 
 			for (OrderDetailDTO detail : order.getOrderDetails()) {
 				ItemDTO item = itemMap.get(detail.getItemCode());
 				if (item == null) {
-					throw new OrderFailedException();
+					throw new OrderFailedException("입력한 상품 코드가 존재하지 않습니다.");
 				}
 
 				detail.setItemId(item.getItemId());
