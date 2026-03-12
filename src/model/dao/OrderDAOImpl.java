@@ -154,7 +154,7 @@ public class OrderDAOImpl implements OrderDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select order_detail_id, order_id, item_id, item_code, item_name, unit_price, qty " +
-				"from order_detail join item using(item_id) where item_code = ?";
+				"from order_detail join item using(item_id) where item_code = UPPER(?)";
 		
 		List<OrderDetailDTO> details = new ArrayList<>();
 	    
