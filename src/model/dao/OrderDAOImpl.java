@@ -94,14 +94,12 @@ public class OrderDAOImpl implements OrderDAO {
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {
-	    		Status status = Status.COMPLETE;
-	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
 	    		//dto 수정ㄴㄴ
 	    		OrdersDTO order = new OrdersDTO(
 	    			    rs.getInt(1), 
 	    			    rs.getString(2), 
 	    			    rs.getString(3), 
-	    			    status, 
+	    			    Status.fromLabel(rs.getString(4)),
 	    			    rs.getInt(5)
 	    			);
 	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
@@ -131,16 +129,12 @@ public class OrderDAOImpl implements OrderDAO {
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {
-	    		Status status = Status.COMPLETE;
-	    		if (rs.getString(4) == Status.CANCELED.label()) status = Status.CANCELED;
-	    		
 	    		//변경된 dto에 맞춰서 수정 - 오혜진
-	    		
 	    		OrdersDTO order = new OrdersDTO(
 	                    rs.getInt("order_id"), 
 	                    rs.getString("user_id"), 
 	                    rs.getString("order_date"), 
-	                    status, 
+	                    Status.fromLabel(rs.getString(4)),
 	                    rs.getInt("total_amount") 
 	                );
 	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
@@ -159,7 +153,8 @@ public class OrderDAOImpl implements OrderDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from order_detail where item_id = ?";
+		String sql = "select order_detail_id, order_id, item_id, item_code, item_name, unit_price, qty " +
+				"from order_detail join item using(item_id) where item_id = ?";
 		
 		List<OrderDetailDTO> details = new ArrayList<>();
 	    
@@ -174,10 +169,11 @@ public class OrderDAOImpl implements OrderDAO {
 	    		OrderDetailDTO detail = new OrderDetailDTO(
 	                    rs.getInt(1),    
 	                    rs.getInt(2),   
-	                    rs.getInt(3),    
-	                    rs.getString(4), 
-	                    rs.getInt(5),    
-	                    rs.getInt(6)     
+	                    rs.getInt(3),
+						rs.getString(4),
+	                    rs.getString(5),
+	                    rs.getInt(6),
+	                    rs.getInt(7)
 	                );
 	    		
 	    		details.add(detail);
@@ -190,7 +186,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	private int insertOrder(Connection con, OrdersDTO order) throws SQLException {
-		String sql = "INSERT INTO orders (user_id) VALUES (?)";
+		String sql = "INSERT INTO orders (user_id, total_amount) VALUES (?, ?)";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		int re = 0;
@@ -198,6 +194,7 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 	        ps.setString(1, order.getUserId());
+			ps.setInt(2, order.getTotalAmount());
 
 	        re = ps.executeUpdate();
 	        rs = ps.getGeneratedKeys();
@@ -211,7 +208,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	private int[] insertOrderDetails(Connection con, OrdersDTO order) throws SQLException{
-		String sql = "INSERT INTO order_detail (order_id, item_id, quantity) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO order_detail (order_id, item_id, unit_price, qty) VALUES (?, ?, ?, ?)";
 		PreparedStatement ps = null;
 		int[] re = null;
 		
@@ -238,24 +235,25 @@ public class OrderDAOImpl implements OrderDAO {
 	private List<OrderDetailDTO> selectOrderDetails(Connection con, int orderId) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from order_detail where order_id = ?";
+		String sql = "select order_detail_id, order_id, item_id, item_code, item_name, unit_price, qty " +
+				"from order_detail join item using(item_id) where order_id = ?";
 		
-		List<OrderDetailDTO> details = new ArrayList<OrderDetailDTO>();
+		List<OrderDetailDTO> details = new ArrayList<>();
 	    
 	    try {
-	    	con = DBManager.getConnection();
 	    	ps = con.prepareStatement(sql);
 	    	ps.setInt(1, orderId);
 	    	rs = ps.executeQuery();
 	    	
 	    	while (rs.next()) {
 	    		details.add(new OrderDetailDTO(
-	                    rs.getInt(1), 
+	                    rs.getInt(1),
 	                    rs.getInt(2), 
-	                    rs.getInt(3), 
-	                    rs.getString(4), // itemName
-	                    rs.getInt(5),    // unitPrice
-	                    rs.getInt(6)     // qty
+	                    rs.getInt(3),
+						rs.getString(4),
+	                    rs.getString(5), // itemName
+	                    rs.getInt(6),    // unitPrice
+	                    rs.getInt(7)     // qty
 	                ));
 	    	}
 	    } finally {
@@ -269,22 +267,21 @@ public class OrderDAOImpl implements OrderDAO {
 		OrdersDTO order = new OrdersDTO();
 		order.setUserId("ljg");
 		List<OrderDetailDTO> details = List.of( //dto 추가에 따라서 수정
-				new OrderDetailDTO(0, 0, 101, "신라면", 4500, 1),
-			    new OrderDetailDTO(0, 0, 203, "짜계치", 3500, 2)
+				new OrderDetailDTO(0, 0, 1, "101", "신라면", 4500, 1),
+			    new OrderDetailDTO(0, 0, 3, "203", "짜계치", 3500, 2)
 				);
 		order.setOrderDetails(details);
+		order.updateTotalAmount();
 		
 //		getInstance().insert(order);
-//		getInstance().updateStatus(6, Status.CANCELED);
-//		try {
-//			System.out.println(getInstance().selectAll());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+//		getInstance().updateStatus(5, Status.CANCELED);
 		try {
-			System.out.println(getInstance().selectByUserId("ljg"));
+//			System.out.println(getInstance().selectAll());
+//			System.out.println(getInstance().selectByUserId("ljg"));
+			System.out.println(getInstance().selectByItemId(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 }
