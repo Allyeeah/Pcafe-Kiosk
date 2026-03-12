@@ -16,7 +16,7 @@ public class OrdersDTO {
 
     public OrdersDTO() {}
 
- 
+
     public OrdersDTO(int orderId, String userId, String orderDate, Status status, int totalAmount) {
         this.orderId = orderId;
         this.userId = userId;
@@ -39,7 +39,12 @@ public class OrdersDTO {
     public void setStatus(Status status) { this.status = status; }
 
     public int getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(int totalAmount) { this.totalAmount = totalAmount; }
+    public void updateTotalAmount() {
+        totalAmount = 0;
+        for (OrderDetailDTO detail : details) {
+            totalAmount += detail.getUnitPrice() * detail.getQty();
+        }
+    }
 
     public List<OrderDetailDTO> getOrderDetails() { return details; }
     public void setOrderDetails(List<OrderDetailDTO> details) { this.details = details; }

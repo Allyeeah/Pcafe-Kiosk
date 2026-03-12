@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 
 public interface OrderService {
@@ -13,4 +14,6 @@ public interface OrderService {
 	List<OrdersDTO> findAllOrders();
 	
 	List<OrdersDTO> findOrdersByUserId(String userId);
+
+	List<OrderDetailDTO> findOrderDetailsByItemId(int itemId);
 }
