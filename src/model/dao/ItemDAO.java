@@ -15,4 +15,6 @@ public interface ItemDAO {
 
 	//item_code로 특정 상품 조회
 	ItemDTO selectItemByCode(String code) throws SQLException;
+
+	List<ItemDTO> selectItemsByCodes(List<String> itemCodes) throws SQLException;
 }
