@@ -48,4 +48,22 @@ public class MemberDTO {
     public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MemberDTO [userId=");
+		builder.append(userId);
+		builder.append(", userPw=");
+		builder.append(userPw);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", isAdmin=");
+		builder.append(isAdmin);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append("]");
+		return builder.toString();
+	}
+    
 }
