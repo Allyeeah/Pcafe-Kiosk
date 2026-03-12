@@ -7,20 +7,28 @@ import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import service.OrderService;
 import service.OrderServiceImpl;
+import view.FailView;
+import view.OrderView;
 
 import java.util.List;
 
 public class OrderController {
+	private static OrderController instance = new OrderController();
 	private OrderService orderService = OrderServiceImpl.getInstance();
+	private OrderView orderView = new OrderView();
+
+	private OrderController() {}
+	public static OrderController getInstance() {
+		return instance;
+	}
 
 	public void startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
 
-			// TODO - 별도의 View로 출력
-			System.out.println("주문 성공");
+			orderView.orderSuccessMessage(order);
 		} catch (OrderFailedException e) {
-			System.out.println("[주문 실패] " + e.getMessage());
+			FailView.errorMessage("[주문 실패] " + e.getMessage());
 		}
 	}
 
@@ -28,59 +36,39 @@ public class OrderController {
 		try {
 			orderService.cancelOrder(orderId);
 
-			// TODO - 별도의 View로 출력
-			System.out.println("주문 취소 성공");
+			System.out.println(orderId + " 주문이 성공적으로 취소되었습니다.");
 		} catch (CancelFailedException e) {
-			System.out.println("[주문 실패] " + e.getMessage());
+			FailView.errorMessage("[취소 실패] " + e.getMessage());
 		}
 	}
 
 	public void listAllOrders() {
 		try {
-			// TODO - 별도의 View로 출력
-			System.out.println("[모든 주문 조회]");
-			System.out.println(orderService.findAllOrders());
+			orderView.printAllOrders(orderService.findAllOrders());
 		} catch (OrderNotFoundException e) {
-			System.out.println("[조회 실패] " + e.getMessage());
+			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
 	}
 
-	public void listOrdersByUserId() {
+	public void listOrdersByUserId(String userId) {
 		try {
-			// TODO - 세션에서 현재 로그인한 사용자 아이디 가져오기
-			String userId = "ljg";
-			// TODO - 별도의 View로 출력
-			System.out.println("[내 주문 조회]");
-			System.out.println(orderService.findOrdersByUserId(userId));
+			orderView.printUserOrders(orderService.findOrdersByUserId(userId));
 		} catch (OrderNotFoundException e) {
-			System.out.println("[조회 실패] " + e.getMessage());
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 
-	public void listOrderDetailsByItemId(int itemId) {
+	public void listOrderDetailsByItemId(String itemCode) {
 		try {
-			// TODO - 별도의 View로 출력
+			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
+
 			System.out.println("[아이템 주문 조회]");
-			System.out.println(orderService.findOrderDetailsByItemId(itemId));
+			details.forEach(System.out::println);
+
+			orderView.printTotalPrice(orderService.getTotalPrice(details));
 		} catch (OrderNotFoundException e) {
-			System.out.println("[조회 실패] " + e.getMessage());
+			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
 	}
 
-	public static void main(String[] args) {
-		OrderController orderController = new OrderController();
-
-		OrdersDTO order = new OrdersDTO();
-		order.setUserId("ljg");
-		List<OrderDetailDTO> details = List.of( //dto 추가에 따라서 수정
-				new OrderDetailDTO(0, 0, 1, "101", "신라면", 4500, 2),
-				new OrderDetailDTO(0, 0, 3, "203", "짜계치", 3500, 4)
-		);
-		order.setOrderDetails(details);
-		order.updateTotalAmount();
-//		orderController.startOrder(order);
-//		orderController.listAllOrders();
-//		orderController.listOrdersByUserId();
-//		orderController.listOrderDetailsByItemId(1);
-	}
 }
