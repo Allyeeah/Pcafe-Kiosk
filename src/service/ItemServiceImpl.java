@@ -9,7 +9,7 @@ import model.dto.ItemDTO;
 
 public class ItemServiceImpl implements ItemService {
 
-	private ItemDAO itemDAO = new ItemDAOImpl();
+	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
 	
 	@Override
 	public List<ItemDTO> itemSelect() throws SQLException {
