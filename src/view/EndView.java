@@ -57,8 +57,8 @@ public class EndView {
 				 
 				 for(ItemDTO itemkey : cart.keySet()) {
 					 int qty = cart.get(itemkey);//map에서 key=Goods에 해당하는 value=수량 조회
-					 //OrderDetailDTO orderLine = new OrderDetailDTO(0, 0, itemkey.getItemId() , null, qty, 0);
-					// orderLineList.add(orderLine);
+					 OrderDetailDTO orderLine = new OrderDetailDTO(0, 0, itemkey.getItemId(), null , null, qty, 0);
+					 orderLineList.add(orderLine);
 				 }
 				 
 				 

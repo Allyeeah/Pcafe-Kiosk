@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.ItemController;
 import controller.MemberController;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
@@ -92,7 +93,7 @@ public class MenuView {
 					//break;
 					
 				case 2 :
-//					ItemController.ItemSelect();//전체 상품조회
+					ItemController.itemSelect(userId);//전체 상품조회
 					break;
 				case 3 :
 					printInputOrder(userId);
@@ -174,8 +175,8 @@ public class MenuView {
 		 
 		 
 			 
-	/*	OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
-		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, null, 0, qty);
+		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
+		OrderDetailDTO orderdetail = new OrderDetailDTO(0, 0, itemId, null, null, 0, qty);
 		 //orders.getOrderLineList().add(orderdetail);
 		 */
 		 //OrderController.insertOrders(orders);	 
