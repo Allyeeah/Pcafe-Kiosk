@@ -13,7 +13,7 @@ public class AdminController {
 		public static void selectMemberById(String userId) {
 			try {
 				MemberDTO member = adminService.selectMemberById(userId);
-				
+				SuccessView.selectMemberById(member);
 			}catch(Exception e) {
 				FailView.errorMessage(e.getMessage());
 			}

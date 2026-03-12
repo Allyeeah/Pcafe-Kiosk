@@ -79,14 +79,42 @@ public class MemberDAOImpl implements MemberDAO {
 
 	/*
 	 * id로 검색
+	 * select * from member where user_id=?
 	 */
+	@Override
+	public MemberDTO selectMemberById(String userId) throws SearchWrongException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		MemberDTO member=null;
+		String sql="select * from member where user_id=?";
+		try {
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userId);
+		rs=ps.executeQuery();
+		
+		while(rs.next()) {
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+		}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+		return member;
+	}
+
+	
 	
 	/*
 	 * name으로 검색
 	 */
-	
-	
-	
+	@Override
+	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
+		return null;
+	}
+
 	
 	
 	/*
@@ -124,15 +152,6 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		return list;
 	}
-	@Override
-	public List<MemberDTO> selectMemberAll() throws SearchWrongException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-	
 	
 	
 
