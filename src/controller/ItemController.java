@@ -57,7 +57,7 @@ public class ItemController {
                    
                 } else if (subMenu == 2) {
                     System.out.println("주문 화면으로 이동합니다.");
-               //     printInputOrder(userId); // 주문하기 
+                    MenuView.printInputOrder(userId); // 주문하기
                 } else if (subMenu == 3) {
                     System.out.println("장바구니에 상품을 담습니다.");
                     MenuView.putCart(userId); 
