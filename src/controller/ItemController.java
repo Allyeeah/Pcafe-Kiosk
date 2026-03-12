@@ -10,7 +10,8 @@ import service.CategoryService;
 import service.CategoryServiceImpl;
 import service.ItemService;
 import service.ItemServiceImpl;
-import view.ItemView; 
+import view.ItemView;
+import view.MenuView; 
 
 public class ItemController {
 
@@ -18,21 +19,20 @@ public class ItemController {
     private static ItemService itemService = new ItemServiceImpl();
     private static Scanner sc = new Scanner(System.in);
 
-    public static void itemSelect() {
+    public static void itemSelect(String userId) {
     	while (true) {
             try {
-                // 1. 카테고리 데이터 가져오기
+                // 카테고리 데이터 가져오기
                 List<CategoryDTO> categoryList = categoryService.getCategoryList();
-                // 2. ItemView를 통해 카테고리 목록 출력
+                // ItemView를 통해 카테고리 목록 출력
                 ItemView.printCategoryList(categoryList);
 
-                // 3. 사용자 입력 받기
+                // 사용자 입력 받기
                 System.out.println("\n ───────────────────────────────────");
                 System.out.println("  [0] 입력시 메인 메뉴로 돌아갑니다.          ");
                 System.out.println(" ───────────────────────────────────");
                 System.out.print(" ❯ Pcafe 카테고리 번호 입력 : ");
 
-                // 사용자의 입력값이 출력문 바로 옆이 아닌 한 칸 띄워진 곳에 찍히도록 구성
                 int selectedCategoryId = Integer.parseInt(sc.nextLine());
 
                 if (selectedCategoryId == 0) {
@@ -46,17 +46,39 @@ public class ItemController {
                 // 5. ItemView를 통해 상품 목록 출력
                 ItemView.printItemList(selectedCategoryId, itemList);
 
-                // 6. [핵심] 조회가 끝난 후 다시 물어보기
-                System.out.println("\n ──────────────────────────────────────────────");
-                System.out.println("  [1] 다른 카테고리 더보기   |   [2] 메인 메뉴로 이동");
-                System.out.print(" ──────────────────────────────────────────────\n");
+                
+                System.out.println("\n ────────────────────────────────────────────────────────────────");
+                System.out.println("  [1] 다른 카테고리 보기 | [2] 주문하기 | [3] 장바구니 담기 | [4] 메인메뉴로 이동");
+                System.out.print(" ────────────────────────────────────────────────────────────────\n");
                 System.out.print(" ❯ 선택 : ");
                 int subMenu = Integer.parseInt(sc.nextLine());
 
-                if (subMenu == 2) {
+                if (subMenu == 1) {
+                   
+                } else if (subMenu == 2) {
+                    System.out.println("주문 화면으로 이동합니다.");
+               //     printInputOrder(userId); // 주문하기 
+                } else if (subMenu == 3) {
+                    System.out.println("장바구니에 상품을 담습니다.");
+                    MenuView.putCart(userId); 
+                } else if (subMenu == 4) {
                     System.out.println("메인 메뉴로 이동합니다.");
-                    break; // 루프 종료
+                    break; 
+                } else {
+                    System.out.println("잘못된 입력입니다. 다시 선택해 주세요.");
                 }
+                
+                // 6. [핵심] 조회가 끝난 후 다시 물어보기
+//                System.out.println("\n ──────────────────────────────────────────────");
+//                System.out.println("  [1] 다른 카테고리 더보기   |   [2] 메인 메뉴로 이동");
+//                System.out.print(" ──────────────────────────────────────────────\n");
+//                System.out.print(" ❯ 선택 : ");
+//                int subMenu = Integer.parseInt(sc.nextLine());
+//
+//                if (subMenu == 2) {
+//                    System.out.println("메인 메뉴로 이동합니다.");
+//                    break; // 루프 종료
+//                }
 
         } catch (SQLException e) {
             ItemView.printErrorMessage("[조회실패] 오류입니다.");
