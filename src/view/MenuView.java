@@ -5,6 +5,7 @@ import java.util.Scanner;
 import controller.AdminController;
 import controller.ItemController;
 import controller.MemberController;
+import controller.OrderController;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
@@ -102,7 +103,7 @@ public class MenuView {
 					printInputOrder(userId);
 					break;
 				case 4 :
-//					OrderController.selectOrdersByUserId(userId);
+					//OrderController.selectOrdersByUserId(userId);
 					break;
 				case 5 :
 					MenuView.putCart(userId);// 
