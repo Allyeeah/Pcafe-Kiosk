@@ -9,9 +9,9 @@ import model.dto.OrdersDTO.Status;
 
 public interface OrderDAO {
 	
-	int insert(OrdersDTO order);
+	int insert(OrdersDTO order) throws SQLException;
 	
-	int updateStatus(int orderId, Status status);
+	int updateStatus(int orderId, Status status) throws SQLException;
 	
 	List<OrdersDTO> selectAll() throws SQLException;
 	

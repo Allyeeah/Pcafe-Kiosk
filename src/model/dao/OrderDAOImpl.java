@@ -22,7 +22,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public int insert(OrdersDTO order) {
+	public int insert(OrdersDTO order) throws SQLException {
 		Connection con = null;
 	    int orderResult = 0;
 	    int[] detailResult = null;
@@ -40,15 +40,8 @@ public class OrderDAOImpl implements OrderDAO {
 	    	con.commit();
 	    	
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        
-	        try {
-				if (con != null) con.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+			if (con != null) con.rollback();
 	        orderResult = 0;
-	        
 	    } finally {
 	    	DBManager.releaseConnection(con, null);
 	    }
@@ -57,7 +50,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
-	public int updateStatus(int orderId, Status status) {
+	public int updateStatus(int orderId, Status status) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "update orders set status = ? where order_id = ?";
@@ -70,8 +63,6 @@ public class OrderDAOImpl implements OrderDAO {
 	    	ps.setInt(2, orderId);
 	    	re = ps.executeUpdate();
 	    	
-	    } catch (SQLException e) {
-	        re = 0;
 	    } finally {
 	    	DBManager.releaseConnection(con, null);
 	    }
