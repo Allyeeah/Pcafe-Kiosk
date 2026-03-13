@@ -22,6 +22,8 @@ public class MenuView {
 	private static MemberDAO memberDAO = MemberDAOImpl.getInstance();
 	static MemberService memberService = new MemberService(); //혜진추가
 	private static CategoryController categoryController = new CategoryController();
+	private static OrderController orderController = OrderController.getInstance();
+	
 	public static void menu() {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
@@ -154,7 +156,7 @@ public class MenuView {
 	                    break;
 
 	                case 5:
-	                 //
+						printAdminOrderMenu();
 	                    break;
 
 	                default:
@@ -255,6 +257,30 @@ public class MenuView {
 			
 		}
 	}
+
+	public static void printAdminOrderMenu() {
+		while (true) {
+			System.out.println("\n[관리자 메뉴] 매출 조회");
+			System.out.println("1. 전체 매출 | 2. 일일 매출 | 3. 메뉴별 매출 | 0. 이전 메뉴로 이동");
+
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+				case 1 :
+					orderController.listAllOrders();	//전체 매출 조회
+					break;
+				case 2 :
+					OrderView.printOrderDateMenu();		//일일 매출 조회
+					break;
+				case 3 :
+					OrderView.printOrderItemMenu();		//메뉴별 매출 조회
+					break;
+				case 9 :
+					System.out.println("관리자 메인 메뉴로 돌아갑니다.");
+					return; // 다시 pCafe메인 printMenu()화면으로
+			}
+		}
+	}
+
 	public static void selectMemberById() {
 		System.out.print("사용자 ID를 입력해 주세요. > ");
 		String userId = sc.next();

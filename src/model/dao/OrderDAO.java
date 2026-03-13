@@ -9,13 +9,15 @@ import model.dto.OrdersDTO.Status;
 
 public interface OrderDAO {
 	
-	int insert(OrdersDTO order);
+	int insert(OrdersDTO order) throws SQLException;
 	
-	int updateStatus(int orderId, Status status);
+	int updateStatus(int orderId, Status status) throws SQLException;
 	
 	List<OrdersDTO> selectAll() throws SQLException;
 	
 	List<OrdersDTO> selectByUserId(String userId) throws SQLException;
+
+	List<OrdersDTO> selectByDate(String date) throws SQLException;
 	
 	List<OrderDetailDTO> selectByItemCode(String itemCode) throws SQLException;
 
