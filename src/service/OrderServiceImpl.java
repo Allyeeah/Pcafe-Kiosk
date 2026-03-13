@@ -102,6 +102,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<OrdersDTO> findOrdersByDate(String date) {
+		List<OrdersDTO> orders;
+		try {
+			orders = orderDAO.selectByDate(date);
+		} catch (SQLException e) {
+			throw new OrderNotFoundException();
+		}
+		if (orders.isEmpty()) throw new OrderNotFoundException();
+
+		return orders;
+	}
+
+	@Override
 	public List<OrderDetailDTO> findOrderDetailsByItemCode(String itemCode) {
 		List<OrderDetailDTO> details = new ArrayList<>();
 		try {

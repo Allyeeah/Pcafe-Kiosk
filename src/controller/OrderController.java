@@ -55,6 +55,14 @@ public class OrderController {
 		}
 	}
 
+	public void listOrdersByDate(String date) {
+		try {
+			OrderView.printUserOrders(orderService.findOrdersByDate(date));
+		} catch (OrderNotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
 	public void listOrderDetailsByItemCode(String itemCode) {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
