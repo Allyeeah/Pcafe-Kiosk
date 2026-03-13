@@ -15,7 +15,6 @@ import java.util.List;
 public class OrderController {
 	private static OrderController instance = new OrderController();
 	private OrderService orderService = OrderServiceImpl.getInstance();
-	private OrderView orderView = new OrderView();
 
 	private OrderController() {}
 	public static OrderController getInstance() {
@@ -25,7 +24,7 @@ public class OrderController {
 	public void startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
-			orderView.orderSuccessMessage(order);
+			OrderView.orderSuccessMessage(order);
 		} catch (OrderFailedException e) {
 			FailView.errorMessage("[주문 실패] " + e.getMessage());
 		}
@@ -34,7 +33,7 @@ public class OrderController {
 	public void cancelOrder(int orderId) {
 		try {
 			orderService.cancelOrder(orderId);
-			orderView.orderCancelMessage(orderId);
+			OrderView.orderCancelMessage(orderId);
 		} catch (CancelFailedException e) {
 			FailView.errorMessage("[취소 실패] " + e.getMessage());
 		}
@@ -42,7 +41,7 @@ public class OrderController {
 
 	public void listAllOrders() {
 		try {
-			orderView.printAllOrders(orderService.findAllOrders());
+			OrderView.printAllOrders(orderService.findAllOrders());
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
@@ -50,7 +49,7 @@ public class OrderController {
 
 	public void listOrdersByUserId(String userId) {
 		try {
-			orderView.printUserOrders(orderService.findOrdersByUserId(userId));
+			OrderView.printUserOrders(orderService.findOrdersByUserId(userId));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -60,7 +59,7 @@ public class OrderController {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
 			int totalPrice = orderService.getTotalPrice(details);
-			orderView.printOrderDetails(details, totalPrice);
+			OrderView.printOrderDetails(details, totalPrice);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
