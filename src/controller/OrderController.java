@@ -13,9 +13,8 @@ import view.OrderView;
 import java.util.List;
 
 public class OrderController {
-	private static OrderController instance = new OrderController();
-	private OrderService orderService = OrderServiceImpl.getInstance();
-	private OrderView orderView = new OrderView();
+	private static final OrderController instance = new OrderController();
+	private final OrderService orderService = OrderServiceImpl.getInstance();
 
 	private OrderController() {}
 	public static OrderController getInstance() {
@@ -25,8 +24,7 @@ public class OrderController {
 	public void startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
-
-			orderView.orderSuccessMessage(order);
+			OrderView.orderSuccessMessage(order);
 		} catch (OrderFailedException e) {
 			FailView.errorMessage("[주문 실패] " + e.getMessage());
 		}
@@ -35,8 +33,7 @@ public class OrderController {
 	public void cancelOrder(int orderId) {
 		try {
 			orderService.cancelOrder(orderId);
-
-			System.out.println(orderId + " 주문이 성공적으로 취소되었습니다.");
+			OrderView.orderCancelMessage(orderId);
 		} catch (CancelFailedException e) {
 			FailView.errorMessage("[취소 실패] " + e.getMessage());
 		}
@@ -44,7 +41,7 @@ public class OrderController {
 
 	public void listAllOrders() {
 		try {
-			orderView.printAllOrders(orderService.findAllOrders());
+			OrderView.printAllOrders(orderService.findAllOrders());
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
@@ -52,7 +49,15 @@ public class OrderController {
 
 	public void listOrdersByUserId(String userId) {
 		try {
-			orderView.printUserOrders(orderService.findOrdersByUserId(userId));
+			OrderView.printAllOrders(orderService.findOrdersByUserId(userId));
+		} catch (OrderNotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public void listOrdersByDate(String date) {
+		try {
+			OrderView.printAllOrders(orderService.findOrdersByDate(date));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -61,11 +66,8 @@ public class OrderController {
 	public void listOrderDetailsByItemCode(String itemCode) {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
-
-			System.out.println("[아이템 주문 조회]");
-			details.forEach(System.out::println);
-
-			orderView.printTotalPrice(orderService.getTotalPrice(details));
+			int totalPrice = orderService.getTotalPrice(details);
+			OrderView.printOrderDetails(details, totalPrice);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}

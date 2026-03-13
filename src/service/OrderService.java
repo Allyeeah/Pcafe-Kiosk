@@ -15,6 +15,8 @@ public interface OrderService {
 	
 	List<OrdersDTO> findOrdersByUserId(String userId);
 
+	List<OrdersDTO> findOrdersByDate(String date);
+
 	List<OrderDetailDTO> findOrderDetailsByItemCode(String itemCode);
 
 	int getTotalPrice(List<OrderDetailDTO> details);
