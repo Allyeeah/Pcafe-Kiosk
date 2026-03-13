@@ -19,9 +19,9 @@ import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
 public class OrderServiceImpl implements OrderService {
-	private static OrderService instance = new OrderServiceImpl();
-	private OrderDAO orderDAO = OrderDAOImpl.getInstance();
-	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
+	private static final OrderService instance = new OrderServiceImpl();
+	private final OrderDAO orderDAO = OrderDAOImpl.getInstance();
+	private final ItemDAO itemDAO = ItemDAOImpl.getInstance();
 
 	private OrderServiceImpl() {}
 	public static OrderService getInstance() {

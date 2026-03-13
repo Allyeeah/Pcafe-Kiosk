@@ -13,8 +13,8 @@ import view.OrderView;
 import java.util.List;
 
 public class OrderController {
-	private static OrderController instance = new OrderController();
-	private OrderService orderService = OrderServiceImpl.getInstance();
+	private static final OrderController instance = new OrderController();
+	private final OrderService orderService = OrderServiceImpl.getInstance();
 
 	private OrderController() {}
 	public static OrderController getInstance() {

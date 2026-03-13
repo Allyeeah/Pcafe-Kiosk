@@ -14,7 +14,7 @@ import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
 public class OrderDAOImpl implements OrderDAO {
-	private static OrderDAO instance = new OrderDAOImpl();
+	private static final OrderDAO instance = new OrderDAOImpl();
 	
 	private OrderDAOImpl() {}
 	public static OrderDAO getInstance() {
