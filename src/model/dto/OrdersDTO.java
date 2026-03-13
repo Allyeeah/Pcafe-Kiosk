@@ -52,7 +52,8 @@ public class OrdersDTO {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("주문 일시: ").append(orderDate)
+        builder.append("사용자 ID: ").append(userId)
+               .append(", 주문 일시: ").append(orderDate)
                .append(", 주문 상태: ").append(status.label());
         return builder.toString();
     }
