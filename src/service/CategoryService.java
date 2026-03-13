@@ -9,4 +9,12 @@ public interface CategoryService {
     // 카테고리 전체 목록을 조회
     List<CategoryDTO> getCategoryList() throws SQLException;
     
+    //카테고리 삽입
+	int insert(String category) throws SQLException;
+	
+	// 카테고리 수정
+	int update(String category, int categoryId) throws SQLException;
+	
+	// 카테고리 삭제
+	int delete(int categoryId) throws SQLException;
 }

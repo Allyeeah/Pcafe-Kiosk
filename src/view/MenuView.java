@@ -60,7 +60,7 @@ public class MenuView {
 		String isAdmin = isAdminInput.equals("Y") ? "Y" : "N";
 
 		//test
-		//
+	
 		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null);
 
 		// DAO insert 메서드가 int 반환이라 가정
@@ -129,7 +129,10 @@ public class MenuView {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
 		//	System.out.println(ss.getSet()); //Set객체
-
+		System.out.println("1. 사용자 관리  | 2. 카테고리 관리 | 3. 상품 관리 |  4. 매출 관리");
+		
+		
+		
 		System.out.println("-- 관리자 메뉴 --");
 		System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  |  9. 나가기");
 		
@@ -251,7 +254,6 @@ public class MenuView {
      * */
 	public static void viewCart(String id) {
 		//CartController.viewCart(id);
-		
 		
 		
 	}
