@@ -7,6 +7,7 @@ import controller.AdminController;
 import controller.CartController;
 import controller.CategoryController;
 import controller.ItemController;
+import controller.MemberController;
 import controller.OrderController;
 import exception.NotFoundException;
 import model.dao.MemberDAO;
@@ -355,6 +356,7 @@ public class MenuView {
 					break;
 				case 3 :
 					//사용자 정보 수정
+					MenuView.updateMemberInfo();
 					break;
 				case 4 :
 					//탈퇴
@@ -362,6 +364,19 @@ public class MenuView {
 			}
 		}
 	}
+
+	private static void updateMemberInfo() {
+		System.out.println("사용자의 Id를 입력해주세요. > ");
+		String userId = sc.nextLine();
+		System.out.println("수정하실 비밀번호를 입력해주세요. > ");
+		String userPw = sc.nextLine();
+		System.out.println("수정하실 이름을 입력해주세요. > ");
+		String userName = sc.nextLine();
+		
+		MemberController.updateMemberInfo(userPw, userName);
+	}
+	
+	
 
 	/**
 	 * 로그인 메뉴

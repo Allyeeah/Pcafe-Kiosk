@@ -173,6 +173,37 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	
 	
+	
+	/*
+	 * member pwd, name 수정
+	 * 
+	 */
+	
+	public int update(String userPwd, String userName) throws SQLException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+		String sql = "update member set user_pw='?', user_name='?'";
+		
+		try {
+			con=DBManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setString(1, userPwd);
+			ps.setString(2, userName);
+			
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");
+			//e.printStackTrace();
+		}
+		finally {
+            DBManager.releaseConnection(con, ps); 
+       }
+		
+		return result;
+		
+	}
 
 	
 }
