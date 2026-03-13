@@ -28,7 +28,7 @@ public class CategoryDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("CategoryDTO [categoryId=");
+		builder.append("[categoryId=");
 		builder.append(categoryId);
 		builder.append(", categoryName=");
 		builder.append(categoryName);

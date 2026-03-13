@@ -111,7 +111,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		 
 	      //  System.out.println("카테고리가 추가되었습니다.");
 		}catch(SQLException e) {
-			System.out.println("카테고리 중복입니다. ");
+			System.out.println("DB 오류가 발생했습니다.");
 		}finally {
             DBManager.releaseConnection(con, ps); 
        }
@@ -136,7 +136,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		//	System.out.println("카테고리가 변경되었습니다.");
 			
 		}catch(SQLException e) {
-			System.out.println("입력하신 카테고리 번호가 없습니다.");
+			System.out.println("DB 오류가 발생했습니다.");
 		}
 		finally {
             DBManager.releaseConnection(con, ps); 
@@ -159,9 +159,8 @@ public class CategoryDAOImpl implements CategoryDAO {
 			
 			result = ps.executeUpdate();
 			
-			
 		}catch(SQLException e) {
-			System.out.println("입력하신 카테고리 번호가 없습니다.");
+			System.out.println("DB 오류가 발생했습니다.");
 		}
 		return result;
 	}
