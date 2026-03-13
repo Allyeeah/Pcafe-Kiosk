@@ -87,6 +87,43 @@ public class ItemController {
             ItemView.printErrorMessage("숫자 번호만 입력해주세요.");
         }
     }
+    	
+    	
+    	
 }
+    //관리자 전체상품 조회
+    public static void selectAllItems() {
+        try {
+         
+            List<ItemDTO> itemList = itemService.itemSelect();
+            ItemView.printAllItems(itemList);
+            
+        } catch (SQLException e) {
+            System.out.println("\n[오류] 상품 목록을 불러오는 중 문제가 발생했습니다.");
+            e.printStackTrace();
+        }
+    }
+  //관리자 상품 추가 메서드 -0313 추가
+    public static void insertItem() {
+        try {
+        
+            List<ItemDTO> itemList = itemService.itemSelect(); 
+            ItemDTO newItem = ItemView.insertItemView(itemList);
+ 
+             int result = itemService.insertItem(newItem); 
+         
+            if (result > 0) {
+                System.out.println("\n[등록완료] '" + newItem.getItemName() + "' 상품이 성공적으로 등록되었습니다.");
+            } else {
+                System.out.println("\n[시스템] 상품 등록에 실패했습니다.");
+            }
+            
+        } catch (NumberFormatException e) {
+            System.out.println("\n[오류] 카테고리 번호나 가격은 숫자만 입력해야 합니다.");
+        } catch (Exception e) { 
+            System.out.println("\n[오류] 상품 등록 중 문제가 발생했습니다.");
+            e.printStackTrace();
+        }
+    }
 
 }

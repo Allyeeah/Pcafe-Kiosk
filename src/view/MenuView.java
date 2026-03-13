@@ -147,12 +147,12 @@ public class MenuView {
 	                    break;
 
 	                case 3:
-	                    //카테고리관리 
+	                 
 	                	printCategoryMenu(adminId);
 	                    break;
 
 	                case 4:
-	                    //상품
+	                	adminItemMenu(adminId);
 	                    break;
 
 	                case 5:
@@ -171,6 +171,41 @@ public class MenuView {
 	
 	
 
+
+	private static void adminItemMenu(String adminId) {
+		   while(true) {
+		    	System.out.println("-- 관리자 상품 관리메뉴 --");
+		    	System.out.println(" 1. 전체 상품조회 | 2. 상품등록 | 3. 상품수정  |  4. 상품삭제  |  9. 뒤로 가기");
+		        System.out.print(" ❯ 메뉴 선택 : ");
+		        
+		        try {
+		            int menu = Integer.parseInt(sc.nextLine());
+		            switch(menu) {
+		                case 1 :
+		                    System.out.println("\n[관리자] 전체 상품 목록을 조회합니다.");
+		                    ItemController.selectAllItems();
+		                    break;
+		                case 2 :
+		                	ItemController.insertItem();
+		                    break;
+		                case 3 :
+		                    //ItemView.updateItemView(); // 
+		                    break;
+		                case 4 :
+		                    //ItemView.deleteItemView(); // 
+		                    break;
+		                case 9 :
+		                    System.out.println("\n 이전 메뉴로 돌아갑니다.");
+		                    return; 
+		                default:
+		                    System.out.println("잘못된 번호입니다. 다시 선택해주세요.");
+		            }
+		        } catch (NumberFormatException e) {
+		            System.out.println("숫자만 입력 가능합니다.");
+		        }
+		    }
+		
+	}
 
 	private static void printCategoryMenu(String adminId) {
 		while(true) {

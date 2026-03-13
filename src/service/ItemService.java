@@ -12,4 +12,7 @@ public interface ItemService {
     
     // 2. 카테고리별 상품 조회 기능 (JOIN 활용)
     List<ItemDTO> selectItemsByCategory(int categoryId) throws SQLException;
+
+    // 3.상품등록
+    int insertItem(ItemDTO newItem) throws SQLException;
 }
