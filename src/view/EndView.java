@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import controller.OrderController;
 import model.dto.ItemDTO;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
@@ -36,18 +37,18 @@ public class EndView {
 			System.out.println("장바구니내용....");
 			
 			for(ItemDTO item: cart.keySet()) {
-				int itemId = item.getItemId();//상품번호
+				String itemCode = item.getItemCode();//상품코드
 				String itemName = item.getItemName();//상품이름
 				int price = item.getPrice();//상품가격
 				
 				int quantity = cart.get(item);//key에 해당하는 value즉 수량 
-				System.out.println(itemId+" : "+itemName+" : "+price+" \t "+quantity);
+				System.out.println(itemCode+" : "+itemName+" : "+price+" \t "+quantity);
 			}
 			
 			
 			Scanner sc = new Scanner(System.in);
-			int choice = Integer.parseInt(sc.nextLine());
 			System.out.println("1.주문하기  |  9.나가기");
+			int choice = Integer.parseInt(sc.nextLine());
 			switch(choice) {
 			case 1:
 				
@@ -57,14 +58,15 @@ public class EndView {
 				 
 				 for(ItemDTO itemkey : cart.keySet()) {
 					 int qty = cart.get(itemkey);//map에서 key=Goods에 해당하는 value=수량 조회
-					 OrderDetailDTO orderLine = new OrderDetailDTO(0, 0, itemkey.getItemId(), null , null, qty, 0);
+					 OrderDetailDTO orderLine = new OrderDetailDTO(
+							 0, 0, itemkey.getItemId(), itemkey.getItemCode() , itemkey.getItemName(), itemkey.getPrice(), qty);
 					 orderLineList.add(orderLine);
 				 }
 				 
 				 
 				 System.out.println("orderLineList 개수 : " + orderLineList.size());
 				 
-//				 OrderController.insertOrders(orders);// 주문 + 주문상세
+				 OrderController.getInstance().startOrder(orders);// 주문 + 주문상세
 				 
 				 //장바구니비우기
 				 SessionSet ss = SessionSet.getInstance();

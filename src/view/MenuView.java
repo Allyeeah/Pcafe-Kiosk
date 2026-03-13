@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import controller.AdminController;
+import controller.CartController;
 import controller.CategoryController;
 import controller.ItemController;
 import controller.OrderController;
@@ -399,11 +400,11 @@ public class MenuView {
     public static void putCart(String id) {
 		System.out.println("--장바구니 담기 작업 --");
 		System.out.print("상품번호 : ");
-		String goodsId = sc.nextLine();
+		String ItemCode = sc.nextLine();
 		System.out.print("수량 : ");
 		int qty = Integer.parseInt(sc.nextLine());
 		
-		//CartController.putCart(id,goodsId,qty);
+		CartController.putCart(id,ItemCode,qty);
 	
 		
 	}
@@ -412,7 +413,7 @@ public class MenuView {
      * 장바구니 보기
      * */
 	public static void viewCart(String id) {
-		//CartController.viewCart(id);
+		CartController.viewCart(id);
 		
 		
 		
