@@ -27,6 +27,13 @@ public class ItemServiceImpl implements ItemService {
 		// TODO Auto-generated method stub
 		return itemDAO.selectItemsByCategory(categoryId);
 	}
+
+	@Override
+	public int insertItem(ItemDTO newItem) throws SQLException {
+		// TODO Auto-generated method stub
+		return itemDAO.insertItem(newItem);
+	}
+
 	
 	/**
 	 * 상품번호에 해당하는 상품검색
@@ -38,5 +45,6 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	
+
 
 }
