@@ -47,7 +47,7 @@ public class CategoryController {
 			categoryService.update(category, cacategoryId);
 			System.out.println("카테고리가 수정되었습니다.");
 		}catch(CategoryException e) {
-			FailView.errorMessage("[카테고리 수정 실패]" + e.getMessage());
+			FailView.errorMessage("[카테고리 수정 실패] " + e.getMessage());
 		}
 		catch (SQLException e) {
 	        // DB 관련 에러 

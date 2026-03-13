@@ -13,8 +13,8 @@ public interface CategoryService {
 	int insert(String category) throws SQLException;
 	
 	// 카테고리 수정
-	int update(String category, int categoryId) throws SQLException;
+	void update(String category, int categoryId) throws SQLException;
 	
 	// 카테고리 삭제
-	int delete(int categoryId) throws SQLException;
+	void delete(int categoryId) throws SQLException;
 }
