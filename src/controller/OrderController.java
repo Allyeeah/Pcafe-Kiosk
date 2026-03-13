@@ -25,7 +25,6 @@ public class OrderController {
 	public void startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
-
 			orderView.orderSuccessMessage(order);
 		} catch (OrderFailedException e) {
 			FailView.errorMessage("[주문 실패] " + e.getMessage());
@@ -35,8 +34,7 @@ public class OrderController {
 	public void cancelOrder(int orderId) {
 		try {
 			orderService.cancelOrder(orderId);
-
-			System.out.println(orderId + " 주문이 성공적으로 취소되었습니다.");
+			orderView.orderCancelMessage(orderId);
 		} catch (CancelFailedException e) {
 			FailView.errorMessage("[취소 실패] " + e.getMessage());
 		}
@@ -61,11 +59,8 @@ public class OrderController {
 	public void listOrderDetailsByItemCode(String itemCode) {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
-
-			System.out.println("[아이템 주문 조회]");
-			details.forEach(System.out::println);
-
-			orderView.printTotalPrice(orderService.getTotalPrice(details));
+			int totalPrice = orderService.getTotalPrice(details);
+			orderView.printOrderDetails(details, totalPrice);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
