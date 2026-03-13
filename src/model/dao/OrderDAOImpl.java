@@ -1,17 +1,19 @@
 package model.dao;
 
+import common.DBManager;
+import model.dto.OrderDetailDTO;
+import model.dto.OrdersDTO;
+import model.dto.OrdersDTO.Status;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
-
-import common.DBManager;
-import model.dto.OrderDetailDTO;
-import model.dto.OrdersDTO;
-import model.dto.OrdersDTO.Status;
 
 public class OrderDAOImpl implements OrderDAO {
 	private static final OrderDAO instance = new OrderDAOImpl();
@@ -75,28 +77,17 @@ public class OrderDAOImpl implements OrderDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from orders";
+		String sql = "select order_id, user_id, order_date, status, total_amount, order_detail_id, item_id, item_code, item_name, unit_price, qty " +
+				"from orders join order_detail using(order_id) join item using(item_id)";
 		
-		List<OrdersDTO> orders = new ArrayList<>();
+		List<OrdersDTO> orders;
 	    
 	    try {
 	    	con = DBManager.getConnection();
 	    	ps = con.prepareStatement(sql);
 	    	rs = ps.executeQuery();
-	    	
-	    	while (rs.next()) {
-	    		//dto 수정ㄴㄴ
-	    		OrdersDTO order = new OrdersDTO(
-	    			    rs.getInt(1), 
-	    			    rs.getString(2), 
-	    			    rs.getString(3), 
-	    			    Status.fromLabel(rs.getString(4)),
-	    			    rs.getInt(5)
-	    			);
-	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
-	    		
-	    		orders.add(order);
-	    	}
+
+			orders = getOrdersFromResultSet(rs);
 	    } finally {
 	    	DBManager.releaseConnection(con, ps, rs);
 	    }
@@ -109,34 +100,83 @@ public class OrderDAOImpl implements OrderDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from orders where user_id = ?";
+		String sql = "select order_id, user_id, order_date, status, total_amount, order_detail_id, item_id, item_code, item_name, unit_price, qty " +
+				"from orders join order_detail using(order_id) join item using(item_id)" +
+				"where user_id = ?";
 		
-		List<OrdersDTO> orders = new ArrayList<>();
+		List<OrdersDTO> orders;
 	    
 	    try {
 	    	con = DBManager.getConnection();
 	    	ps = con.prepareStatement(sql);
 	    	ps.setString(1, userId);
 	    	rs = ps.executeQuery();
-	    	
-	    	while (rs.next()) {
-	    		//변경된 dto에 맞춰서 수정 - 오혜진
-	    		OrdersDTO order = new OrdersDTO(
-	                    rs.getInt("order_id"), 
-	                    rs.getString("user_id"), 
-	                    rs.getString("order_date"), 
-	                    Status.fromLabel(rs.getString(4)),
-	                    rs.getInt("total_amount") 
-	                );
-	    		order.setOrderDetails(selectOrderDetails(con, order.getOrderId()));
-	    		
-	    		orders.add(order);
-	    	}
+
+			orders = getOrdersFromResultSet(rs);
 	    } finally {
 	    	DBManager.releaseConnection(con, ps, rs);
 	    }
 	    
 	    return orders;
+	}
+
+	@Override
+	public List<OrdersDTO> selectByDate(String date) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select order_id, user_id, order_date, status, total_amount, order_detail_id, item_id, item_code, item_name, unit_price, qty " +
+				"from orders join order_detail using(order_id) join item using(item_id)" +
+				"where date(order_date) = ?";
+
+		List<OrdersDTO> orders;
+
+		try {
+			con = DBManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setDate(1, java.sql.Date.valueOf(date));
+			rs = ps.executeQuery();
+
+			orders = getOrdersFromResultSet(rs);
+		} finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+
+		return orders;
+	}
+
+	private List<OrdersDTO> getOrdersFromResultSet(ResultSet rs) throws SQLException {
+		Map<Integer, OrdersDTO> orderMap = new HashMap<>();
+
+		while (rs.next()) {
+			int orderId = rs.getInt("order_id");
+
+			OrderDetailDTO detail = new OrderDetailDTO(
+					rs.getInt("order_detail_id"),
+					orderId,
+					rs.getInt("item_id"),
+					rs.getString("item_code"),
+					rs.getString("item_name"),
+					rs.getInt("unit_price"),
+					rs.getInt("qty")
+			);
+
+			if (orderMap.containsKey(orderId)) {
+				orderMap.get(orderId).getOrderDetails().add(detail);
+			} else {
+				OrdersDTO order = new OrdersDTO(
+						orderId,
+						rs.getString("user_id"),
+						rs.getString("order_date"),
+						Status.fromLabel(rs.getString("status")),
+						rs.getInt("total_amount")
+				);
+				order.getOrderDetails().add(detail);
+				orderMap.put(orderId, order);
+			}
+		}
+
+		return new ArrayList<>(orderMap.values());
 	}
 
 	@Override
@@ -221,37 +261,6 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 		
 		return re;
-	}
-	
-	private List<OrderDetailDTO> selectOrderDetails(Connection con, int orderId) throws SQLException {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String sql = "select order_detail_id, order_id, item_id, item_code, item_name, unit_price, qty " +
-				"from order_detail join item using(item_id) where order_id = ?";
-		
-		List<OrderDetailDTO> details = new ArrayList<>();
-	    
-	    try {
-	    	ps = con.prepareStatement(sql);
-	    	ps.setInt(1, orderId);
-	    	rs = ps.executeQuery();
-	    	
-	    	while (rs.next()) {
-	    		details.add(new OrderDetailDTO(
-	                    rs.getInt(1),
-	                    rs.getInt(2), 
-	                    rs.getInt(3),
-						rs.getString(4),
-	                    rs.getString(5), // itemName
-	                    rs.getInt(6),    // unitPrice
-	                    rs.getInt(7)     // qty
-	                ));
-	    	}
-	    } finally {
-	    	DBManager.releaseConnection(null, ps, rs);
-	    }
-	    
-	    return details;
 	}
 
 }
