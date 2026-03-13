@@ -47,6 +47,53 @@ public class CategoryDAOImpl implements CategoryDAO {
         return categoryList;
     }
 	
+	// 1. 이름으로 카테고리 하나를 조회하는 메서드 추가
+	@Override
+	public CategoryDTO selectByName(String categoryName) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    CategoryDTO category = null;
+	    String sql = "SELECT category_id, category_name FROM category WHERE category_name = ?";
+
+	    try {
+	        con = DBManager.getConnection();
+	        ps = con.prepareStatement(sql);
+	        ps.setString(1, categoryName);
+	        rs = ps.executeQuery();
+	        if (rs.next()) {
+	            category = new CategoryDTO(rs.getInt(1), rs.getString(2));
+	        }
+	    } finally {
+	        DBManager.releaseConnection(con, ps, rs);
+	    }
+	    return category;
+	}
+	
+	// id로 카테고리 검색
+	@Override
+	public CategoryDTO selectByCategoryId(int categoryId) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    CategoryDTO category = null;
+	    String sql = "SELECT category_id, category_name FROM category WHERE category_id = ?";
+
+	    try {
+	        con = DBManager.getConnection();
+	        ps = con.prepareStatement(sql);
+	        ps.setInt(1, categoryId);
+	        rs = ps.executeQuery();
+	        if (rs.next()) {
+	            category = new CategoryDTO(rs.getInt(1), rs.getString(2));
+	        }
+	    } finally {
+	        DBManager.releaseConnection(con, ps, rs);
+	    }
+	    return category;
+	}
+	
+	
 	// 카테고리 삽입(추가)
 	@Override
 	public int insert(String category) throws SQLException{
@@ -62,7 +109,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 		
 		result = ps.executeUpdate();
 		 
-	        System.out.println("카테고리가 추가되었습니다.");
+	      //  System.out.println("카테고리가 추가되었습니다.");
 		}catch(SQLException e) {
 			System.out.println("카테고리 중복입니다. ");
 		}finally {
@@ -86,7 +133,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 			ps.setInt(2, categoryId);
 			
 			result = ps.executeUpdate();
-			System.out.println("카테고리가 변경되었습니다.");
+		//	System.out.println("카테고리가 변경되었습니다.");
 			
 		}catch(SQLException e) {
 			System.out.println("입력하신 카테고리 번호가 없습니다.");
@@ -111,17 +158,15 @@ public class CategoryDAOImpl implements CategoryDAO {
 			ps.setInt(1, categoryId);
 			
 			result = ps.executeUpdate();
-			System.out.println("카테고리가 변경되었습니다.");
+			
 			
 		}catch(SQLException e) {
 			System.out.println("입력하신 카테고리 번호가 없습니다.");
 		}
-		finally {
-            DBManager.releaseConnection(con, ps); 
-       }
 		return result;
-	} 
-	
+	}
+
+
 	
 	
 }

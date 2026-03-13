@@ -7,9 +7,15 @@ import model.dao.ItemDAO;
 import model.dao.ItemDAOImpl;
 import model.dto.ItemDTO;
 
-public class ItemServiceImpl implements ItemService {
 
+public class ItemServiceImpl implements ItemService {
+	private static ItemServiceImpl instance = new ItemServiceImpl(); 
 	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
+	
+	public ItemServiceImpl() {}
+	public static ItemServiceImpl getInstance() {
+		return instance;
+	}
 	
 	@Override
 	public List<ItemDTO> itemSelect() throws SQLException {
