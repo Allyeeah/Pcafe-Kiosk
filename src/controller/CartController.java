@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.dto.ItemDTO;
-import model.dto.OrdersDTO;
 import mvc.session.Session;
 import mvc.session.SessionSet;
 import service.ItemService;
@@ -13,28 +12,19 @@ import view.EndView;
 import view.FailView;
 
 public class CartController {
-  private static ItemService itemService = new ItemServiceImpl();
+	private static ItemService itemService = new ItemServiceImpl();
   
-   public static void putCart(String id, String goodsId, int quantity) {
-		
+	public static void putCart(String id, String itemCode, int qty) {
 		try {
-			//상품번호에 해당 상품찾기
-//			OrdersDTO item = itemService.itemSelectByitemId();
-			ItemDTO item = new ItemDTO(
-					
-					);
-			//A01	새우깡	1500	4	20/09/04
-			
-			/*if(item.getStock() < quantity) {
-				throw new SQLException("재고량 부족으로 장바구니에 담을수 없습니다.");
-			}*/
+			//상품코드에 해당 상품찾기
+			ItemDTO item = itemService.selectItemByCode(itemCode);
 			
 			//id에 해당하는 세션찾기
 			SessionSet ss = SessionSet.getInstance();
 			Session session = ss.get(id);	
 			
 			//세션에서 장바구니 찾기
-			Map<ItemDTO, Integer> cart =	(Map<ItemDTO,Integer>)session.getAttribute("cart"); //상품 , 수량 저장 
+			Map<ItemDTO, Integer> cart = (Map<ItemDTO,Integer>)session.getAttribute("cart"); //상품 , 수량 저장 
 			
 			//장바구니가 없으면 장바구니 생성
 			if(cart == null) { 
@@ -47,20 +37,17 @@ public class CartController {
 			//장바구니에서 상품찾기
 			Integer oldQuantity = cart.get(item);//item는 장바구니 Map의 key
 			if(oldQuantity != null) { //장바구니에 이미 상품이 있다면
-				quantity += oldQuantity; //수량을 누적 => quantity = quantity + oldQuantity
+				qty += oldQuantity; //수량을 누적 => quantity = quantity + oldQuantity
 			}
 			
-			cart.put(item, quantity); //장바구니에 상품 넣기
+			cart.put(item, qty); //장바구니에 상품 넣기
 			
-			//System.out.println("cart = " + cart);
 			EndView.printMessage("장바구니에 담았습니다");
 			
 		}catch(Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
-   
-   //map toString 재정의 : key=value 출력
    
    /**
     * 장바구니 보기

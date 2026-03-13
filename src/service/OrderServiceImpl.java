@@ -19,9 +19,9 @@ import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
 public class OrderServiceImpl implements OrderService {
-	private static OrderService instance = new OrderServiceImpl();
-	private OrderDAO orderDAO = OrderDAOImpl.getInstance();
-	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
+	private static final OrderService instance = new OrderServiceImpl();
+	private final OrderDAO orderDAO = OrderDAOImpl.getInstance();
+	private final ItemDAO itemDAO = ItemDAOImpl.getInstance();
 
 	private OrderServiceImpl() {}
 	public static OrderService getInstance() {
@@ -30,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public void placeOrder(OrdersDTO order) {
+		int result = 0;
 		try {
 			List<String> itemCodes = order.getOrderDetails().stream()
 					.map(OrderDetailDTO::getItemCode)
@@ -53,20 +54,25 @@ public class OrderServiceImpl implements OrderService {
 				detail.setUnitPrice(item.getPrice());
 			}
 			order.updateTotalAmount();
-		} catch (SQLException e) {
-			throw new OrderFailedException();
-		}
 
-		int result = orderDAO.insert(order);
+			result = orderDAO.insert(order);
+		} catch (SQLException e) {
+			throw new OrderFailedException(e.getMessage());
+		}
 
 		if (result == 0) throw new OrderFailedException();
 	}
 	
 	@Override
 	public void cancelOrder(int orderId) {
-		int result = orderDAO.updateStatus(orderId, Status.CANCELED);
-		
-		if (result == 0) throw new CancelFailedException();
+        int result = 0;
+        try {
+            result = orderDAO.updateStatus(orderId, Status.CANCELED);
+        } catch (SQLException e) {
+            throw new CancelFailedException(e.getMessage());
+        }
+
+        if (result == 0) throw new CancelFailedException();
 	}
 	
 	@Override
@@ -92,6 +98,19 @@ public class OrderServiceImpl implements OrderService {
 		}
 		if (orders.isEmpty()) throw new OrderNotFoundException();
 		
+		return orders;
+	}
+
+	@Override
+	public List<OrdersDTO> findOrdersByDate(String date) {
+		List<OrdersDTO> orders;
+		try {
+			orders = orderDAO.selectByDate(date);
+		} catch (SQLException e) {
+			throw new OrderNotFoundException();
+		}
+		if (orders.isEmpty()) throw new OrderNotFoundException();
+
 		return orders;
 	}
 
