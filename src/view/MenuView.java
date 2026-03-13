@@ -331,6 +331,29 @@ public class MenuView {
 
 		AdminController.selectMemberByName(userName);
 	}
+	//마이페이지 메뉴
+	public static void mypage() {
+		System.out.println("마이페이지 메뉴 조회");
+		while (true) {
+			System.out.println("1. 주문 내역 보기 | 2. 주문 취소 | 3. 사용자 정보 수정 | 4. 탈퇴");
+
+			int mypagemenu = Integer.parseInt(sc.nextLine());
+			switch(mypagemenu) {
+				case 1 :
+					//주문 내역 보기
+					break;
+				case 2 :
+					//주문 취소
+					break;
+				case 3 :
+					//사용자 정보 수정
+					break;
+				case 4 :
+					//탈퇴
+					return; // 다시 pCafe메인 printMenu()화면으로
+			}
+		}
+	}
 
 	/**
 	 * 로그인 메뉴
@@ -359,6 +382,7 @@ public class MenuView {
 		    } catch (SQLException e) {
 		        System.out.println("\n 오류입니다.");
 		    }
+
 
 
 	      
