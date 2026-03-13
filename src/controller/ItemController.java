@@ -28,7 +28,7 @@ public class ItemController {
                 ItemView.printCategoryList(categoryList);
 
                 // 사용자 입력 받기
-                System.out.println("\n ───────────────────────────────────");
+                System.out.println(" ───────────────────────────────────");
                 System.out.println("  [0] 입력시 메인 메뉴로 돌아갑니다.          ");
                 System.out.println(" ───────────────────────────────────");
                 System.out.print(" ❯ Pcafe 카테고리 번호 입력 : ");
@@ -47,7 +47,7 @@ public class ItemController {
                 ItemView.printItemList(selectedCategoryId, itemList);
 
                 
-                System.out.println("\n ────────────────────────────────────────────────────────────────");
+                System.out.println("────────────────────────────────────────────────────────────────");
                 System.out.println("  [1] 다른 카테고리 보기 | [2] 주문하기 | [3] 장바구니 담기 | [4] 메인메뉴로 이동");
                 System.out.print(" ────────────────────────────────────────────────────────────────\n");
                 System.out.print(" ❯ 선택 : ");
