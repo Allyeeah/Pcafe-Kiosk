@@ -99,7 +99,7 @@ public class ItemDAOImpl implements ItemDAO {
         ResultSet rs = null;
 
         // item_code로 특정 상품을 조회하는 쿼리
-        String sql = "SELECT * FROM item join category using(category_id) WHERE item_code = ?";
+        String sql = "SELECT * FROM item join category using(category_id) WHERE UPPER(item_code) = UPPER(?)";
 
         try {
             conn = DBManager.getConnection();
@@ -134,7 +134,7 @@ public class ItemDAOImpl implements ItemDAO {
 
         // itemCodes에 있는 코드로 모든 상품을 조회하는 쿼리
         String placeholders = String.join(", ", Collections.nCopies(itemCodes.size(), "?"));
-        String sql = "SELECT * FROM item join category using(category_id) WHERE item_code IN ("
+        String sql = "SELECT * FROM item join category using(category_id) WHERE UPPER(item_code) IN ("
                 + placeholders + ")";
 
         try {
