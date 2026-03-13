@@ -7,7 +7,6 @@ import model.dao.ItemDAO;
 import model.dao.ItemDAOImpl;
 import model.dto.ItemDTO;
 
-
 public class ItemServiceImpl implements ItemService {
 	private static ItemServiceImpl instance = new ItemServiceImpl(); 
 	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
@@ -28,5 +27,16 @@ public class ItemServiceImpl implements ItemService {
 		// TODO Auto-generated method stub
 		return itemDAO.selectItemsByCategory(categoryId);
 	}
+	
+	/**
+	 * 상품번호에 해당하는 상품검색
+	 * */
+	public ItemDTO selectItemByCode(String itemCode) throws  SQLException{
+		ItemDTO item = itemDAO.selectItemByCode(itemCode);
+		if(item==null) throw new SQLException(itemCode + " 현재 상품이 없습니다.");
+		return item;
+	}
+	
+	
 
 }
