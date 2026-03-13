@@ -178,7 +178,7 @@ public class MenuView {
 			//	System.out.println(ss.getSet()); //Set객체
 			
 			System.out.println("-- 카테고리 메뉴 --");
-			System.out.println("1. 카테고리 조회 | 2. 카테고리 등록 | 3. 카테고리 수정 | 4. 카테고리 삭제 | 0 이전 메뉴");
+			System.out.println("1. 카테고리 조회 | 2. 카테고리 등록 | 3. 카테고리 수정 | 4. 카테고리 삭제 | 9 이전 메뉴");
 			int menu = Integer.parseInt(sc.nextLine());
 			
 			switch(menu) {
@@ -197,7 +197,7 @@ public class MenuView {
 			case 4 :
 				MenuView.deleteCategory(); //카테고리 삭제
 				break;
-			case 0 :
+			case 9 :
 				System.out.println("관리자 메인 메뉴로 돌아갑니다.");
 				return; // 다시 pCafe메인 printMenu()화면으로
 				
