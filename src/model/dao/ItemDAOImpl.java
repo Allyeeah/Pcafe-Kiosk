@@ -162,4 +162,32 @@ public class ItemDAOImpl implements ItemDAO {
 
         return items;
     }
+    
+    //상품 등록하는 DAO
+    @Override
+    public int insertItem(ItemDTO newItem) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int result = 0; 
+        
+        String sql = "INSERT INTO item (category_id, item_code, item_name, price) VALUES (?, ?, ?, ?)";
+
+        try {
+            conn = DBManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setInt(1, newItem.getCategoryId());
+            pstmt.setString(2, newItem.getItemCode());
+            pstmt.setString(3, newItem.getItemName());
+            pstmt.setInt(4, newItem.getPrice());
+           
+            result = pstmt.executeUpdate(); 
+            
+        } finally {
+            
+            DBManager.releaseConnection(conn, pstmt);
+        }
+        
+        return result; 
+    }
 }
