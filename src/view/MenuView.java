@@ -95,7 +95,7 @@ public class MenuView {
 			System.out.println(ss.getSet()); //Set객체
 			
 			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
-			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 ");
+			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 | 7. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
@@ -118,6 +118,10 @@ public class MenuView {
 		
 				case 6 : 
 					viewCart(userId);
+					break;
+					
+				case 7:
+					MenuView.mypage(userId);
 					break;
 				}
 		}
@@ -332,7 +336,10 @@ public class MenuView {
 		AdminController.selectMemberByName(userName);
 	}
 	//마이페이지 메뉴
-	public static void mypage() {
+	public static void mypage(String userId) {
+		SessionSet ss = SessionSet.getInstance();
+		System.out.println(ss.getSet()); //Set객체
+		
 		System.out.println("마이페이지 메뉴 조회");
 		while (true) {
 			System.out.println("1. 주문 내역 보기 | 2. 주문 취소 | 3. 사용자 정보 수정 | 4. 탈퇴");
@@ -341,6 +348,7 @@ public class MenuView {
 			switch(mypagemenu) {
 				case 1 :
 					//주문 내역 보기
+					OrderController.getInstance().listOrdersByUserId(userId);
 					break;
 				case 2 :
 					//주문 취소
