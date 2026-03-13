@@ -49,7 +49,7 @@ public class OrderController {
 
 	public void listOrdersByUserId(String userId) {
 		try {
-			OrderView.printUserOrders(orderService.findOrdersByUserId(userId));
+			OrderView.printAllOrders(orderService.findOrdersByUserId(userId));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -57,7 +57,7 @@ public class OrderController {
 
 	public void listOrdersByDate(String date) {
 		try {
-			OrderView.printUserOrders(orderService.findOrdersByDate(date));
+			OrderView.printAllOrders(orderService.findOrdersByDate(date));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
