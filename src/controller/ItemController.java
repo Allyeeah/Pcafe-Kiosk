@@ -119,11 +119,55 @@ public class ItemController {
             }
             
         } catch (NumberFormatException e) {
-            System.out.println("\n[오류] 카테고리 번호나 가격은 숫자만 입력해야 합니다.");
+            System.out.println("\n[오류] 숫자만 입력해야 합니다.");
         } catch (Exception e) { 
             System.out.println("\n[오류] 상품 등록 중 문제가 발생했습니다.");
             e.printStackTrace();
         }
     }
+    //관리자 상품 수정 추가
+	public static void updateItem() {
+	
+		    try {
+		        List<ItemDTO> itemList = itemService.itemSelect(); 
+		        ItemDTO updateItem = ItemView.updateItemView(itemList);
+		        int result = itemService.updateItem(updateItem); 
+		        if (result > 0) {
+		            System.out.println("\n[수정완료] '" + updateItem.getItemName() + "' 상품 정보가 성공적으로 수정되었습니다.");
+		        } else {
+		            System.out.println("\n[시스템] 상품 수정에 실패했습니다. ");
+		        }
+		        
+		    } catch (NumberFormatException e) {
+		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
+		    } catch (Exception e) { 
+		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
+		        e.printStackTrace();
+		    }
+		
+		
+		
+	}
+	//관리자 상품 삭제 추가 
+	public static void deleteItem() {
+		 try {
+		        List<ItemDTO> itemList = itemService.itemSelect(); 
+		        ItemDTO deleteItem = ItemView.deleteItemView(itemList);
+		        int result = itemService.deleteItem(deleteItem); 
+		        
+		        if (result > 0) {
+		            System.out.println("\n[삭제완료] 상품 정보가 성공적으로 삭제되었습니다.");
+		        } else {
+		            System.out.println("\n[시스템] 상품 삭제에 실패했습니다. ");
+		        }
+		        
+		    } catch (NumberFormatException e) {
+		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
+		    } catch (Exception e) { 
+		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
+		        e.printStackTrace();
+		    }
+		
+	}
 
 }

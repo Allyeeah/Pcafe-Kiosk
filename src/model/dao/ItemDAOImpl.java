@@ -156,6 +156,8 @@ public class ItemDAOImpl implements ItemDAO {
                         rs.getString("category_name")
                 ));
             }
+        }catch(SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");
         } finally {
             DBManager.releaseConnection(conn, pstmt, rs);
         }
@@ -182,7 +184,8 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setInt(4, newItem.getPrice());
            
             result = pstmt.executeUpdate(); 
-            
+        }catch(SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");    
         } finally {
             
             DBManager.releaseConnection(conn, pstmt);
@@ -190,4 +193,55 @@ public class ItemDAOImpl implements ItemDAO {
         
         return result; 
     }
+    //관리자 상품 수정
+	@Override
+	public int updateItem(ItemDTO updateItem) throws SQLException {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql = "UPDATE item SET item_code = ?, item_name = ?, price = ? WHERE item_code = ?";
+		try {
+			conn = DBManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+			
+			//?의 개수만큼 순서대로 setXxx설정 필요.
+			pstmt.setString(1, updateItem.getItemCode()); 
+	        pstmt.setString(2, updateItem.getItemName()); 
+	        pstmt.setInt(3, updateItem.getPrice());       
+	        pstmt.setString(4, updateItem.getItemCode());      
+			
+			result = pstmt.executeUpdate();
+		}catch(SQLException e) {
+				System.out.println("DB 오류가 발생했습니다.");
+				
+		}finally {
+			DBManager.releaseConnection(conn, pstmt);
+		}
+		return result;
+	
+	}
+	//관리자 상품 삭제 
+	@Override
+	public int deleteItem(ItemDTO deleteItem) throws SQLException {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		String sql="delete from item where item_code = ?";
+		try {
+			conn = DBManager.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setString(1,deleteItem.getItemCode());
+			
+            result = pstmt.executeUpdate();
+           
+		} catch(SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");
+		}finally {
+			DBManager.releaseConnection(conn, pstmt);
+		}
+		
+		return result;
+	}
 }

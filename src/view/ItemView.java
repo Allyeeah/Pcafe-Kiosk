@@ -86,11 +86,52 @@ public class ItemView {
   
 
 
-	
+	//관리자 상품 수정
+    public static ItemDTO updateItemView(List<ItemDTO> itemList) {
+    	System.out.println("\n--- [Pcafe 상품 정보 수정] ---");
+        
+        printAllItems(itemList);
+
+        System.out.print(" ❯ 수정할 상품의 코드 입력(예: A00) : ");
+        String itemCode = sc.nextLine();
+        
+//        System.out.print(" ❯ 새로운 상품 코드 입력 (예: A00) : ");
+//        String itemCode = sc.nextLine();
+        
+        System.out.print(" ❯ 새로운 상품 이름 입력 : ");
+        String itemName = sc.nextLine();
+        
+        System.out.print(" ❯ 새로운 상품 가격 입력 : ");
+        int price = Integer.parseInt(sc.nextLine());
+    	ItemDTO updateItem = new ItemDTO(); 
+      //  updateItem.setItemCode(itemCode);     
+        updateItem.setItemCode(itemCode); 
+        updateItem.setItemName(itemName); 
+        updateItem.setPrice(price);
+        
+        return updateItem;
+    }
+    
+    public static ItemDTO deleteItemView(List<ItemDTO> itemList) {
+	System.out.println("\n--- [Pcafe 상품 정보 삭제] ---");
+        
+        printAllItems(itemList);
+        
+        System.out.print(" ❯ 삭제할 상품의 코드 입력(예: A00) : ");
+        String itemCode = sc.nextLine();
+        
+        ItemDTO deleteItem = new ItemDTO();
+        deleteItem.setItemCode(itemCode);
+        
+        return deleteItem;
+	}
 
 	public static void printErrorMessage(String message) {
         System.out.println("[오류] " + message);
     }
+
+	
+
 
 	
 }

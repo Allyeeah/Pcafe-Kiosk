@@ -190,10 +190,10 @@ public class MenuView {
 		                	ItemController.insertItem();
 		                    break;
 		                case 3 :
-		                    //ItemView.updateItemView(); // 
+		                	ItemController.updateItem(); // 
 		                    break;
 		                case 4 :
-		                    //ItemView.deleteItemView(); // 
+		                	ItemController.deleteItem(); // 
 		                    break;
 		                case 9 :
 		                    System.out.println("\n 이전 메뉴로 돌아갑니다.");

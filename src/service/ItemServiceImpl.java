@@ -34,6 +34,16 @@ public class ItemServiceImpl implements ItemService {
 		return itemDAO.insertItem(newItem);
 	}
 
+	@Override
+	public int updateItem(ItemDTO updateItem) throws SQLException {
+		return itemDAO.updateItem(updateItem);
+	}
+	
+	//삭제 
+	@Override
+	public int deleteItem(ItemDTO deleteItem) throws SQLException {
+		return itemDAO.deleteItem(deleteItem);
+	}
 	
 	/**
 	 * 상품번호에 해당하는 상품검색
@@ -43,6 +53,7 @@ public class ItemServiceImpl implements ItemService {
 		if(item==null) throw new SQLException(itemCode + " 현재 상품이 없습니다.");
 		return item;
 	}
+
 	
 	
 

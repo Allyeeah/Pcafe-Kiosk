@@ -19,4 +19,8 @@ public interface ItemDAO {
 	List<ItemDTO> selectItemsByCodes(List<String> itemCodes) throws SQLException;
 
 	int insertItem(ItemDTO newItem) throws SQLException;
+
+	int updateItem(ItemDTO updateItem)throws SQLException;
+
+	int deleteItem(ItemDTO deleteItem)throws SQLException;;
 }

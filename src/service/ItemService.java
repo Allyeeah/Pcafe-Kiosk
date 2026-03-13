@@ -16,12 +16,22 @@ public interface ItemService {
 
     // 3.상품등록
     int insertItem(ItemDTO newItem) throws SQLException;
+    
+	// 4. 상품 수정
+	int updateItem(ItemDTO updateItem) throws SQLException;
 
+	// 5. 상품 삭제 
+	int deleteItem(ItemDTO deleteItem) throws SQLException;
     
 	/**
 	 * 상품번호에 해당하는 상품검색
 	 * */
 	public ItemDTO selectItemByCode(String ItemCode) throws SQLException;
+
+
+
+
+
 
 
 }
