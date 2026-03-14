@@ -54,7 +54,7 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		MemberDTO member=null;
-		String sql="select * from Member where user_id=? and user_pw=?";
+		String sql="select * from member where user_id=? and user_pw=?";
 		
 		try {
 		con=DBManager.getConnection();
@@ -65,7 +65,7 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 		
 		if(rs.next()) {
-			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 			
 		}
 		
@@ -95,7 +95,7 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 		
 		while(rs.next()) {
-			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5),rs.getString(6));
 		}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -124,7 +124,7 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 		
 		while(rs.next()) {
-			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 		}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -155,7 +155,7 @@ public class MemberDAOImpl implements MemberDAO {
 			rs=ps.executeQuery();
 			
 			while(rs.next()) {
-				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 				list.add(member);
 				
 			}

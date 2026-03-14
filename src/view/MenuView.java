@@ -74,7 +74,7 @@ public class MenuView {
 		
 		//test
 		//
-		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null);
+		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null, null);
 		
 		// DAO insert 메서드가 int 반환이라 가정
 		int result = memberDAO.insert(memberDTO);
@@ -403,6 +403,7 @@ public class MenuView {
 		        System.out.println("\n로그인 실패: " + e.getMessage());
 		        
 		    } catch (SQLException e) {
+		    	e.printStackTrace();
 		        System.out.println("\n 오류입니다.");
 		    }
 
