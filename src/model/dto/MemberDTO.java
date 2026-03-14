@@ -63,7 +63,7 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MemberDTO [userId=");
+		builder.append("[userId=");
 		builder.append(userId);
 		builder.append(", userPw=");
 		builder.append(userPw);
