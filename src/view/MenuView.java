@@ -7,6 +7,7 @@ import controller.AdminController;
 import controller.CartController;
 import controller.CategoryController;
 import controller.ItemController;
+import controller.MemberController;
 import controller.OrderController;
 import exception.NotFoundException;
 import model.dao.MemberDAO;
@@ -73,7 +74,7 @@ public class MenuView {
 		
 		//test
 		//
-		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null);
+		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null, null);
 		
 		// DAO insert 메서드가 int 반환이라 가정
 		int result = memberDAO.insert(memberDTO);
@@ -95,7 +96,7 @@ public class MenuView {
 			System.out.println(ss.getSet()); //Set객체
 			
 			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
-			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 ");
+			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 | 7. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
@@ -118,6 +119,10 @@ public class MenuView {
 		
 				case 6 : 
 					viewCart(userId);
+					break;
+					
+				case 7:
+					MenuView.mypage(userId);
 					break;
 				}
 		}
@@ -190,10 +195,10 @@ public class MenuView {
 		                	ItemController.insertItem();
 		                    break;
 		                case 3 :
-		                    //ItemView.updateItemView(); // 
+		                	ItemController.updateItem(); // 
 		                    break;
 		                case 4 :
-		                    //ItemView.deleteItemView(); // 
+		                	ItemController.deleteItem(); // 
 		                    break;
 		                case 9 :
 		                    System.out.println("\n 이전 메뉴로 돌아갑니다.");
@@ -331,6 +336,47 @@ public class MenuView {
 
 		AdminController.selectMemberByName(userName);
 	}
+	//마이페이지 메뉴
+	public static void mypage(String userId) {
+		SessionSet ss = SessionSet.getInstance();
+		System.out.println(ss.getSet()); //Set객체
+		
+		System.out.println("마이페이지 메뉴 조회");
+		while (true) {
+			System.out.println("1. 주문 내역 보기 | 2. 주문 취소 | 3. 사용자 정보 수정 | 4. 탈퇴");
+
+			int mypagemenu = Integer.parseInt(sc.nextLine());
+			switch(mypagemenu) {
+				case 1 :
+					//주문 내역 보기
+					OrderController.getInstance().listOrdersByUserId(userId);
+					break;
+				case 2 :
+					//주문 취소
+					break;
+				case 3 :
+					//사용자 정보 수정
+					MenuView.updateMemberInfo();
+					break;
+				case 4 :
+					//탈퇴
+					return; // 다시 pCafe메인 printMenu()화면으로
+			}
+		}
+	}
+
+	private static void updateMemberInfo() {
+		System.out.println("사용자의 Id를 입력해주세요. > ");
+		String userId = sc.nextLine();
+		System.out.println("수정하실 비밀번호를 입력해주세요. > ");
+		String userPw = sc.nextLine();
+		System.out.println("수정하실 이름을 입력해주세요. > ");
+		String userName = sc.nextLine();
+		
+		MemberController.updateMemberInfo(userPw, userName);
+	}
+	
+	
 
 	/**
 	 * 로그인 메뉴
@@ -357,8 +403,10 @@ public class MenuView {
 		        System.out.println("\n로그인 실패: " + e.getMessage());
 		        
 		    } catch (SQLException e) {
+		    	e.printStackTrace();
 		        System.out.println("\n 오류입니다.");
 		    }
+
 
 
 	      
