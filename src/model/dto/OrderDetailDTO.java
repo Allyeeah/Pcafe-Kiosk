@@ -9,8 +9,7 @@ public class OrderDetailDTO {
     private int unitPrice;      // unit_price 가격
     private int qty;            // qty 수량 
     //총금액 필요시 unitPrice * qty 
-    public OrderDetailDTO() {}
-
+    private OrderDetailDTO() {}
     public OrderDetailDTO(int orderDetailId, int orderId, int itemId, String itemCode, String itemName, int unitPrice, int qty) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
@@ -19,6 +18,9 @@ public class OrderDetailDTO {
         this.itemName = itemName;
         this.unitPrice = unitPrice;
         this.qty = qty;
+    }
+    public OrderDetailDTO(String itemCode, int qty) {
+        this(0, 0, 0, itemCode, null, 0, qty);
     }
 
 
