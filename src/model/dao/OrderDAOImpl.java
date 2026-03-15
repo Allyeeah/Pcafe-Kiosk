@@ -180,6 +180,36 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
+	public OrdersDTO selectById(int orderId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select order_id, user_id, order_date, status, total_amount" +
+				"from orders where order_id = ?";
+
+		OrdersDTO order;
+
+		try {
+			con = DBManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderId);
+			rs = ps.executeQuery();
+
+			order = new OrdersDTO(
+					rs.getInt("order_id"),
+					rs.getString("user_id"),
+					rs.getString("order_date"),
+					Status.fromLabel(rs.getString("status")),
+					rs.getInt("total_amount")
+			);
+		} finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+
+		return order;
+	}
+
+	@Override
 	public List<OrderDetailDTO> selectByItemCode(String itemCode) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
