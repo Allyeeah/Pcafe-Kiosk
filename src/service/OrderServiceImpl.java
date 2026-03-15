@@ -64,9 +64,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public void cancelOrder(int orderId) {
+	public void cancelOrder(String userId, int orderId) {
         int result = 0;
         try {
+			OrdersDTO order = orderDAO.selectById(orderId);
+			if (!userId.equals(order.getUserId())) throw new CancelFailedException("자신의 주문만 취소할 수 있습니다.");
+
             result = orderDAO.updateStatus(orderId, Status.CANCELED);
         } catch (SQLException e) {
             throw new CancelFailedException(e.getMessage());

@@ -9,7 +9,7 @@ public interface OrderService {
 	
 	void placeOrder(OrdersDTO order);
 	
-	void cancelOrder(int orderId);
+	void cancelOrder(String userId, int orderId);
 	
 	List<OrdersDTO> findAllOrders();
 	

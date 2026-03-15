@@ -141,4 +141,30 @@ public class OrderView {
         String input = sc.nextLine();
         orderController.listOrderDetailsByItemCode(input);
     }
+
+    public static void printOrderListMenu(String userId) {
+        while (true) {
+            System.out.println(" 1.주문취소 |  2.재주문  |  0.이전메뉴");
+            int menu = Integer.parseInt(sc.nextLine());
+            switch (menu) {
+                case 1:
+                    printOrderCancelMenu(userId);
+                    return;
+                case 2:
+                    System.out.println("재주문 메뉴로 이동합니다.");
+                    return;
+                case 0:
+                    System.out.println("이전 메뉴로 돌아갑니다.");
+                    return;
+                default:
+                    System.out.println("잘못된 번호입니다. 다시 선택해주세요.");
+            }
+        }
+    }
+
+    public static void printOrderCancelMenu(String userId) {
+        System.out.println("취소할 주문의 주문번호를 입력해주세요.");
+        int orderId = Integer.parseInt(sc.nextLine());
+        orderController.cancelOrder(userId, orderId);
+    }
 }
