@@ -230,7 +230,19 @@ public class OrderDAOImpl implements OrderDAO {
 	        re = ps.executeUpdate();
 	        rs = ps.getGeneratedKeys();
 	        
-	        if (rs.next()) order.setOrderId(rs.getInt(1));
+	        if (rs.next()) {
+				order.setOrderId(rs.getInt(1));
+				String sql2 = "SELECT order_date FROM orders WHERE order_id = ?";
+				ps = con.prepareStatement(sql2);
+				ps.clearParameters();
+				ps.setInt(1, order.getOrderId());
+
+				rs = ps.executeQuery();
+
+				if (rs.next()) {
+					order.setOrderDate(rs.getString("order_date"));
+				}
+			}
 		} finally {
 			DBManager.releaseConnection(null, ps, rs);
 		}
