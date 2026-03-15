@@ -110,7 +110,7 @@ public class MenuView {
 					printInputOrder(userId);
 					break;
 				case 4 :
-					OrderController.getInstance().listOrdersByUserId(userId);
+					orderController.listOrdersByUserId(userId);
 					break;
 				case 5 :
 					MenuView.putCart(userId);
@@ -310,7 +310,7 @@ public class MenuView {
 				case 3 :
 					OrderView.printOrderItemMenu();		//메뉴별 매출 조회
 					break;
-				case 9 :
+				case 0 :
 					System.out.println("관리자 메인 메뉴로 돌아갑니다.");
 					return; // 다시 pCafe메인 printMenu()화면으로
 			}
@@ -386,11 +386,11 @@ public class MenuView {
 		System.out.print("주문수량 : ");
 		int qty = Integer.parseInt(sc.nextLine());
 			 
-		OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
-		OrderDetailDTO orderDetail = new OrderDetailDTO(0, 0, 0, itemCode, null, 0, qty);
+		OrdersDTO orders = new OrdersDTO(userId);
+		OrderDetailDTO orderDetail = new OrderDetailDTO(itemCode, qty);
 		orders.getOrderDetails().add(orderDetail);
 
-		OrderController.getInstance().startOrder(orders);
+		orderController.startOrder(orders);
     }
 
 
