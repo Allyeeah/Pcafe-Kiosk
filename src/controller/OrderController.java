@@ -30,9 +30,9 @@ public class OrderController {
 		}
 	}
 
-	public void cancelOrder(int orderId) {
+	public void cancelOrder(String userId, int orderId) {
 		try {
-			orderService.cancelOrder(orderId);
+			orderService.cancelOrder(userId, orderId);
 			OrderView.orderCancelMessage(orderId);
 		} catch (CancelFailedException e) {
 			FailView.errorMessage("[취소 실패] " + e.getMessage());
@@ -50,6 +50,7 @@ public class OrderController {
 	public void listOrdersByUserId(String userId) {
 		try {
 			OrderView.printAllOrders(orderService.findOrdersByUserId(userId));
+			OrderView.printOrderListMenu(userId);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}

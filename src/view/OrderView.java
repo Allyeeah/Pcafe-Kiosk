@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
+import controller.ItemController;
 import controller.OrderController;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
@@ -31,17 +32,37 @@ public class OrderView {
             return;
         }
 
-        System.out.println("\n==============================================================");
-        System.out.println("                        주문 내역 조회");
-        System.out.println("==============================================================");
+        System.out.println("\n==================================================================================================");
+        System.out.println("                                        주문 내역 조회");
+        System.out.println("==================================================================================================");
+        System.out.println("주문번호   주문자ID       주문일시              상태           총금액       주문상품");
+        System.out.println("--------------------------------------------------------------------------------------------------");
 
-        for (int i = 0; i < orders.size(); i++) {
-            printOrderedItems(orders.get(i));
-
-            if (i < orders.size() - 1) {
-                System.out.println("--------------------------------------------------------------");
+        int totalPrice = 0;
+        for (OrdersDTO order : orders) {
+            totalPrice += order.getTotalAmount();
+            StringBuilder items = new StringBuilder();
+            List<OrderDetailDTO> details = order.getOrderDetails();
+            if (details != null && !details.isEmpty()) {
+                for (int i = 0; i < details.size(); i++) {
+                    if (i > 0) items.append(", ");
+                    items.append(details.get(i).getItemName())
+                         .append("(").append(details.get(i).getQty()).append(")");
+                }
             }
+
+            System.out.printf(
+                    "%-10d %-14s %-21s %-10s %,9d원  %s%n",
+                    order.getOrderId(),
+                    order.getUserId(),
+                    order.getOrderDate() == null ? "-" : order.getOrderDate(),
+                    order.getStatus() == null ? "-" : order.getStatus().label(),
+                    order.getTotalAmount(),
+                    items.toString()
+            );
         }
+        System.out.println("==================================================================================================");
+        printTotalPrice(totalPrice);
     }
 
     public static void printOrderedItems(OrdersDTO order) {
@@ -56,7 +77,7 @@ public class OrderView {
 
         List<OrderDetailDTO> details = order.getOrderDetails();
         if (details == null || details.isEmpty()) {
-            System.out.println("  주문 상세 내역이 없습니다.                      ");
+            System.out.println("│ 주문 상세 내역이 없습니다.                   │");
         } else {
             for (OrderDetailDTO detail : details) {
                 int linePrice = detail.getUnitPrice() * detail.getQty();
@@ -117,8 +138,35 @@ public class OrderView {
     }
 
     public static void printOrderItemMenu() {
-        System.out.println("------메뉴 리스트------");
+        ItemController.selectAllItems();
+        System.out.print("조회할 상품 코드> ");
         String input = sc.nextLine();
         orderController.listOrderDetailsByItemCode(input);
+    }
+
+    public static void printOrderListMenu(String userId) {
+        while (true) {
+            System.out.println(" 1.주문취소 |  2.재주문  |  0.이전메뉴");
+            int menu = Integer.parseInt(sc.nextLine());
+            switch (menu) {
+                case 1:
+                    printOrderCancelMenu(userId);
+                    return;
+                case 2:
+                    System.out.println("재주문 메뉴로 이동합니다.");
+                    return;
+                case 0:
+                    System.out.println("이전 메뉴로 돌아갑니다.");
+                    return;
+                default:
+                    System.out.println("잘못된 번호입니다. 다시 선택해주세요.");
+            }
+        }
+    }
+
+    public static void printOrderCancelMenu(String userId) {
+        System.out.println("취소할 주문의 주문번호를 입력해주세요.");
+        int orderId = Integer.parseInt(sc.nextLine());
+        orderController.cancelOrder(userId, orderId);
     }
 }

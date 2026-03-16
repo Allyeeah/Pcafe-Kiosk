@@ -14,15 +14,16 @@ public class OrdersDTO {
 
     private List<OrderDetailDTO> details = new ArrayList<>();
 
-    public OrdersDTO() {}
-
-
+    private OrdersDTO() {}
     public OrdersDTO(int orderId, String userId, String orderDate, Status status, int totalAmount) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
         this.status = status;
         this.totalAmount = totalAmount;
+    }
+    public OrdersDTO(String userId) {
+        this(0, userId, null, Status.COMPLETE, 0);
     }
 
     // Getter / Setter

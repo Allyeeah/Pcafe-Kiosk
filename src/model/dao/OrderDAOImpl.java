@@ -1,10 +1,6 @@
 package model.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +137,7 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			con = DBManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setDate(1, java.sql.Date.valueOf(date));
+			ps.setDate(1, Date.valueOf(date));
 			rs = ps.executeQuery();
 
 			orders = getOrdersFromResultSet(rs);
@@ -184,6 +180,38 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 
 		return new ArrayList<>(orderMap.values());
+	}
+
+	@Override
+	public OrdersDTO selectById(int orderId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select order_id, user_id, order_date, status, total_amount " +
+				"from orders where order_id = ?";
+
+		OrdersDTO order = null;
+
+		try {
+			con = DBManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderId);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				order = new OrdersDTO(
+						rs.getInt("order_id"),
+						rs.getString("user_id"),
+						rs.getString("order_date"),
+						Status.fromLabel(rs.getString("status")),
+						rs.getInt("total_amount")
+				);
+			}
+		} finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+
+		return order;
 	}
 
 	@Override
@@ -239,6 +267,16 @@ public class OrderDAOImpl implements OrderDAO {
 
 	        if (rs.next()) {
 				order.setOrderId(rs.getInt(1));
+				String sql2 = "SELECT order_date FROM orders WHERE order_id = ?";
+				ps = con.prepareStatement(sql2);
+				ps.clearParameters();
+				ps.setInt(1, order.getOrderId());
+
+				rs = ps.executeQuery();
+
+				if (rs.next()) {
+					order.setOrderDate(rs.getString("order_date"));
+				}
 			}
 		} finally {
 			DBManager.releaseConnection(null, ps, rs);
