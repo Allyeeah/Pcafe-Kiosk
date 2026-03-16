@@ -9,9 +9,9 @@ public class OrdersDTO {
     private int orderId;
     private String userId;
     private String orderDate;
-    private Status status;     
+    private Status status;
     private int totalAmount;  //총금액 추가
-    
+
     private List<OrderDetailDTO> details = new ArrayList<>();
 
     private OrdersDTO() {}
@@ -49,7 +49,7 @@ public class OrdersDTO {
 
     public List<OrderDetailDTO> getOrderDetails() { return details; }
     public void setOrderDetails(List<OrderDetailDTO> details) { this.details = details; }
-        
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -63,13 +63,13 @@ public class OrdersDTO {
     public enum Status {
         COMPLETE("주문 완료"),
         CANCELED("주문 취소");
-        
+
         private final String label;
-        
+
         Status(String label) {
             this.label = label;
         }
-        
+
         public String label() {
             return label;
         }
@@ -77,9 +77,11 @@ public class OrdersDTO {
         //추가
         public static Status fromLabel(String label) {
             for (Status s : Status.values()) {
-                if (s.label().equals(label)) return s;
+                if (s.label().equals(label)) {
+					return s;
+				}
             }
-            return COMPLETE; 
+            return COMPLETE;
         }
     }
 }

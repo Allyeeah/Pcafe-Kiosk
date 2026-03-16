@@ -11,7 +11,7 @@ public class CategoryDTO {
         this.categoryName = categoryName;
     }
 
- 
+
     public int getCategoryId() {
         return categoryId;
     }

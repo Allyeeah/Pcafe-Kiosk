@@ -79,6 +79,7 @@ public class MemberDTO {
 		return builder.toString();
 	}
 
+
 	
     
 }

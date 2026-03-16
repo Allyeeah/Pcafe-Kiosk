@@ -9,7 +9,7 @@ import view.FailView;
 
 public class AdminController {
 	static AdminService adminService = AdminServiceImpl.getInstance();
-		
+
 		public static void selectMemberById(String userId) {
 			try {
 				MemberDTO member = adminService.selectMemberById(userId);
@@ -17,7 +17,7 @@ public class AdminController {
 			}catch(Exception e) {
 				FailView.errorMessage(e.getMessage());
 			}
-			
+
 		}
 
 

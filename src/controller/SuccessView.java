@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import model.dto.CategoryDTO;
-import model.dto.ItemDTO;
 import model.dto.MemberDTO;
 
 public class SuccessView {
@@ -12,23 +11,23 @@ public class SuccessView {
 			System.out.println(member);
 		}
 	}
-	
+
 	public static void selectCategoryPrint(List<CategoryDTO> list) {
 		for(CategoryDTO item : list) {
 			System.out.println(item);
 		}
 	}
-	
-	
+
+
 	public static void messagePrint(String message) {
 		System.out.println(message);
-		
+
 	}
 
 	public static void selectMember(MemberDTO member) {
 		System.out.println(member);
-		
+
 	}
-	
-	
+
+
 }

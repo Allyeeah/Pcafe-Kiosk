@@ -10,13 +10,14 @@ import model.dto.MemberDTO;
 public class AdminServiceImpl implements AdminService {
 	private static AdminService instance = new AdminServiceImpl();
 	private MemberDAO memberDao = MemberDAOImpl.getInstance();
-	
+
 	private AdminServiceImpl() {}
-	
+
 	public static AdminService getInstance() {
 		// TODO Auto-generated method stub
 		return instance;
 	}
+	@Override
 	public MemberDTO selectMemberById(String userId) throws SearchWrongException{
 		MemberDTO member = memberDao.selectMemberById(userId);
 		if(member == null) {
@@ -25,6 +26,7 @@ public class AdminServiceImpl implements AdminService {
 		return member;
 	}
 
+	@Override
 	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
 		MemberDTO member = memberDao.selectMemberByName(userName);
 		if(member == null) {
@@ -32,7 +34,8 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return member;
 	}
-	
+
+	@Override
 	public List<MemberDTO> selectAllMember() throws SearchWrongException {
 		List<MemberDTO> list = memberDao.selectAllMember();
 		if(list.isEmpty()) {
@@ -41,5 +44,5 @@ public class AdminServiceImpl implements AdminService {
 		return list;
 	}
 
-	
+
 }

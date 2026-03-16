@@ -8,14 +8,14 @@ import model.dao.ItemDAOImpl;
 import model.dto.ItemDTO;
 
 public class ItemServiceImpl implements ItemService {
-	private static ItemServiceImpl instance = new ItemServiceImpl(); 
+	private static ItemServiceImpl instance = new ItemServiceImpl();
 	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
-	
+
 	public ItemServiceImpl() {}
 	public static ItemServiceImpl getInstance() {
 		return instance;
 	}
-	
+
 	@Override
 	public List<ItemDTO> itemSelect() throws SQLException {
 		// TODO Auto-generated method stub
@@ -38,24 +38,27 @@ public class ItemServiceImpl implements ItemService {
 	public int updateItem(ItemDTO updateItem) throws SQLException {
 		return itemDAO.updateItem(updateItem);
 	}
-	
-	//삭제 
+
+	//삭제
 	@Override
 	public int deleteItem(ItemDTO deleteItem) throws SQLException {
 		return itemDAO.deleteItem(deleteItem);
 	}
-	
+
 	/**
 	 * 상품번호에 해당하는 상품검색
 	 * */
+	@Override
 	public ItemDTO selectItemByCode(String itemCode) throws  SQLException{
 		ItemDTO item = itemDAO.selectItemByCode(itemCode);
-		if(item==null) throw new SQLException(itemCode + " 현재 상품이 없습니다.");
+		if(item==null) {
+			throw new SQLException(itemCode + " 현재 상품이 없습니다.");
+		}
 		return item;
 	}
 
-	
-	
+
+
 
 
 }
