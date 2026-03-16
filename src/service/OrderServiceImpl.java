@@ -70,6 +70,12 @@ public class OrderServiceImpl implements OrderService {
         int result = 0;
         try {
 			OrdersDTO order = orderDAO.selectById(orderId);
+			if (order == null) {
+				throw new OrderNotFoundException();
+			}
+			if (order.getStatus() == Status.CANCELED) {
+				throw new CancelFailedException("이미 취소된 주문입니다.");
+			}
 			if (!userId.equals(order.getUserId())) {
 				throw new CancelFailedException("자신의 주문만 취소할 수 있습니다.");
 			}
