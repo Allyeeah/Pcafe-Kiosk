@@ -153,7 +153,7 @@ public class OrderView {
                     printOrderCancelMenu(userId);
                     return;
                 case 2:
-                    printReorderMenu(userId);
+                    System.out.println("재주문 메뉴로 이동합니다.");
                     return;
                 case 0:
                     System.out.println("이전 메뉴로 돌아갑니다.");
@@ -169,11 +169,4 @@ public class OrderView {
         int orderId = Integer.parseInt(sc.nextLine());
         orderController.cancelOrder(userId, orderId);
     }
-
-    private static void printReorderMenu(String userId) {
-        System.out.println("재주문할 주문의 주문번호를 입력해주세요.");
-        int orderId = Integer.parseInt(sc.nextLine());
-        orderController.reorder(userId, orderId);
-    }
-
 }

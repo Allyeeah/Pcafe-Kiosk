@@ -70,15 +70,7 @@ public class OrderServiceImpl implements OrderService {
         int result = 0;
         try {
 			OrdersDTO order = orderDAO.selectById(orderId);
-			if (order == null) {
-				throw new OrderNotFoundException();
-			}
-			if (order.getStatus() == Status.CANCELED) {
-				throw new CancelFailedException("이미 취소된 주문입니다.");
-			}
-			if (!userId.equals(order.getUserId())) {
-				throw new CancelFailedException("자신의 주문만 취소할 수 있습니다.");
-			}
+			if (!userId.equals(order.getUserId())) throw new CancelFailedException("자신의 주문만 취소할 수 있습니다.");
 
             result = orderDAO.updateStatus(orderId, Status.CANCELED);
         } catch (SQLException e) {
@@ -88,31 +80,6 @@ public class OrderServiceImpl implements OrderService {
         if (result == 0) {
 			throw new CancelFailedException();
 		}
-	}
-
-	@Override
-	public OrdersDTO reorder(String userId, int orderId) {
-		OrdersDTO order = null;
-		int result = 0;
-		try {
-			order = orderDAO.selectById(orderId);
-			if (order == null) {
-				throw new OrderNotFoundException();
-			}
-			if (!userId.equals(order.getUserId())) {
-				throw new OrderFailedException("본인의 주문번호가 아닙니다.");
-			}
-
-			result = orderDAO.insert(order);
-		} catch (SQLException e) {
-			throw new OrderFailedException(e.getMessage());
-		}
-
-		if (result == 0) {
-			throw new OrderFailedException();
-		}
-
-		return order;
 	}
 
 	@Override

@@ -39,16 +39,6 @@ public class OrderController {
 		}
 	}
 
-	public void reorder(String userId, int orderId) {
-		try {
-			OrdersDTO order = orderService.reorder(userId, orderId);
-			OrderView.orderSuccessMessage(order);
-		} catch (OrderFailedException e) {
-			FailView.errorMessage("[재주문 실패] " + e.getMessage());
-		}
-	}
-
-
 	public void listAllOrders() {
 		try {
 			OrderView.printAllOrders(orderService.findAllOrders());
