@@ -1,7 +1,7 @@
 package exception;
 
 public class OrderFailedException extends RuntimeException {
-	
+
 	private static final long serialVersionUID = -1190246280255944825L;
 
 	public OrderFailedException() {

@@ -11,7 +11,7 @@ public class CategoryDTO {
         this.categoryName = categoryName;
     }
 
- 
+
     public int getCategoryId() {
         return categoryId;
     }
@@ -24,4 +24,16 @@ public class CategoryDTO {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[categoryId=");
+		builder.append(categoryId);
+		builder.append(", categoryName=");
+		builder.append(categoryName);
+		builder.append("]");
+		return builder.toString();
+	}
 }
+

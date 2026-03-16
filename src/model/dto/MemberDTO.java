@@ -6,15 +6,17 @@ public class MemberDTO {
     private String userName;
     private String isAdmin;  // 'Y' or 'N' 식별
     private java.sql.Timestamp createdAt;
+    private String isDeleted;  // 'Y' or 'N' 식별
 
     public MemberDTO() {}
 
-    public MemberDTO(String userId, String userPw, String userName, String isAdmin, java.sql.Timestamp createdAt) {
+    public MemberDTO(String userId, String userPw, String userName, String isAdmin, java.sql.Timestamp createdAt, String isDeleted) {
         this.userId = userId;
         this.userPw = userPw;
         this.userName = userName;
         this.isAdmin = isAdmin;
         this.createdAt = createdAt;
+        this.isDeleted = isDeleted;
     }
 
     // getter / setter
@@ -48,4 +50,36 @@ public class MemberDTO {
     public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+    
+
+	public String getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[userId=");
+		builder.append(userId);
+		builder.append(", userPw=");
+		builder.append(userPw);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", isAdmin=");
+		builder.append(isAdmin);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", isDeleted=");
+		builder.append(isDeleted);
+		builder.append("]");
+		return builder.toString();
+	}
+
+
+	
+    
 }

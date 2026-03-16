@@ -4,19 +4,23 @@ public class OrderDetailDTO {
     private int orderDetailId;  // order_detail_id
     private int orderId;        // order_id
     private int itemId;         // item_id
+    private String itemCode;    // item_code
     private String itemName;    // 상품명 * orderdatil 테이블에는 없음
     private int unitPrice;      // unit_price 가격
-    private int qty;            // qty 수량 
-    //총금액 필요시 unitPrice * qty 
-    public OrderDetailDTO() {}
-
-    public OrderDetailDTO(int orderDetailId, int orderId, int itemId, String itemName, int unitPrice, int qty) {
+    private int qty;            // qty 수량
+    //총금액 필요시 unitPrice * qty
+    private OrderDetailDTO() {}
+    public OrderDetailDTO(int orderDetailId, int orderId, int itemId, String itemCode, String itemName, int unitPrice, int qty) {
         this.orderDetailId = orderDetailId;
         this.orderId = orderId;
         this.itemId = itemId;
+        this.itemCode = itemCode;
         this.itemName = itemName;
         this.unitPrice = unitPrice;
         this.qty = qty;
+    }
+    public OrderDetailDTO(String itemCode, int qty) {
+        this(0, 0, 0, itemCode, null, 0, qty);
     }
 
 
@@ -37,6 +41,12 @@ public class OrderDetailDTO {
     }
     public void setItemId(int itemId) {
         this.itemId = itemId;
+    }
+    public String getItemCode() {
+        return itemCode;
+    }
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
     public String getItemName() {
         return itemName;
@@ -60,19 +70,15 @@ public class OrderDetailDTO {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("OrderDetailDTO [orderDetailId=");
-        builder.append(orderDetailId);
-        builder.append(", orderId=");
-        builder.append(orderId);
-        builder.append(", itemId=");
-        builder.append(itemId);
-        builder.append(", itemName=");
-        builder.append(itemName);
-        builder.append(", unitPrice=");
-        builder.append(unitPrice);
-        builder.append(", qty=");
-        builder.append(qty);
-        builder.append("]");
+        builder.append("[")
+                .append(itemCode)
+                .append("] ")
+                .append(itemName)
+                .append("-")
+                .append(unitPrice)
+                .append("원 / ")
+                .append(qty)
+                .append("개");
         return builder.toString();
     }
 }
