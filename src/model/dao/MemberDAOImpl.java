@@ -190,7 +190,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
-		String sql = "update member set user_pw='?', user_name='?'";
+		String sql = "update member set user_pw=?, user_name=?";
 		
 		try {
 			con=DBManager.getConnection();
