@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import controller.ItemController;
 import controller.OrderController;
+import exception.InvalidMenuException;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import util.StringUtil;
@@ -153,13 +154,13 @@ public class OrderView {
                     printOrderCancelMenu(userId);
                     return;
                 case 2:
-                    System.out.println("재주문 메뉴로 이동합니다.");
+                    printReorderMenu(userId);
                     return;
                 case 0:
                     System.out.println("이전 메뉴로 돌아갑니다.");
                     return;
-                default:
-                    System.out.println("잘못된 번호입니다. 다시 선택해주세요.");
+                default: //추가
+                    throw new InvalidMenuException("선택하신 [" + menu + "]번은 없는 번호입니다.");
             }
         }
     }
@@ -169,4 +170,11 @@ public class OrderView {
         int orderId = Integer.parseInt(sc.nextLine());
         orderController.cancelOrder(userId, orderId);
     }
+
+    private static void printReorderMenu(String userId) {
+        System.out.println("재주문할 주문의 주문번호를 입력해주세요.");
+        int orderId = Integer.parseInt(sc.nextLine());
+        orderController.reorder(userId, orderId);
+    }
+
 }
