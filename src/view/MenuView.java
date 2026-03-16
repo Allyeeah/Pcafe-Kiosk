@@ -92,7 +92,6 @@ public class MenuView {
 		String isAdmin = isAdminInput.equals("Y") ? "Y" : "N";
 
 		//test
-		//
 
 		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null, null);
 		
@@ -115,7 +114,10 @@ public class MenuView {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet()); //Set객체
-
+			// session 비어있는지 체크 , 비어잇으면 -> return
+			if(ss.getSet().isEmpty()) {
+				return;
+			}
 			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 | 2.상품보기 | 3.주문하기 | 4.장바구니담기 | 5.장바구니보기 | 6. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
@@ -161,7 +163,8 @@ public class MenuView {
 	            int menu = Integer.parseInt(sc.nextLine());
 	            switch (menu) {
 	                case 1:
-	                    System.out.println("로그아웃 되었습니다.");
+	                	logout(adminId);
+	                    //System.out.println("로그아웃 되었습니다.");
 	                    return; // 메인 돌아감
 
 	                case 2:
@@ -397,9 +400,13 @@ public class MenuView {
 	public static void mypage(String userId) {
 		SessionSet ss = SessionSet.getInstance();
 		System.out.println(ss.getSet()); //Set객체
+		// session 비어있는지 체크 -> 비어잇으면 return
 		
 		System.out.println("마이페이지 메뉴 조회");
 		while (true) {
+			if(ss.getSet().isEmpty()) {
+				return;
+			}
 			try {
 			System.out.println("1. 주문 내역 보기 | 2. 사용자 정보 수정 | 3. 탈퇴 | 0. 이전메뉴");
 
@@ -440,8 +447,7 @@ public class MenuView {
 		System.out.print("사용자의 비밀번호를 입력해주세요. > ");
 		String userPw = sc.nextLine();
 
-			MemberController.withdrawMember(userId, userPw);
-
+		MemberController.withdrawMember(userId, userPw);
 		
 	}
 
@@ -465,7 +471,7 @@ public class MenuView {
             throw new InvalidMenuException("이름은 공백일 수 없습니다.");
         }
 		//컨트롤러 호출
-		MemberController.updateMemberInfo(userPw, userName);
+		MemberController.updateMemberInfo(userId, userPw, userName);
 		System.out.println("정보 수정이 완료되었습니다.");
 
 	    } catch (InvalidMenuException e) {
@@ -521,9 +527,8 @@ public class MenuView {
 	 * 로그아웃
 	 */
 	public static void logout(String userId) {
-		Session session = new Session(userId);
 		SessionSet ss = SessionSet.getInstance();
-		ss.remove(session);
+		ss.remove(userId);
 		System.out.println("로그아웃 되었습니다");
 	}
 
@@ -582,8 +587,6 @@ public class MenuView {
      * */
 	public static void viewCart(String id) {
 		CartController.viewCart(id);
-
-
 
 	}
 }
