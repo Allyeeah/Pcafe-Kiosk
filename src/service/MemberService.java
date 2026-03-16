@@ -13,15 +13,9 @@ import mvc.session.SessionSet;
 public class MemberService {
 MemberDAO memberDao = new MemberDAOImpl();
 
-<<<<<<< HEAD
-//로그인
-public MemberDTO login(String userId, String userPwd) throws NotFoundException, SQLException{
-
-=======
 	//로그인
 	public MemberDTO login(String userId, String userPwd) throws NotFoundException, SQLException{
-	
->>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
+
 	MemberDTO member = memberDao.login(userId, userPwd);
 	if(member==null) {
 		throw new NotFoundException("정보를 다시 확인해주세요.");
