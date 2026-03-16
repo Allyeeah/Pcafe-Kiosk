@@ -147,9 +147,7 @@ public class MenuView {
 
 	}
 
-	public static void printSubMenu() {
-		System.out.println("1. 수정   |  2.탈퇴   | 9. 나가기");
-	}
+
 
 	//관리자 메인메뉴 추가 - 오혜진 0313
 	public static void printAdminMainMenu(String adminId) {
@@ -204,7 +202,7 @@ public class MenuView {
 		   while(true) {
 			   
 		    	System.out.println("-- 관리자 상품 관리메뉴 --");
-		    	System.out.println(" 1. 전체 상품조회 | 2. 상품등록 | 3. 상품수정  |  4. 상품삭제  |  9. 뒤로 가기");
+		    	System.out.println(" 1. 전체 상품조회 | 2. 상품등록 | 3. 상품수정  |  4. 상품삭제  |  0. 뒤로 가기");
 		        System.out.print(" ❯ 메뉴 선택 : ");
 
 		        try {
@@ -223,7 +221,7 @@ public class MenuView {
 		                case 4 :
 		                	ItemController.deleteItem(); //
 		                    break;
-		                case 9 :
+		                case 0 :
 		                    System.out.println("\n 이전 메뉴로 돌아갑니다.");
 		                    return;
 		                default:
@@ -247,7 +245,7 @@ public class MenuView {
 			//	System.out.println(ss.getSet()); //Set객체
 
 			System.out.println("-- 카테고리 메뉴 --");
-			System.out.println("1. 카테고리 조회 | 2. 카테고리 등록 | 3. 카테고리 수정 | 4. 카테고리 삭제 | 9 이전 메뉴");
+			System.out.println("1. 카테고리 조회 | 2. 카테고리 등록 | 3. 카테고리 수정 | 4. 카테고리 삭제 | 0 이전 메뉴");
 			int menu = Integer.parseInt(sc.nextLine());
 
 			switch(menu) {
@@ -266,7 +264,7 @@ public class MenuView {
 			case 4 :
 				MenuView.deleteCategory(); //카테고리 삭제
 				break;
-			case 9 :
+			case 0 :
 				System.out.println("관리자 메인 메뉴로 돌아갑니다.");
 				return; // 다시 pCafe메인 printMenu()화면으로
 			default:
@@ -312,7 +310,7 @@ public class MenuView {
 			//	System.out.println(ss.getSet()); //Set객체
 
 			System.out.println("-- 관리자 메뉴 --");
-			System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  | 9. 이전메뉴");
+			System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  | 0. 이전메뉴");
 
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
@@ -326,7 +324,7 @@ public class MenuView {
 			case 3 :
 				AdminController.selectAllMember(); //전체 검색
 				break;
-			case 9 :
+			case 0 :
 				System.out.println("관리자 메인 메뉴로 돌아갑니다.");
 				return; // 다시 pCafe메인 printMenu()화면으로
 			default:
@@ -455,17 +453,17 @@ public class MenuView {
 		try { //입력예외처리 추가 
 			System.out.println("--- [회원 정보 수정] --");
 		
-		System.out.println("사용자의 Id를 입력해주세요. > ");
+		System.out.print("사용자의 Id를 입력해주세요. > ");
 		String userId = sc.nextLine().trim();
         if (userId.isEmpty()) {
             throw new InvalidMenuException("아이디는 공백일 수 없습니다.");
         }
-		System.out.println("수정하실 비밀번호(4자리)를 입력해주세요. > ");
+		System.out.print("수정하실 비밀번호(4자리)를 입력해주세요. > ");
 		String userPw = sc.nextLine().trim();
         if (userPw.length() != 4) {
             throw new InvalidMenuException("비밀번호는 반드시 4자리여야 합니다.");
         }
-		System.out.println("수정하실 이름을 입력해주세요. > ");
+		System.out.print("수정하실 이름을 입력해주세요. > ");
 		String userName = sc.nextLine().trim();
         if (userName.isEmpty()) {
             throw new InvalidMenuException("이름은 공백일 수 없습니다.");
