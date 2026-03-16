@@ -55,7 +55,7 @@ public class MemberDAOImpl implements MemberDAO {
 		ResultSet rs=null;
 		MemberDTO member=null;
 
-		String sql="select * from member where user_id=? and user_pw=?";
+		String sql="select * from member where user_id=? and user_pw=? and is_deleted='N'";
 		
 
 		try {
@@ -211,9 +211,57 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 		
 	}
-
-
-
-
-
+	/*
+	 * userpwd, username 변경
+	 * update member set user_pw='1234', user_name='dd' where user_id='user1'
+	 * 
+	 * 
+	 */
+	@Override
+	public int updateMemberInfo(String userId, String userPwd, String userName) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result = 0;
+		String sql = "update member set user_pw = ?, user_name = ? where user_id = ?";
+		
+		try {
+		con=DBManager.getConnection();
+		ps = con.prepareStatement(sql);
+		ps.setString(1, userPwd);
+		ps.setString(2, userName);
+		ps.setString(3, userId);
+		
+		result = ps.executeUpdate();
+		
+		}catch(SQLException e) {
+			
+		}
+		
+		return result;
+	}
+	/*
+	 * 멤버 탈퇴
+	 * update member set is_deleted = 'Y' where user_id = ? and user_pw = ?;
+	 */
+	@Override
+	public int withdrawMember(String userId, String userPwd) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+		String sql = "update member set is_deleted = 'Y' where user_id = ? and user_pw = ?";
+	
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userId);
+		ps.setString(2, userPwd);
+		result=ps.executeUpdate();
+		
+		return result;
+	}
 }
+
+
+
+
+
+
