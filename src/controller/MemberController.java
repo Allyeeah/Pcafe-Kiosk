@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 
-import exception.NotFoundException;
 import exception.UpdateUserInfoException;
 import model.dto.MemberDTO;
 import service.MemberService;
@@ -56,6 +55,7 @@ public class MemberController {
 		try {
 			memberService.withdrawMember(userId, userPwd);
 			System.out.println("탈퇴되었습니다.");
+			
 		}catch(UpdateUserInfoException e) {
 			FailView.errorMessage("[사용자 탈퇴 실패] 사용자 정보를 다시 입력해주세요.");
 		}

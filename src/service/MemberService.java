@@ -51,6 +51,9 @@ MemberDAO memberDao = new MemberDAOImpl();
 	
 	public void withdrawMember(String userId, String userPwd) throws SQLException{
 		int result = memberDao.withdrawMember(userId, userPwd);
+		SessionSet se = SessionSet.getInstance();
+		se.remove(userId);
+		
 		if(result == 0) {
 			throw new UpdateUserInfoException("사용자 탈퇴에 실패했습니다.");
 		}
