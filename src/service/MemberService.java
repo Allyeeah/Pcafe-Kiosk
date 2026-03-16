@@ -6,6 +6,8 @@ import model.dto.MemberDTO;
 import java.sql.SQLException;
 
 public interface MemberService {
+	void register(MemberDTO memberDTO) throws SQLException;
+
 	MemberDTO login(String userId, String userPwd) throws NotFoundException, SQLException;
 
 	void updateMemberInfo(String userId, String userPwd, String userName) throws SQLException;

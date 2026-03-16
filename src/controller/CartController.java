@@ -8,8 +8,9 @@ import mvc.session.Session;
 import mvc.session.SessionSet;
 import service.ItemService;
 import service.ItemServiceImpl;
-import view.EndView;
+import view.CartView;
 import view.FailView;
+import view.SuccessView;
 
 public class CartController {
 	private static final ItemService itemService = ItemServiceImpl.getInstance();
@@ -42,7 +43,7 @@ public class CartController {
 
 			cart.put(item, qty); //장바구니에 상품 넣기
 
-			EndView.printMessage("장바구니에 담았습니다");
+			SuccessView.printMessage("장바구니에 담았습니다");
 
 		}catch(Exception e) {
 			FailView.errorMessage(e.getMessage());
@@ -60,7 +61,7 @@ public class CartController {
 		if(cart == null ) { // 장바구니가 없는 고객
 			FailView.errorMessage("장바구니가 비었습니다");
 		}else {
-			EndView.printViewCart(id , cart);
+			CartView.printViewCart(id , cart);
 		}
 	}
 }

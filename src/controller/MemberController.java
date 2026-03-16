@@ -1,7 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
-
 import exception.UpdateUserInfoException;
 import model.dto.MemberDTO;
 import service.MemberService;
@@ -9,11 +7,20 @@ import service.MemberServiceImpl;
 import view.FailView;
 import view.MenuView;
 
+import java.sql.SQLException;
+
 public class MemberController {
     private static final MemberService memberService = MemberServiceImpl.getInstance();
 
+	public static void register(MemberDTO member) {
+		try {
+			memberService.register(member);
+		} catch (Exception e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
-    public static MemberDTO login(String userId, String userPwd) {
+    public static void login(String userId, String userPwd) {
         MemberDTO member = null;
         try {
             // 1. 서비스에서 로그인 시도 (실패 시 서비스 내부에서 Exception을 던져야 함)
@@ -22,8 +29,10 @@ public class MemberController {
             // 2. 로그인 성공 시: 권한(isAdmin)에 따른 메뉴 분기
             if (member != null) {
                 if ("Y".equalsIgnoreCase(member.getIsAdmin())) {
+	                System.out.println("\n[관리자] 계정으로 로그인하셨습니다");
                     MenuView.printAdminMenu(userId);
                 } else {
+	                System.out.println("\n[" + member.getUserName() +"]"+ "님 로그인하셨습니다");
                     MenuView.printUserMenu(userId);
                 }
             }
@@ -33,8 +42,6 @@ public class MemberController {
             // FailView를 통해 사용자에게 깔끔한 메시지만 전달
             FailView.errorMessage(e.getMessage());
         }
-
-        return member;
     }
 
 
@@ -64,8 +71,5 @@ public class MemberController {
 			}
 		
 		}
-	
-	
-	
-	
+
 	}

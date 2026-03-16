@@ -3,6 +3,7 @@ package service;
 import java.sql.SQLException;
 
 import exception.NotFoundException;
+import exception.RegisterException;
 import exception.UpdateUserInfoException;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
@@ -18,6 +19,15 @@ public class MemberServiceImpl implements MemberService {
     public static MemberService getInstance() {
         return instance;
     }
+
+    @Override
+    public void register(MemberDTO memberDTO) throws SQLException {
+    	int result = memberDao.insert(memberDTO);
+        if (result == 0) {
+            throw new RegisterException("회원가입에 실패했습니다.");
+        }
+    }
+
     //로그인
     @Override
     public MemberDTO login(String userId, String userPwd) throws NotFoundException, SQLException {

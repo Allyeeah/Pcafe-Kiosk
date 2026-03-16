@@ -7,6 +7,7 @@ import exception.CategoryException;
 import model.dto.CategoryDTO;
 import service.CategoryService;
 import service.CategoryServiceImpl;
+import view.CategoryView;
 import view.FailView;
 import view.SuccessView;
 
@@ -22,9 +23,9 @@ public class CategoryController {
 	 //카테고리 조회
 	 public void selectAll() {
 		 try {
-			List<CategoryDTO> list = categoryService.getCategoryList();
-			SuccessView.selectCategoryPrint(list);
-		 }catch(Exception e) {
+			 List<CategoryDTO> list = categoryService.getCategoryList();
+			 CategoryView.printAllCategories(list);
+		 } catch (Exception e) {
 			 FailView.errorMessage(e.getMessage());
 		 }
 	 }
