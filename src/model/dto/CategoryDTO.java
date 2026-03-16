@@ -28,9 +28,9 @@ public class CategoryDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[categoryId=");
+		builder.append("[카테고리No:");
 		builder.append(categoryId);
-		builder.append(", categoryName=");
+		builder.append(", 카테고리 이름 : ");
 		builder.append(categoryName);
 		builder.append("]");
 		return builder.toString();
