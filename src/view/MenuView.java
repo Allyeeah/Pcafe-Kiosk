@@ -111,7 +111,7 @@ public class MenuView {
 	public static void printUserMenu(String userId) {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); //Set객체
+			//System.out.println(ss.getSet()); //Set객체
 			// session 비어있는지 체크 , 비어잇으면 -> return
 			if(ss.getSet().isEmpty()) {
 				return;
