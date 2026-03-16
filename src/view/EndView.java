@@ -52,7 +52,7 @@ public class EndView {
 			switch(choice) {
 			case 1:
 				
-				 OrdersDTO orders = new OrdersDTO(0, userId, null, null, 0);
+				 OrdersDTO orders = new OrdersDTO(userId);
 				
 				 List<OrderDetailDTO> orderLineList = orders.getOrderDetails();
 				 
