@@ -56,7 +56,7 @@ public class MemberDAOImpl implements MemberDAO {
 		MemberDTO member=null;
 
 		String sql="select * from member where user_id=? and user_pw=? and is_deleted='N'";
-		
+
 
 		try {
 		con=DBManager.getConnection();
@@ -71,7 +71,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 
 			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
-			
+
 		}
 
 
@@ -178,44 +178,45 @@ public class MemberDAOImpl implements MemberDAO {
 		return list;
 	}
 
-	
-	
-	
+
+
+
 	/*
 	 * member pwd, name 수정
-	 * 
+	 *
 	 */
-	
+
+	@Override
 	public int update(String userPwd, String userName) throws SQLException{
 		Connection con=null;
 		PreparedStatement ps=null;
 		int result=0;
 		String sql = "update member set user_pw=?, user_name=?";
-		
+
 		try {
 			con=DBManager.getConnection();
 			ps=con.prepareStatement(sql);
 			ps.setString(1, userPwd);
 			ps.setString(2, userName);
-			
+
 			result = ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			System.out.println("DB 오류가 발생했습니다.");
 			//e.printStackTrace();
 		}
 		finally {
-            DBManager.releaseConnection(con, ps); 
+            DBManager.releaseConnection(con, ps);
        }
-		
+
 		return result;
-		
+
 	}
 	/*
 	 * userpwd, username 변경
 	 * update member set user_pw='1234', user_name='dd' where user_id='user1'
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	@Override
 	public int updateMemberInfo(String userId, String userPwd, String userName) throws SQLException {
@@ -223,20 +224,20 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement ps=null;
 		int result = 0;
 		String sql = "update member set user_pw = ?, user_name = ? where user_id = ?";
-		
+
 		try {
 		con=DBManager.getConnection();
 		ps = con.prepareStatement(sql);
 		ps.setString(1, userPwd);
 		ps.setString(2, userName);
 		ps.setString(3, userId);
-		
+
 		result = ps.executeUpdate();
-		
+
 		}catch(SQLException e) {
-			
+
 		}
-		
+
 		return result;
 	}
 	/*
@@ -249,13 +250,13 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement ps=null;
 		int result=0;
 		String sql = "update member set is_deleted = 'Y' where user_id = ? and user_pw = ?";
-	
+
 		con=DBManager.getConnection();
 		ps=con.prepareStatement(sql);
 		ps.setString(1, userId);
 		ps.setString(2, userPwd);
 		result=ps.executeUpdate();
-		
+
 		return result;
 	}
 }

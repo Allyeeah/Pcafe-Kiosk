@@ -51,9 +51,9 @@ public class EndView {
 			int choice = Integer.parseInt(sc.nextLine());
 			switch(choice) {
 			case 1:
-				
+
 				 OrdersDTO orders = new OrdersDTO(userId);
-				
+
 				 List<OrderDetailDTO> orderLineList = orders.getOrderDetails();
 
 				 for(ItemDTO itemkey : cart.keySet()) {

@@ -11,13 +11,11 @@ import controller.MemberController;
 import controller.OrderController;
 import exception.InvalidMenuException;
 import exception.NotFoundException;
-import exception.SearchWrongException;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
-import mvc.session.Session;
 import mvc.session.SessionSet;
 import service.MemberService;
 
@@ -58,7 +56,7 @@ public class MenuView {
     } catch (InvalidMenuException e) {
         // 번호 이탈
         FailView.errorMessage(e.getMessage());
-    } 
+    }
 		}
 	}
 	public static void printMenu() {
@@ -77,7 +75,7 @@ public class MenuView {
 
 		System.out.print("비밀번호(4자리): ");
 		String pwd = sc.nextLine().trim();
-        if (pwd.length() != 4) { //4자리 출력 추가 
+        if (pwd.length() != 4) { //4자리 출력 추가
             throw new InvalidMenuException("비밀번호는 4자리로 입력하세요.");
         }
 
@@ -94,7 +92,7 @@ public class MenuView {
 		//test
 
 		MemberDTO memberDTO = new MemberDTO(id, pwd, name, isAdmin, null, null);
-		
+
 
 		// DAO insert 메서드가 int 반환이라 가정
 		int result = memberDAO.insert(memberDTO);
@@ -186,11 +184,11 @@ public class MenuView {
 
 	                default:
 		                throw new InvalidMenuException("선택하신[" + menu + "]번은 없는 번호입니다. 다시 입력해주세요.");
-	                    
+
 	            }
 	        } catch (NumberFormatException e) {
 	            FailView.errorMessage("숫자만 입력 가능합니다.");
-	           
+
 	        } catch (InvalidMenuException e) {
 	            FailView.errorMessage(e.getMessage());
 	        }
@@ -202,7 +200,7 @@ public class MenuView {
 
 	private static void adminItemMenu(String adminId) {
 		   while(true) {
-			   
+
 		    	System.out.println("-- 관리자 상품 관리메뉴 --");
 		    	System.out.println(" 1. 전체 상품조회 | 2. 상품등록 | 3. 상품수정  |  4. 상품삭제  |  9. 뒤로 가기");
 		        System.out.print(" ❯ 메뉴 선택 : ");
@@ -232,7 +230,7 @@ public class MenuView {
 
 		        } catch (NumberFormatException e) {
 		            FailView.errorMessage("숫자만 입력 가능합니다.");
-		           
+
 		        } catch (InvalidMenuException e) {
 		            FailView.errorMessage(e.getMessage());
 		        }
@@ -275,7 +273,7 @@ public class MenuView {
 
     } catch (NumberFormatException e) {
         FailView.errorMessage("숫자만 입력 가능합니다.");
-       
+
     } catch (InvalidMenuException e) {
         FailView.errorMessage(e.getMessage());
     }
@@ -335,7 +333,7 @@ public class MenuView {
 			}
 		 } catch (NumberFormatException e) {
 		        FailView.errorMessage("숫자만 입력 가능합니다.");
-		       
+
 		    } catch (InvalidMenuException e) {
 		        FailView.errorMessage(e.getMessage());
 		    }
@@ -368,9 +366,9 @@ public class MenuView {
 		}
 	}
 
-	
+
 	public static void selectMemberById() {
-		try 
+		try
 		{System.out.print("사용자 ID를 입력해 주세요. > ");
 		//String userId = sc.next();
 		String userId = sc.nextLine().trim();
@@ -380,9 +378,9 @@ public class MenuView {
 		AdminController.selectMemberById(userId);
 	}catch (InvalidMenuException e) {
         FailView.errorMessage(e.getMessage());
-    } 
+    }
 }
-	
+
 	public static void selectMemberByName() {
 		try {
 		System.out.println("사용자의 이름을 입력해주세요. > ");
@@ -393,15 +391,15 @@ public class MenuView {
 		AdminController.selectMemberByName(userName);
 	}catch (InvalidMenuException e) {
         FailView.errorMessage(e.getMessage());
-    } 
-	
+    }
+
 }
 	//마이페이지 메뉴
 	public static void mypage(String userId) {
 		SessionSet ss = SessionSet.getInstance();
-		System.out.println(ss.getSet()); //Set객체
+		//System.out.println(ss.getSet()); //Set객체
 		// session 비어있는지 체크 -> 비어잇으면 return
-		
+
 		System.out.println("마이페이지 메뉴 조회");
 		while (true) {
 			if(ss.getSet().isEmpty()) {
@@ -433,13 +431,13 @@ public class MenuView {
 
 	    } catch (NumberFormatException e) {
 	        FailView.errorMessage("숫자만 입력 가능합니다.");
-	       
+
 	    } catch (InvalidMenuException e) {
 	        FailView.errorMessage(e.getMessage());
 	    }
 			}
 		}
-	
+
 
 	private static void withdrawMember()  {
 		System.out.print("사용자의 Id를 입력해주세요. > ");
@@ -448,13 +446,13 @@ public class MenuView {
 		String userPw = sc.nextLine();
 
 		MemberController.withdrawMember(userId, userPw);
-		
+
 	}
 
 	private static void updateMemberInfo() {
-		try { //입력예외처리 추가 
+		try { //입력예외처리 추가
 			System.out.println("--- [회원 정보 수정] --");
-		
+
 		System.out.println("사용자의 Id를 입력해주세요. > ");
 		String userId = sc.nextLine().trim();
         if (userId.isEmpty()) {
@@ -482,8 +480,8 @@ public class MenuView {
 	        FailView.errorMessage("수정 중 오류가 발생했습니다: " + e.getMessage());
 	    }
 	}
-	
-	
+
+
 
 	/**
 	 * 로그인 메뉴
@@ -505,15 +503,15 @@ public class MenuView {
 		            System.out.println("\n[사용자] " + loginMember.getUserName() + "님 로그인하셨습니다");
 		            printUserMenu(loginMember.getUserId());
 		        }
-		        
-		        
-		        
+
+
+
 
 		    } catch (NotFoundException e) {
 		        System.out.println("\n로그인 실패: " + e.getMessage());
 
 		    } catch (SQLException e) {
-		    	//e.printStackTrace();
+		    	e.printStackTrace();
 		        System.out.println("\n 오류입니다.");
 		    }
 
@@ -543,27 +541,27 @@ public class MenuView {
     	if (itemCode.isEmpty()) {
             throw new InvalidMenuException("상품 번호는 공백일 수 없습니다.");
         }
-    	
-    	
+
+
     	System.out.print("주문수량 : ");
     	int qty = Integer.parseInt(sc.nextLine());
 		//주문수량 0 안됨
 		if (qty <= 0) {
 			throw new InvalidMenuException("주문 수량은 1개 이상이어야 합니다.");
 		}
-		
+
 		OrdersDTO orders = new OrdersDTO(userId);
 		OrderDetailDTO orderDetail = new OrderDetailDTO(itemCode, qty);
 		orders.getOrderDetails().add(orderDetail);
 
 		orderController.startOrder(orders);
-		
+
     } catch (NumberFormatException e) {
         FailView.errorMessage("주문 수량은 숫자만 입력 가능합니다.");
     } catch (InvalidMenuException e) {
         FailView.errorMessage(e.getMessage());
     }
-		
+
     }
 
 

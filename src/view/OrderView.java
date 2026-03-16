@@ -46,7 +46,9 @@ public class OrderView {
             List<OrderDetailDTO> details = order.getOrderDetails();
             if (details != null && !details.isEmpty()) {
                 for (int i = 0; i < details.size(); i++) {
-                    if (i > 0) items.append(", ");
+                    if (i > 0) {
+						items.append(", ");
+					}
                     items.append(details.get(i).getItemName())
                          .append("(").append(details.get(i).getQty()).append(")");
                 }

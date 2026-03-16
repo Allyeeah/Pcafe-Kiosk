@@ -50,7 +50,7 @@ public class MemberDTO {
     public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    
+
 
 	public String getIsDeleted() {
 		return isDeleted;
@@ -80,6 +80,6 @@ public class MemberDTO {
 	}
 
 
-	
-    
+
+
 }
