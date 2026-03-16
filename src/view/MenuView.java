@@ -113,12 +113,12 @@ public class MenuView {
 	public static void printUserMenu(String userId) {
 		while(true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); //Set객체
+			//System.out.println(ss.getSet()); //Set객체
 			// session 비어있는지 체크 , 비어잇으면 -> return
 			if(ss.getSet().isEmpty()) {
 				return;
 			}
-			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
+			System.out.println("\n-----" + "["+userId+"]님"+ " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 | 2.상품보기 | 3.주문하기 | 4.장바구니담기 | 5.장바구니보기 | 6. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
@@ -246,6 +246,7 @@ public class MenuView {
 
 			System.out.println("-- 카테고리 메뉴 --");
 			System.out.println("1. 카테고리 조회 | 2. 카테고리 등록 | 3. 카테고리 수정 | 4. 카테고리 삭제 | 0 이전 메뉴");
+			System.out.print("메뉴 선택 > ");
 			int menu = Integer.parseInt(sc.nextLine());
 
 			switch(menu) {
@@ -311,7 +312,7 @@ public class MenuView {
 
 			System.out.println("-- 관리자 메뉴 --");
 			System.out.println("1. ID로 검색   |  2.이름으로 검색  | 3.전체 검색  | 0. 이전메뉴");
-
+			System.out.print("메뉴 선택 > ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 			case 1 :
@@ -345,7 +346,7 @@ public class MenuView {
 		while (true) {
 			System.out.println("\n[관리자 메뉴] 매출 조회");
 			System.out.println("1. 전체 매출 | 2. 일일 매출 | 3. 메뉴별 매출 | 0. 이전 메뉴로 이동");
-
+			System.out.print("메뉴 선택 > ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 				case 1 :
@@ -383,7 +384,7 @@ public class MenuView {
 	
 	public static void selectMemberByName() {
 		try {
-		System.out.println("사용자의 이름을 입력해주세요. > ");
+		System.out.print("사용자의 이름을 입력해주세요. > ");
 		String userName = sc.nextLine();
 		 if (userName.isEmpty()) { //공백예외처리
 	            throw new InvalidMenuException("아이디는 공백일 수 없습니다.");
@@ -397,7 +398,7 @@ public class MenuView {
 	//마이페이지 메뉴
 	public static void mypage(String userId) {
 		SessionSet ss = SessionSet.getInstance();
-		System.out.println(ss.getSet()); //Set객체
+	//	System.out.println(ss.getSet()); //Set객체
 		// session 비어있는지 체크 -> 비어잇으면 return
 		
 		System.out.println("마이페이지 메뉴 조회");
@@ -497,11 +498,11 @@ public class MenuView {
 		        MemberDTO loginMember = memberService.login(userId, userPw);
 
 		        if ("Y".equalsIgnoreCase(loginMember.getIsAdmin())) {
-		            System.out.println("\n[관리자] 관리자 계정으로 로그인하셨습니다");
+		            System.out.println("\n[관리자] 계정으로 로그인하셨습니다");
 		            printAdminMainMenu(loginMember.getUserId());
 		        } else{
-		            System.out.println("\n[사용자] " + loginMember.getUserName() + "님 로그인하셨습니다");
-		            printUserMenu(loginMember.getUserId());
+		            System.out.println("\n[" + loginMember.getUserName() +"]"+ "님 로그인하셨습니다");
+		           printUserMenu(loginMember.getUserId());
 		        }
 		        
 		        
