@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import controller.ItemController;
 import controller.OrderController;
+import exception.InvalidMenuException;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import util.StringUtil;
@@ -158,8 +159,8 @@ public class OrderView {
                 case 0:
                     System.out.println("이전 메뉴로 돌아갑니다.");
                     return;
-                default:
-                    System.out.println("잘못된 번호입니다. 다시 선택해주세요.");
+                default: //추가
+                    throw new InvalidMenuException("선택하신 [" + menu + "]번은 없는 번호입니다.");
             }
         }
     }
