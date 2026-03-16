@@ -1,52 +1,76 @@
 package controller;
 
+import java.util.List;
+
 import exception.CancelFailedException;
 import exception.OrderFailedException;
 import exception.OrderNotFoundException;
+import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import service.OrderService;
 import service.OrderServiceImpl;
+import view.FailView;
+import view.OrderView;
 
 public class OrderController {
-	private OrderService orderService = OrderServiceImpl.getInstance();
+	private static final OrderController instance = new OrderController();
+	private final OrderService orderService = OrderServiceImpl.getInstance();
+
+	private OrderController() {}
+	public static OrderController getInstance() {
+		return instance;
+	}
 
 	public void startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
-
-			// TODO - 별도의 View로 출력
-			System.out.println("주문 성공");
+			OrderView.orderSuccessMessage(order);
 		} catch (OrderFailedException e) {
-			System.out.println("[주문 실패] " + e.getMessage());
+			FailView.errorMessage("[주문 실패] " + e.getMessage());
 		}
 	}
-	
+
 	public void cancelOrder(int orderId) {
 		try {
 			orderService.cancelOrder(orderId);
-			
-			// TODO - 별도의 View로 출력
-			System.out.println("주문 취소 성공");
+			OrderView.orderCancelMessage(orderId);
 		} catch (CancelFailedException e) {
-			System.out.println("[주문 실패] " + e.getMessage());
+			FailView.errorMessage("[취소 실패] " + e.getMessage());
 		}
 	}
-	
+
 	public void listAllOrders() {
 		try {
-			// TODO - 별도의 View로 출력
-			System.out.println(orderService.findAllOrders());
+			OrderView.printAllOrders(orderService.findAllOrders());
 		} catch (OrderNotFoundException e) {
-			System.out.println("[조회 실패] " + e.getMessage());
+			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
 	}
-	
-	public void listOrdersByUserId() {
+
+	public void listOrdersByUserId(String userId) {
 		try {
-			// TODO - 별도의 View로 출력
-			System.out.println();
+			OrderView.printAllOrders(orderService.findOrdersByUserId(userId));
 		} catch (OrderNotFoundException e) {
-			System.out.println("[조회 실패] " + e.getMessage());
+			FailView.errorMessage(e.getMessage());
 		}
 	}
+
+	public void listOrdersByDate(String date) {
+		try {
+			OrderView.printAllOrders(orderService.findOrdersByDate(date));
+		} catch (OrderNotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public void listOrderDetailsByItemCode(String itemCode) {
+		try {
+			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
+			int totalPrice = orderService.getTotalPrice(details);
+			OrderView.printOrderDetails(details, totalPrice);
+		} catch (OrderNotFoundException e) {
+			FailView.errorMessage("[조회 실패] " + e.getMessage());
+		}
+	}
+
 }

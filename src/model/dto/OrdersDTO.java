@@ -1,19 +1,22 @@
 package model.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class OrdersDTO {
     private int orderId;
     private String userId;
     private String orderDate;
-    private Status status;     
+    private Status status;
     private int totalAmount;  //총금액 추가
-    
-    private List<OrderDetailDTO> details;
+
+    private List<OrderDetailDTO> details = new ArrayList<>();
 
     public OrdersDTO() {}
 
- 
+
     public OrdersDTO(int orderId, String userId, String orderDate, Status status, int totalAmount) {
         this.orderId = orderId;
         this.userId = userId;
@@ -36,21 +39,22 @@ public class OrdersDTO {
     public void setStatus(Status status) { this.status = status; }
 
     public int getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(int totalAmount) { this.totalAmount = totalAmount; }
+    public void updateTotalAmount() {
+        totalAmount = 0;
+        for (OrderDetailDTO detail : details) {
+            totalAmount += detail.getUnitPrice() * detail.getQty();
+        }
+    }
 
     public List<OrderDetailDTO> getOrderDetails() { return details; }
     public void setOrderDetails(List<OrderDetailDTO> details) { this.details = details; }
-        
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("OrdersDTO [orderId=").append(orderId)
-               .append(", userId=").append(userId)
-               .append(", orderDate=").append(orderDate)
-               .append(", status=").append(status)
-               .append(", totalAmount=").append(totalAmount)
-               .append(", details=").append(details)
-               .append("]\n");
+        builder.append("사용자 ID: ").append(userId)
+               .append(", 주문 일시: ").append(orderDate)
+               .append(", 주문 상태: ").append(status.label());
         return builder.toString();
     }
 
@@ -58,13 +62,13 @@ public class OrdersDTO {
     public enum Status {
         COMPLETE("주문 완료"),
         CANCELED("주문 취소");
-        
+
         private final String label;
-        
+
         Status(String label) {
             this.label = label;
         }
-        
+
         public String label() {
             return label;
         }
@@ -72,9 +76,11 @@ public class OrdersDTO {
         //추가
         public static Status fromLabel(String label) {
             for (Status s : Status.values()) {
-                if (s.label().equals(label)) return s;
+                if (s.label().equals(label)) {
+					return s;
+				}
             }
-            return COMPLETE; 
+            return COMPLETE;
         }
     }
 }

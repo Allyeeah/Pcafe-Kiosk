@@ -1,0 +1,37 @@
+package service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import model.dto.ItemDTO;
+
+public interface ItemService {
+
+	// 1. 전체 상품 조회 기능
+    List<ItemDTO> itemSelect() throws SQLException;
+
+    // 2. 카테고리별 상품 조회 기능 (JOIN 활용)
+    List<ItemDTO> selectItemsByCategory(int categoryId) throws SQLException;
+
+
+    // 3.상품등록
+    int insertItem(ItemDTO newItem) throws SQLException;
+
+	// 4. 상품 수정
+	int updateItem(ItemDTO updateItem) throws SQLException;
+
+	// 5. 상품 삭제
+	int deleteItem(ItemDTO deleteItem) throws SQLException;
+
+	/**
+	 * 상품번호에 해당하는 상품검색
+	 * */
+	public ItemDTO selectItemByCode(String ItemCode) throws SQLException;
+
+
+
+
+
+
+
+}

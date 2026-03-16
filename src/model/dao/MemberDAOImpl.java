@@ -1,34 +1,36 @@
 package model.dao;
 
-import java.lang.reflect.Member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.DBManager;
+import exception.SearchWrongException;
 import model.dto.MemberDTO;
 
 public class MemberDAOImpl implements MemberDAO {
-	
+
     private static MemberDAO instance = new MemberDAOImpl();
     public MemberDAOImpl() { }
     public static MemberDAO getInstance() {
         return instance;
     }
-    
-    
+
+
 	@Override
 	public int insert(MemberDTO memberDTO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 	    String sql = "INSERT INTO member (user_id, user_pw, user_name, is_admin) VALUES (?, ?, ?,?)";
 	    int re = 0;
-	    
+
 	    try {
 	    	con = DBManager.getConnection();
 	        pstmt = con.prepareStatement(sql); //sql
-	        
+
 	        pstmt.setString(1, memberDTO.getUserId());
 	        pstmt.setString(2, memberDTO.getUserPw());
 	        pstmt.setString(3, memberDTO.getUserName());
@@ -42,7 +44,7 @@ public class MemberDAOImpl implements MemberDAO {
 	    } finally {
 	    	DBManager.releaseConnection(con, pstmt);
 	    }
-	    
+
 	    return re;
 	}
 
@@ -52,30 +54,172 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		MemberDTO member=null;
+<<<<<<< HEAD
 		String sql="select * from Member where user_id=? and user_pw=?";
+
+=======
+		String sql="select * from member where user_id=? and user_pw=?";
 		
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
 		try {
 		con=DBManager.getConnection();
 		ps=con.prepareStatement(sql);
 		ps.setString(1, userId);
 		ps.setString(2, userPwd);
-		
+
 		rs=ps.executeQuery();
-		
+
 		if(rs.next()) {
+<<<<<<< HEAD
 			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+
+=======
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 			
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
 		}
-		
-		
+
+
 		}finally{
 			DBManager.releaseConnection(con,ps,rs);
 		}
-		
+
 		return member;
 	}
 
-	
+	/*
+	 * id로 검색
+	 * select * from member where user_id=?
+	 */
+	@Override
+	public MemberDTO selectMemberById(String userId) throws SearchWrongException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		MemberDTO member=null;
+		String sql="select * from member where user_id=?";
+		try {
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userId);
+		rs=ps.executeQuery();
 
+		while(rs.next()) {
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5),rs.getString(6));
+		}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+		return member;
+	}
+
+
+
+	/*
+	 * name으로 검색
+	 */
+	@Override
+	public MemberDTO selectMemberByName(String userName) throws SearchWrongException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		MemberDTO member=null;
+		String sql="select * from member where user_name=?";
+		try {
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userName);
+		rs=ps.executeQuery();
+
+		while(rs.next()) {
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
+		}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+		return member;
+	}
+
+
+
+	/*
+	 * member 전체 검색
+	 * select * from member;
+	 */
+	@Override
+	public List<MemberDTO> selectAllMember() throws SearchWrongException{
+
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<MemberDTO> list = new ArrayList<>();
+
+		String sql="select * from member";
+
+		try {
+			con=DBManager.getConnection();
+			ps=con.prepareStatement(sql);
+			rs=ps.executeQuery();
+
+			while(rs.next()) {
+				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
+				list.add(member);
+
+			}
+			System.out.println("전체 조회 완료");
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			throw new SearchWrongException("DB에 문제가 있어 다시 진행해주세요.");
+		}finally {
+			DBManager.releaseConnection(con, ps, rs);
+		}
+
+
+		return list;
+	}
+<<<<<<< HEAD
+=======
 	
+	
+	
+	/*
+	 * member pwd, name 수정
+	 * 
+	 */
+	
+	public int update(String userPwd, String userName) throws SQLException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+		String sql = "update member set user_pw='?', user_name='?'";
+		
+		try {
+			con=DBManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setString(1, userPwd);
+			ps.setString(2, userName);
+			
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");
+			//e.printStackTrace();
+		}
+		finally {
+            DBManager.releaseConnection(con, ps); 
+       }
+		
+		return result;
+		
+	}
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
+
+
+
+
 }
