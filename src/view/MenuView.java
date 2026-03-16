@@ -415,7 +415,8 @@ public class MenuView {
 					break;
 				case 3 :
 					//탈퇴
-					return; // 다시 pCafe메인 printMenu()화면으로
+					MenuView.withdrawMember();
+					break;
 				case 0:
 					System.out.println("이전 메뉴로 돌아갑니다.");
 					return;
@@ -432,6 +433,17 @@ public class MenuView {
 			}
 		}
 	
+
+	private static void withdrawMember()  {
+		System.out.print("사용자의 Id를 입력해주세요. > ");
+		String userId = sc.nextLine();
+		System.out.print("사용자의 비밀번호를 입력해주세요. > ");
+		String userPw = sc.nextLine();
+
+			MemberController.withdrawMember(userId, userPw);
+
+		
+	}
 
 	private static void updateMemberInfo() {
 		try { //입력예외처리 추가 
@@ -483,16 +495,19 @@ public class MenuView {
 		        if ("Y".equalsIgnoreCase(loginMember.getIsAdmin())) {
 		            System.out.println("\n[관리자] 관리자 계정으로 로그인하셨습니다");
 		            printAdminMainMenu(loginMember.getUserId());
-		        } else {
+		        } else{
 		            System.out.println("\n[사용자] " + loginMember.getUserName() + "님 로그인하셨습니다");
 		            printUserMenu(loginMember.getUserId());
 		        }
+		        
+		        
+		        
 
 		    } catch (NotFoundException e) {
 		        System.out.println("\n로그인 실패: " + e.getMessage());
 
 		    } catch (SQLException e) {
-		    	e.printStackTrace();
+		    	//e.printStackTrace();
 		        System.out.println("\n 오류입니다.");
 		    }
 

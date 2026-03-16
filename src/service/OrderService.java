@@ -11,6 +11,8 @@ public interface OrderService {
 
 	void cancelOrder(String userId, int orderId);
 
+	OrdersDTO reorder(String userId, int orderId);
+
 	List<OrdersDTO> findAllOrders();
 
 	List<OrdersDTO> findOrdersByUserId(String userId);
