@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
+import controller.ItemController;
 import controller.OrderController;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
@@ -137,7 +138,8 @@ public class OrderView {
     }
 
     public static void printOrderItemMenu() {
-        System.out.println("------메뉴 리스트------");
+        ItemController.selectAllItems();
+        System.out.print("조회할 상품 코드> ");
         String input = sc.nextLine();
         orderController.listOrderDetailsByItemCode(input);
     }
