@@ -55,7 +55,7 @@ public class MemberDAOImpl implements MemberDAO {
 		ResultSet rs=null;
 		MemberDTO member=null;
 
-		String sql="select * from member where user_id=? and user_pw=?";
+		String sql="select * from member where user_id=? and user_pw=? and is_deleted='N'";
 		
 
 		try {
