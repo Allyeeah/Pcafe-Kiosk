@@ -63,17 +63,17 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[userId=");
+		builder.append("[userId: ");
 		builder.append(userId);
-		builder.append(", userPw=");
+		builder.append(" | userPw: ");
 		builder.append(userPw);
-		builder.append(", userName=");
+		builder.append(" | userName: ");
 		builder.append(userName);
-		builder.append(", isAdmin=");
+		builder.append(" | isAdmin: ");
 		builder.append(isAdmin);
-		builder.append(", createdAt=");
+		builder.append(" | createdAt: ");
 		builder.append(createdAt);
-		builder.append(", isDeleted=");
+		builder.append(" | isDeleted: ");
 		builder.append(isDeleted);
 		builder.append("]");
 		return builder.toString();
