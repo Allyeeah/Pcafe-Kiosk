@@ -5,10 +5,7 @@ import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -134,7 +131,7 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			con = DBManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setDate(1, java.sql.Date.valueOf(date));
+			ps.setDate(1, Date.valueOf(date));
 			rs = ps.executeQuery();
 
 			orders = getOrdersFromResultSet(rs);
@@ -184,10 +181,10 @@ public class OrderDAOImpl implements OrderDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select order_id, user_id, order_date, status, total_amount" +
+		String sql = "select order_id, user_id, order_date, status, total_amount " +
 				"from orders where order_id = ?";
 
-		OrdersDTO order;
+		OrdersDTO order = null;
 
 		try {
 			con = DBManager.getConnection();
@@ -195,13 +192,15 @@ public class OrderDAOImpl implements OrderDAO {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 
-			order = new OrdersDTO(
-					rs.getInt("order_id"),
-					rs.getString("user_id"),
-					rs.getString("order_date"),
-					Status.fromLabel(rs.getString("status")),
-					rs.getInt("total_amount")
-			);
+			if (rs.next()) {
+				order = new OrdersDTO(
+						rs.getInt("order_id"),
+						rs.getString("user_id"),
+						rs.getString("order_date"),
+						Status.fromLabel(rs.getString("status")),
+						rs.getInt("total_amount")
+				);
+			}
 		} finally {
 			DBManager.releaseConnection(con, ps, rs);
 		}
