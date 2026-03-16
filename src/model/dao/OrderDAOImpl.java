@@ -187,8 +187,9 @@ public class OrderDAOImpl implements OrderDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select order_id, user_id, order_date, status, total_amount " +
-				"from orders where order_id = ?";
+		String sql = "select order_id, user_id, order_date, status, total_amount, order_detail_id, item_id, item_code, item_name, unit_price, qty " +
+				"from orders join order_detail using(order_id) join item using(item_id) " +
+				"where order_id = ?";
 
 		OrdersDTO order = null;
 
@@ -198,15 +199,7 @@ public class OrderDAOImpl implements OrderDAO {
 			ps.setInt(1, orderId);
 			rs = ps.executeQuery();
 
-			if (rs.next()) {
-				order = new OrdersDTO(
-						rs.getInt("order_id"),
-						rs.getString("user_id"),
-						rs.getString("order_date"),
-						Status.fromLabel(rs.getString("status")),
-						rs.getInt("total_amount")
-				);
-			}
+			order = getOrdersFromResultSet(rs).getFirst();
 		} finally {
 			DBManager.releaseConnection(con, ps, rs);
 		}
