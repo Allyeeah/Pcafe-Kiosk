@@ -50,7 +50,7 @@ public class MemberDTO {
     public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    
+
 
 	public String getIsDeleted() {
 		return isDeleted;
@@ -63,23 +63,23 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[userId=");
+		builder.append("▶ 사용자 Id: ");
 		builder.append(userId);
-		builder.append(", userPw=");
-		builder.append(userPw);
-		builder.append(", userName=");
+		//builder.append(" |  userPw=");
+		//builder.append(userPw);
+		builder.append(" |  사용자명: ");
 		builder.append(userName);
-		builder.append(", isAdmin=");
+		builder.append(" |  관리자 권한: ");
 		builder.append(isAdmin);
-		builder.append(", createdAt=");
+		builder.append(" |  가입 날짜: ");
 		builder.append(createdAt);
-		builder.append(", isDeleted=");
+		builder.append(" |  탈퇴 여부: ");
 		builder.append(isDeleted);
-		builder.append("]");
+		//builder.append("]");
 		return builder.toString();
 	}
 
 
-	
-    
+
+
 }
