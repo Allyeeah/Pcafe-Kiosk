@@ -51,7 +51,7 @@ public class MenuView {
 			if(ss.getSet().isEmpty()) {
 				return;
 			}
-			System.out.println("\n-----" + "["+userId+"]님"+ " 로그인 중 -----");
+			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 | 2.상품보기 | 3.주문하기 | 4.장바구니담기 | 5.장바구니보기 | 6. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
@@ -112,11 +112,11 @@ public class MenuView {
 
 	                default:
 		                throw new InvalidMenuException("선택하신[" + menu + "]번은 없는 번호입니다. 다시 입력해주세요.");
-	                    
+
 	            }
 	        } catch (NumberFormatException e) {
 	            FailView.errorMessage("숫자만 입력 가능합니다.");
-	           
+
 	        } catch (InvalidMenuException e) {
 	            FailView.errorMessage(e.getMessage());
 	        }
