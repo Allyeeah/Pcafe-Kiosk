@@ -40,7 +40,7 @@ public class MemberDAOImpl implements MemberDAO {
 	        System.out.println("회원가입 성공입니다.");
 	    } catch (SQLException e) {
 	        System.out.println("아이디 중복입니다. ");
-	        e.printStackTrace();
+	        //e.printStackTrace();
 	    } finally {
 	    	DBManager.releaseConnection(con, pstmt);
 	    }
