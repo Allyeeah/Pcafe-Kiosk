@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import exception.CancelFailedException;
 import exception.OrderFailedException;
 import exception.OrderNotFoundException;
@@ -9,8 +11,6 @@ import service.OrderService;
 import service.OrderServiceImpl;
 import view.FailView;
 import view.OrderView;
-
-import java.util.List;
 
 public class OrderController {
 	private static final OrderController instance = new OrderController();

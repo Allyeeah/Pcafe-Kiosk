@@ -3,7 +3,9 @@ package util;
 public class StringUtil {
 
     public static String padRightByWidth(String text, int targetWidth) {
-        if (text == null) text = "-";
+        if (text == null) {
+			text = "-";
+		}
 
         int currentWidth = getDisplayWidth(text);
         StringBuilder sb = new StringBuilder(text);
@@ -17,7 +19,9 @@ public class StringUtil {
     }
 
     public static String trimTextByWidth(String text, int maxWidth) {
-        if (text == null) return "-";
+        if (text == null) {
+			return "-";
+		}
 
         int width = 0;
         StringBuilder sb = new StringBuilder();
@@ -38,7 +42,9 @@ public class StringUtil {
     }
 
     private static int getDisplayWidth(String str) {
-        if (str == null || str.isEmpty()) return 0;
+        if (str == null || str.isEmpty()) {
+			return 0;
+		}
 
         int width = 0;
         for (char ch : str.toCharArray()) {

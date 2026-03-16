@@ -6,13 +6,13 @@ import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 
 public interface OrderService {
-	
+
 	void placeOrder(OrdersDTO order);
-	
+
 	void cancelOrder(int orderId);
-	
+
 	List<OrdersDTO> findAllOrders();
-	
+
 	List<OrdersDTO> findOrdersByUserId(String userId);
 
 	List<OrdersDTO> findOrdersByDate(String date);

@@ -65,5 +65,5 @@ public class MemberDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-    
+
 }

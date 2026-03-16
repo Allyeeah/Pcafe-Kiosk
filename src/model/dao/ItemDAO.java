@@ -6,10 +6,10 @@ import java.util.List;
 import model.dto.ItemDTO;
 
 public interface ItemDAO {
-	
-	//전체상품조회 
+
+	//전체상품조회
 	List<ItemDTO> ItemSelect() throws SQLException;
-	
+
 	//카테고리 해당하는 전체 상품정보 검색 (조인쿼리로 같이 가져올예정)
 	List<ItemDTO> selectItemsByCategory(int categoryId) throws SQLException;
 
@@ -22,5 +22,5 @@ public interface ItemDAO {
 
 	int updateItem(ItemDTO updateItem)throws SQLException;
 
-	int deleteItem(ItemDTO deleteItem)throws SQLException;;
+	int deleteItem(ItemDTO deleteItem)throws SQLException;
 }

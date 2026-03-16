@@ -7,8 +7,8 @@ public class OrderDetailDTO {
     private String itemCode;    // item_code
     private String itemName;    // 상품명 * orderdatil 테이블에는 없음
     private int unitPrice;      // unit_price 가격
-    private int qty;            // qty 수량 
-    //총금액 필요시 unitPrice * qty 
+    private int qty;            // qty 수량
+    //총금액 필요시 unitPrice * qty
     public OrderDetailDTO() {}
 
     public OrderDetailDTO(int orderDetailId, int orderId, int itemId, String itemCode, String itemName, int unitPrice, int qty) {

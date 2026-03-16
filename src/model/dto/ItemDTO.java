@@ -62,11 +62,11 @@ public class ItemDTO {
 //		return "ItemDTO [상품ID=" + itemId + ", 상품코드=" + itemCode + ", 상품이름=" + itemName + ", 가격=" + price
 //				+ ", 카테고리ID=" + categoryId + "]";
 //	}
-	
+
 	@Override
     public String toString() {
         return "[" + categoryName + "] " + itemName + " (코드: " + itemCode + ") - " + price + "원 입니다.";
     }
-    
-    
+
+
 }

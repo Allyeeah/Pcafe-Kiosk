@@ -25,7 +25,7 @@ public class ItemDAOImpl implements ItemDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         // 전체 상품을 조회하는 쿼리
         String sql = "SELECT * FROM item ORDER BY item_id";
 
@@ -33,7 +33,7 @@ public class ItemDAOImpl implements ItemDAO {
             conn = DBManager.getConnection();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
             	ItemDTO item = new ItemDTO();
             	item.setItemId(rs.getInt("item_id"));
@@ -41,14 +41,14 @@ public class ItemDAOImpl implements ItemDAO {
                 item.setItemName(rs.getString("item_name"));
                 item.setPrice(rs.getInt("price"));
                 item.setCategoryId(rs.getInt("category_id"));
-                list.add(item); 
+                list.add(item);
             }
         } finally {
-         
+
             DBManager.releaseConnection(conn, pstmt, rs);
         }
-        
-        return list; 
+
+        return list;
     }
 
     // 2. 카테고리별 상품 조회 (JOIN 쿼리)
@@ -69,18 +69,18 @@ public class ItemDAOImpl implements ItemDAO {
             conn = DBManager.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, categoryId); // 사용자 입력값
-            
+
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-             
+
                 ItemDTO item = new ItemDTO(
                     rs.getInt("item_id"),
                     rs.getString("item_code"),
                     rs.getString("item_name"),
                     rs.getInt("price"),
                     rs.getInt("category_id"),
-                    rs.getString("category_name") 
+                    rs.getString("category_name")
                 );
                 list.add(item);
             }
@@ -88,7 +88,7 @@ public class ItemDAOImpl implements ItemDAO {
             DBManager.releaseConnection(conn, pstmt, rs);
         }
 
-        return list; 
+        return list;
     }
 
     @Override
@@ -164,34 +164,34 @@ public class ItemDAOImpl implements ItemDAO {
 
         return items;
     }
-    
+
     //상품등록 dao
     @Override
     public int insertItem(ItemDTO newItem) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        int result = 0; 
-        
+        int result = 0;
+
         String sql = "INSERT INTO item (category_id, item_code, item_name, price) VALUES (?, ?, ?, ?)";
 
         try {
             conn = DBManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            
+
             pstmt.setInt(1, newItem.getCategoryId());
             pstmt.setString(2, newItem.getItemCode());
             pstmt.setString(3, newItem.getItemName());
             pstmt.setInt(4, newItem.getPrice());
-           
-            result = pstmt.executeUpdate(); 
+
+            result = pstmt.executeUpdate();
         }catch(SQLException e) {
-			System.out.println("DB 오류가 발생했습니다.");    
+			System.out.println("DB 오류가 발생했습니다.");
         } finally {
-            
+
             DBManager.releaseConnection(conn, pstmt);
         }
-        
-        return result; 
+
+        return result;
     }
     //관리자 상품 수정
 	@Override
@@ -203,45 +203,45 @@ public class ItemDAOImpl implements ItemDAO {
 		try {
 			conn = DBManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-			
+
 			//?의 개수만큼 순서대로 setXxx설정 필요.
-			pstmt.setString(1, updateItem.getItemCode()); 
-	        pstmt.setString(2, updateItem.getItemName()); 
-	        pstmt.setInt(3, updateItem.getPrice());       
-	        pstmt.setString(4, updateItem.getItemCode());      
-			
+			pstmt.setString(1, updateItem.getItemCode());
+	        pstmt.setString(2, updateItem.getItemName());
+	        pstmt.setInt(3, updateItem.getPrice());
+	        pstmt.setString(4, updateItem.getItemCode());
+
 			result = pstmt.executeUpdate();
 		}catch(SQLException e) {
 				System.out.println("DB 오류가 발생했습니다.");
-				
+
 		}finally {
 			DBManager.releaseConnection(conn, pstmt);
 		}
 		return result;
-	
+
 	}
-	//관리자 상품 삭제 
+	//관리자 상품 삭제
 	@Override
 	public int deleteItem(ItemDTO deleteItem) throws SQLException {
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		int result=0;
-		
+
 		String sql="delete from item where item_code = ?";
 		try {
 			conn = DBManager.getConnection();
             pstmt = conn.prepareStatement(sql);
-            
+
             pstmt.setString(1,deleteItem.getItemCode());
-			
+
             result = pstmt.executeUpdate();
-           
+
 		} catch(SQLException e) {
 			System.out.println("DB 오류가 발생했습니다.");
 		}finally {
 			DBManager.releaseConnection(conn, pstmt);
 		}
-		
+
 		return result;
 	}
 }

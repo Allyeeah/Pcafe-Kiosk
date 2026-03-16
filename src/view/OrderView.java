@@ -1,12 +1,12 @@
 package view;
 
+import java.util.List;
+import java.util.Scanner;
+
 import controller.OrderController;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
 import util.StringUtil;
-
-import java.util.List;
-import java.util.Scanner;
 
 public class OrderView {
     private static final OrderController orderController = OrderController.getInstance();

@@ -60,9 +60,11 @@ public class OrderServiceImpl implements OrderService {
 			throw new OrderFailedException(e.getMessage());
 		}
 
-		if (result == 0) throw new OrderFailedException();
+		if (result == 0) {
+			throw new OrderFailedException();
+		}
 	}
-	
+
 	@Override
 	public void cancelOrder(int orderId) {
         int result = 0;
@@ -72,9 +74,11 @@ public class OrderServiceImpl implements OrderService {
             throw new CancelFailedException(e.getMessage());
         }
 
-        if (result == 0) throw new CancelFailedException();
+        if (result == 0) {
+			throw new CancelFailedException();
+		}
 	}
-	
+
 	@Override
 	public List<OrdersDTO> findAllOrders() {
 		List<OrdersDTO> orders = new ArrayList<>();
@@ -83,11 +87,13 @@ public class OrderServiceImpl implements OrderService {
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
-		if (orders.isEmpty()) throw new OrderNotFoundException();
-		
+		if (orders.isEmpty()) {
+			throw new OrderNotFoundException();
+		}
+
 		return orders;
 	}
-	
+
 	@Override
 	public List<OrdersDTO> findOrdersByUserId(String userId) {
 		List<OrdersDTO> orders = new ArrayList<>();
@@ -96,8 +102,10 @@ public class OrderServiceImpl implements OrderService {
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
-		if (orders.isEmpty()) throw new OrderNotFoundException();
-		
+		if (orders.isEmpty()) {
+			throw new OrderNotFoundException();
+		}
+
 		return orders;
 	}
 
@@ -109,7 +117,9 @@ public class OrderServiceImpl implements OrderService {
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
-		if (orders.isEmpty()) throw new OrderNotFoundException();
+		if (orders.isEmpty()) {
+			throw new OrderNotFoundException();
+		}
 
 		return orders;
 	}
@@ -122,11 +132,14 @@ public class OrderServiceImpl implements OrderService {
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
-		if (details.isEmpty()) throw new OrderNotFoundException();
+		if (details.isEmpty()) {
+			throw new OrderNotFoundException();
+		}
 
 		return details;
 	}
 
+	@Override
 	public int getTotalPrice(List<OrderDetailDTO> details) {
 		return details.stream()
 				.mapToInt(value -> value.getUnitPrice() * value.getQty())

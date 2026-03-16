@@ -21,33 +21,36 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"),
 				prop.getProperty("password"));
 	}
-	
+
 	public static void releaseConnection(Connection con, Statement st) {
 		try {
-			if (st != null)
+			if (st != null) {
 				st.close();
-			if (con != null)
+			}
+			if (con != null) {
 				con.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void releaseConnection(Connection con, Statement st, ResultSet rs) {
 		try {
-			if (rs != null)
+			if (rs != null) {
 				rs.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		releaseConnection(con, st);
 	}
-	
+
 }
 
 
