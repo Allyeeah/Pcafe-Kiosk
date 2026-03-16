@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	    // 2. 만약 없다면 예외 발생!
 	    if (existing == null) {
-	        throw new CategoryException(categoryId + "번 카테고리는 존재하지 않습니다.");
+	        throw new CategoryException("[" + categoryId + "]번 카테고리는 존재하지 않습니다.");
 	    }
 
 	    // 3. 존재할 때만 수정 실행
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	    // 2. 만약 없다면 예외 발생!
 	    if (existing == null) {
-	        throw new CategoryException(categoryId + "번 카테고리는 존재하지 않습니다.");
+	        throw new CategoryException("[" + categoryId + "]번 카테고리는 존재하지 않습니다.");
 	    }
 
 	    // 3. 존재할 때만 수정 실행
