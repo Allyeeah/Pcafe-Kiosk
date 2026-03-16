@@ -50,12 +50,12 @@ public class Session {
 		this.attributes = attributes;
 	}
 
-
+/*
 	@Override
 	public String toString() {
 		return "Session [sessionId=" + sessionId + ", attributes=" + attributes + "]"+"\n";
 	}
-
+*/
 
 	@Override
 	public int hashCode() {

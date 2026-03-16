@@ -397,6 +397,9 @@ public class MenuView {
 	//마이페이지 메뉴
 	public static void mypage(String userId) {
 		SessionSet ss = SessionSet.getInstance();
+		//
+		
+		
 		//System.out.println(ss.getSet()); //Set객체
 		// session 비어있는지 체크 -> 비어잇으면 return
 
