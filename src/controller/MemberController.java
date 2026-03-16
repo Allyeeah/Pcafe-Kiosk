@@ -32,4 +32,10 @@ public class MemberController {
 
         return member;
     }
+
+
+	public static void updateMemberInfo(String userPw, String userName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

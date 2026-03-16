@@ -54,8 +54,13 @@ public class MemberDAOImpl implements MemberDAO {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		MemberDTO member=null;
+<<<<<<< HEAD
 		String sql="select * from Member where user_id=? and user_pw=?";
 
+=======
+		String sql="select * from member where user_id=? and user_pw=?";
+		
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
 		try {
 		con=DBManager.getConnection();
 		ps=con.prepareStatement(sql);
@@ -65,8 +70,13 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 
 		if(rs.next()) {
+<<<<<<< HEAD
 			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
 
+=======
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
+			
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
 		}
 
 
@@ -95,7 +105,7 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 
 		while(rs.next()) {
-			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5),rs.getString(6));
 		}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -124,7 +134,7 @@ public class MemberDAOImpl implements MemberDAO {
 		rs=ps.executeQuery();
 
 		while(rs.next()) {
-			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+			member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 		}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -156,7 +166,7 @@ public class MemberDAOImpl implements MemberDAO {
 			rs=ps.executeQuery();
 
 			while(rs.next()) {
-				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5));
+				MemberDTO member = new MemberDTO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getTimestamp(5), rs.getString(6));
 				list.add(member);
 
 			}
@@ -172,6 +182,42 @@ public class MemberDAOImpl implements MemberDAO {
 
 		return list;
 	}
+<<<<<<< HEAD
+=======
+	
+	
+	
+	/*
+	 * member pwd, name 수정
+	 * 
+	 */
+	
+	public int update(String userPwd, String userName) throws SQLException{
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+		String sql = "update member set user_pw='?', user_name='?'";
+		
+		try {
+			con=DBManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setString(1, userPwd);
+			ps.setString(2, userName);
+			
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("DB 오류가 발생했습니다.");
+			//e.printStackTrace();
+		}
+		finally {
+            DBManager.releaseConnection(con, ps); 
+       }
+		
+		return result;
+		
+	}
+>>>>>>> cee423d61ad9b766308a8f6ea37ffffeb7b76c54
 
 
 
