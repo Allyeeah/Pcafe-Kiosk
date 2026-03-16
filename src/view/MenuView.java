@@ -98,14 +98,12 @@ public class MenuView {
 			System.out.println(ss.getSet()); //Set객체
 
 			System.out.println("-----" + "["+userId+"]"+ " 로그인 중 -----");
-			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문하기  | 4. 주문내역보기  |  5.장바구니담기  |  6.장바구니보기 | 7. 마이페이지");
+			System.out.println(" 1.로그아웃 | 2.상품보기 | 3.주문하기 | 4.장바구니담기 | 5.장바구니보기 | 6. 마이페이지");
 			int menu =Integer.parseInt( sc.nextLine());
 			switch(menu) {
 				case 1 :
 					logout(userId);
-					return; //
-					//break;
-
+					return;
 				case 2 :
 					ItemController.itemSelect(userId);//전체 상품조회
 					break;
@@ -113,17 +111,12 @@ public class MenuView {
 					printInputOrder(userId);
 					break;
 				case 4 :
-					orderController.listOrdersByUserId(userId);
-					break;
-				case 5 :
 					MenuView.putCart(userId);
 					break;
-
-				case 6 :
+				case 5 :
 					viewCart(userId);
 					break;
-					
-				case 7:
+				case 6:
 					MenuView.mypage(userId);
 					break;
 				}
@@ -345,24 +338,24 @@ public class MenuView {
 		
 		System.out.println("마이페이지 메뉴 조회");
 		while (true) {
-			System.out.println("1. 주문 내역 보기 | 2. 주문 취소 | 3. 사용자 정보 수정 | 4. 탈퇴");
+			System.out.println("1. 주문 내역 보기 | 2. 사용자 정보 수정 | 3. 탈퇴 | 0. 이전메뉴");
 
 			int mypagemenu = Integer.parseInt(sc.nextLine());
 			switch(mypagemenu) {
 				case 1 :
 					//주문 내역 보기
-					OrderController.getInstance().listOrdersByUserId(userId);
+					orderController.listOrdersByUserId(userId);
 					break;
 				case 2 :
-					//주문 취소
-					break;
-				case 3 :
 					//사용자 정보 수정
 					MenuView.updateMemberInfo();
 					break;
-				case 4 :
+				case 3 :
 					//탈퇴
 					return; // 다시 pCafe메인 printMenu()화면으로
+				case 0:
+					System.out.println("이전 메뉴로 돌아갑니다.");
+					return;
 			}
 		}
 	}
