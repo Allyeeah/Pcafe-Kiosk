@@ -81,7 +81,7 @@ public class OrderDAOImpl implements OrderDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select order_id, user_id, order_date, status, total_amount, order_detail_id, item_id, item_code, item_name, unit_price, qty " +
-				"from orders join order_detail using(order_id) join item using(item_id)";
+				"from orders join order_detail using(order_id) join item using(item_id) where status = '주문 완료'";
 
 		List<OrdersDTO> orders;
 

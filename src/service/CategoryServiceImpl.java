@@ -10,9 +10,10 @@ import model.dto.CategoryDTO;
 
 
 public class CategoryServiceImpl implements CategoryService {
-	private static CategoryService instance = new CategoryServiceImpl();
-	private CategoryDAO categoryDAO = CategoryDAOImpl.getInstance();
+	private static final CategoryService instance = new CategoryServiceImpl();
+	private final CategoryDAO categoryDAO = CategoryDAOImpl.getInstance();
 
+	private CategoryServiceImpl() {}
 	public static CategoryService getInstance() {
 		return instance;
 	}

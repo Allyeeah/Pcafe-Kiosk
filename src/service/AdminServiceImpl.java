@@ -8,15 +8,14 @@ import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
 
 public class AdminServiceImpl implements AdminService {
-	private static AdminService instance = new AdminServiceImpl();
-	private MemberDAO memberDao = MemberDAOImpl.getInstance();
+	private static final AdminService instance = new AdminServiceImpl();
+	private final MemberDAO memberDao = MemberDAOImpl.getInstance();
 
 	private AdminServiceImpl() {}
-
 	public static AdminService getInstance() {
-		// TODO Auto-generated method stub
 		return instance;
 	}
+
 	@Override
 	public MemberDTO selectMemberById(String userId) throws SearchWrongException{
 		MemberDTO member = memberDao.selectMemberById(userId);

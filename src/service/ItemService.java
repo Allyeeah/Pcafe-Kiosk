@@ -26,7 +26,7 @@ public interface ItemService {
 	/**
 	 * 상품번호에 해당하는 상품검색
 	 * */
-	public ItemDTO selectItemByCode(String ItemCode) throws SQLException;
+	ItemDTO selectItemByCode(String ItemCode) throws SQLException;
 
 
 

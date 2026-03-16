@@ -11,22 +11,21 @@ import controller.MemberController;
 import controller.OrderController;
 import exception.InvalidMenuException;
 import exception.NotFoundException;
-import exception.SearchWrongException;
 import model.dao.MemberDAO;
 import model.dao.MemberDAOImpl;
 import model.dto.MemberDTO;
 import model.dto.OrderDetailDTO;
 import model.dto.OrdersDTO;
-import mvc.session.Session;
 import mvc.session.SessionSet;
 import service.MemberService;
+import service.MemberServiceImpl;
 
 public class MenuView {
-	private static Scanner sc = new Scanner(System.in);
-	private static MemberDAO memberDAO = MemberDAOImpl.getInstance();
-	static MemberService memberService = new MemberService(); //혜진추가
-	private static CategoryController categoryController = new CategoryController();
-	private static OrderController orderController = OrderController.getInstance();
+	private static final Scanner sc = new Scanner(System.in);
+	private static final MemberDAO memberDAO = MemberDAOImpl.getInstance();
+	private static final MemberService memberService = MemberServiceImpl.getInstance(); //혜진추가
+	private static final CategoryController categoryController = CategoryController.getInstance();
+	private static final OrderController orderController = OrderController.getInstance();
 
 	public static void menu() {
 		while(true) {

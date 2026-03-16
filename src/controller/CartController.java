@@ -12,7 +12,7 @@ import view.EndView;
 import view.FailView;
 
 public class CartController {
-	private static ItemService itemService = new ItemServiceImpl();
+	private static final ItemService itemService = ItemServiceImpl.getInstance();
 
 	public static void putCart(String id, String itemCode, int qty) {
 		try {

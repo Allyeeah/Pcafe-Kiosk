@@ -12,9 +12,9 @@ import exception.SearchWrongException;
 import model.dto.MemberDTO;
 
 public class MemberDAOImpl implements MemberDAO {
+    private static final MemberDAO instance = new MemberDAOImpl();
 
-    private static MemberDAO instance = new MemberDAOImpl();
-    public MemberDAOImpl() { }
+    private MemberDAOImpl() { }
     public static MemberDAO getInstance() {
         return instance;
     }
@@ -40,7 +40,6 @@ public class MemberDAOImpl implements MemberDAO {
 	        System.out.println("회원가입 성공입니다.");
 	    } catch (SQLException e) {
 	        System.out.println("아이디 중복입니다. ");
-	        //e.printStackTrace();
 	    } finally {
 	    	DBManager.releaseConnection(con, pstmt);
 	    }

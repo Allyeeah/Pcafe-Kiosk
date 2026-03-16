@@ -14,10 +14,9 @@ import view.ItemView;
 import view.MenuView;
 
 public class ItemController {
-
-    private static CategoryService categoryService = new CategoryServiceImpl();
-    private static ItemService itemService = new ItemServiceImpl();
-    private static Scanner sc = new Scanner(System.in);
+    private static final CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private static final ItemService itemService = ItemServiceImpl.getInstance();
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void itemSelect(String userId) {
     	while (true) {
@@ -82,7 +81,6 @@ public class ItemController {
 
         } catch (SQLException e) {
             ItemView.printErrorMessage("[조회실패] 오류입니다.");
-            e.printStackTrace();
         } catch (NumberFormatException e) {
             ItemView.printErrorMessage("숫자 번호만 입력해주세요.");
         }
@@ -100,7 +98,6 @@ public class ItemController {
 
         } catch (SQLException e) {
             System.out.println("\n[오류] 상품 목록을 불러오는 중 문제가 발생했습니다.");
-            e.printStackTrace();
         }
     }
   //관리자 상품 추가 메서드 -0313 추가
@@ -122,7 +119,6 @@ public class ItemController {
             System.out.println("\n[오류] 숫자만 입력해야 합니다.");
         } catch (Exception e) {
             System.out.println("\n[오류] 상품 등록 중 문제가 발생했습니다.");
-            e.printStackTrace();
         }
     }
     //관리자 상품 수정 추가
@@ -142,7 +138,6 @@ public class ItemController {
 		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
 		    } catch (Exception e) {
 		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
-		        e.printStackTrace();
 		    }
 
 
@@ -165,7 +160,6 @@ public class ItemController {
 		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
 		    } catch (Exception e) {
 		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
-		        e.printStackTrace();
 		    }
 
 	}

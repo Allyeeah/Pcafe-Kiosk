@@ -12,7 +12,7 @@ import common.DBManager;
 import model.dto.ItemDTO;
 
 public class ItemDAOImpl implements ItemDAO {
-	private static ItemDAOImpl instance = new ItemDAOImpl();
+	private static final ItemDAOImpl instance = new ItemDAOImpl();
 
     private ItemDAOImpl() {}
     public static ItemDAOImpl getInstance() {

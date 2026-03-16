@@ -5,11 +5,12 @@ import java.sql.SQLException;
 import exception.UpdateUserInfoException;
 import model.dto.MemberDTO;
 import service.MemberService;
+import service.MemberServiceImpl;
 import view.FailView;
 import view.MenuView;
 
 public class MemberController {
-    static MemberService memberService = new MemberService();
+    private static final MemberService memberService = MemberServiceImpl.getInstance();
 
 
     public static MemberDTO login(String userId, String userPwd) {
@@ -29,7 +30,6 @@ public class MemberController {
 
         }
         catch (Exception e) {
-            // e.printStackTrace();
             // FailView를 통해 사용자에게 깔끔한 메시지만 전달
             FailView.errorMessage(e.getMessage());
         }
