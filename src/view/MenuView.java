@@ -368,7 +368,7 @@ public class MenuView {
 		System.out.println("수정하실 이름을 입력해주세요. > ");
 		String userName = sc.nextLine();
 		
-		MemberController.updateMemberInfo(userPw, userName);
+		MemberController.updateMemberInfo(userId, userPw, userName);
 	}
 	
 	

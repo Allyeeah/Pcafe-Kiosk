@@ -211,9 +211,38 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 		
 	}
-
-
-
-
-
+	/*
+	 * userpwd, username 변경
+	 * update member set user_pw='1234', user_name='dd' where user_id='user1'
+	 * 
+	 * 
+	 */
+	@Override
+	public int updateMemberInfo(String userId, String userPwd, String userName) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result = 0;
+		String sql = "update member set user_pw = ?, user_name = ? where user_id = ?";
+		
+		try {
+		con=DBManager.getConnection();
+		ps = con.prepareStatement(sql);
+		ps.setString(1, userPwd);
+		ps.setString(2, userName);
+		ps.setString(3, userId);
+		
+		result = ps.executeUpdate();
+		
+		}catch(SQLException e) {
+			
+		}
+		
+		return result;
+	}
 }
+
+
+
+
+
+

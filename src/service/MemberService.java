@@ -40,4 +40,12 @@ MemberDAO memberDao = new MemberDAOImpl();
 	    }
 	
 	}
+	
+	
+	public void updateMemberInfo(String userId, String userPwd, String userName) throws SQLException {
+		int result = memberDao.updateMemberInfo(userId, userPwd, userName);
+		if(result == 0) {
+			throw new UpdateUserInfoException("사용자 정보 수정에 실패했습니다.");
+		}
+	}
 }

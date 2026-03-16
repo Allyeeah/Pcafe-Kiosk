@@ -1,5 +1,9 @@
 package controller;
 
+import java.sql.SQLException;
+
+import exception.CategoryException;
+import exception.UpdateUserInfoException;
 import model.dto.MemberDTO;
 import service.MemberService;
 import view.FailView;
@@ -34,8 +38,16 @@ public class MemberController {
     }
 
 
-	public static void updateMemberInfo(String userPw, String userName) {
-		// TODO Auto-generated method stub
+	public static void updateMemberInfo(String userId, String userPw, String userName) {
+		try {
+			memberService.updateMemberInfo(userId, userPw, userName);
+			System.out.println("사용자 정보가 수정되었습니다");
+		}catch(UpdateUserInfoException e) {
+			FailView.errorMessage("[사용자 정보 수정 실패]"+ e.getMessage());
+		}
+		catch(SQLException e) {
+			FailView.errorMessage("DB 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+		}
 		
 	}
 }
