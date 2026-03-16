@@ -50,4 +50,21 @@ public class MemberController {
 		}
 		
 	}
-}
+	
+	public static void withdrawMember(String userId, String userPwd) {
+		try {
+			memberService.withdrawMember(userId, userPwd);
+			System.out.println("탈퇴되었습니다.");
+		}catch(UpdateUserInfoException e) {
+			FailView.errorMessage("[사용자 탈퇴 실패]"+ e.getMessage());
+		}
+		catch(SQLException e) {
+			FailView.errorMessage("DB 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+			}
+		
+		}
+	
+	
+	
+	
+	}

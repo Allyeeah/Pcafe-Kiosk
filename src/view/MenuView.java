@@ -352,7 +352,8 @@ public class MenuView {
 					break;
 				case 3 :
 					//탈퇴
-					return; // 다시 pCafe메인 printMenu()화면으로
+					MenuView.withdrawMember();
+					break;
 				case 0:
 					System.out.println("이전 메뉴로 돌아갑니다.");
 					return;
@@ -360,12 +361,23 @@ public class MenuView {
 		}
 	}
 
-	private static void updateMemberInfo() {
-		System.out.println("사용자의 Id를 입력해주세요. > ");
+	private static void withdrawMember()  {
+		System.out.print("사용자의 Id를 입력해주세요. > ");
 		String userId = sc.nextLine();
-		System.out.println("수정하실 비밀번호를 입력해주세요. > ");
+		System.out.print("사용자의 비밀번호를 입력해주세요. > ");
 		String userPw = sc.nextLine();
-		System.out.println("수정하실 이름을 입력해주세요. > ");
+
+			MemberController.withdrawMember(userId, userPw);
+
+		
+	}
+
+	private static void updateMemberInfo() {
+		System.out.print("사용자의 Id를 입력해주세요. > ");
+		String userId = sc.nextLine();
+		System.out.print("수정하실 비밀번호를 입력해주세요. > ");
+		String userPw = sc.nextLine();
+		System.out.print("수정하실 이름을 입력해주세요. > ");
 		String userName = sc.nextLine();
 		
 		MemberController.updateMemberInfo(userId, userPw, userName);

@@ -48,4 +48,11 @@ MemberDAO memberDao = new MemberDAOImpl();
 			throw new UpdateUserInfoException("사용자 정보 수정에 실패했습니다.");
 		}
 	}
+	
+	public void withdrawMember(String userId, String userPwd) throws SQLException{
+		int result = memberDao.withdrawMember(userId, userPwd);
+		if(result == 0) {
+			throw new UpdateUserInfoException("사용자 탈퇴에 실패했습니다.");
+		}
+	}
 }

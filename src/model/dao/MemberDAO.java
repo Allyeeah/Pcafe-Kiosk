@@ -14,4 +14,5 @@ public interface MemberDAO {
 	List<MemberDTO> selectAllMember() throws SearchWrongException;
 	public int update(String userId, String userPwd) throws SQLException;
 	public int updateMemberInfo(String userId, String userPwd, String userName) throws SQLException;
+	public int withdrawMember(String userId, String userPwd) throws SQLException;
 }

@@ -239,6 +239,25 @@ public class MemberDAOImpl implements MemberDAO {
 		
 		return result;
 	}
+	/*
+	 * 멤버 탈퇴
+	 * update member set is_deleted = 'Y' where user_id = ? and user_pw = ?;
+	 */
+	@Override
+	public int withdrawMember(String userId, String userPwd) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+		String sql = "update member set is_deleted = 'Y' where user_id = ? and user_pw = ?";
+	
+		con=DBManager.getConnection();
+		ps=con.prepareStatement(sql);
+		ps.setString(1, userId);
+		ps.setString(2, userPwd);
+		result=ps.executeUpdate();
+		
+		return result;
+	}
 }
 
 
