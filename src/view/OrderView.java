@@ -32,11 +32,11 @@ public class OrderView {
             System.out.println("\n조회된 주문 내역이 없습니다.");
             return;
         }
-
+        orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
         System.out.println("\n==================================================================================================");
         System.out.println("                                        주문 내역 조회");
         System.out.println("==================================================================================================");
-        System.out.println("주문번호   주문자ID       주문일시              상태           총금액       주문상품");
+        System.out.println("주문번호        주문자ID            주문일시              상태            총금액       주문상품");
         System.out.println("--------------------------------------------------------------------------------------------------");
 
         int totalPrice = 0;
@@ -53,7 +53,7 @@ public class OrderView {
                          .append("(").append(details.get(i).getQty()).append(")");
                 }
             }
-
+            
             System.out.printf(
                     "%-10d %-14s %-21s %-10s %,9d원  %s%n",
                     order.getOrderId(),
