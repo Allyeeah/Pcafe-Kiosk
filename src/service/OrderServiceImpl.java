@@ -120,6 +120,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrdersDTO> orders = new ArrayList<>();
 		try {
 			orders = orderDAO.selectAll();
+			orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
@@ -135,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrdersDTO> orders = new ArrayList<>();
 		try {
 			orders = orderDAO.selectByUserId(userId);
+			orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
@@ -150,6 +152,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrdersDTO> orders;
 		try {
 			orders = orderDAO.selectByDate(date);
+			orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
 		} catch (SQLException e) {
 			throw new OrderNotFoundException();
 		}
