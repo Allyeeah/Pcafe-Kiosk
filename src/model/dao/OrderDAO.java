@@ -8,7 +8,6 @@ import model.dto.OrdersDTO;
 import model.dto.OrdersDTO.Status;
 
 public interface OrderDAO {
-
 	int insert(OrdersDTO order) throws SQLException;
 
 	int updateStatus(int orderId, Status status) throws SQLException;
@@ -22,5 +21,4 @@ public interface OrderDAO {
 	OrdersDTO selectById(int orderId) throws SQLException;
 
 	List<OrderDetailDTO> selectByItemCode(String itemCode) throws SQLException;
-
 }

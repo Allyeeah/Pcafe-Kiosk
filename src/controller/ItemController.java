@@ -10,14 +10,12 @@ import service.CategoryService;
 import service.CategoryServiceImpl;
 import service.ItemService;
 import service.ItemServiceImpl;
-import view.ItemView;
-import view.MenuView;
+import view.*;
 
 public class ItemController {
-
-    private static CategoryService categoryService = new CategoryServiceImpl();
-    private static ItemService itemService = new ItemServiceImpl();
-    private static Scanner sc = new Scanner(System.in);
+    private static final CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private static final ItemService itemService = ItemServiceImpl.getInstance();
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void itemSelect(String userId) {
     	while (true) {
@@ -57,10 +55,10 @@ public class ItemController {
 
                 } else if (subMenu == 2) {
                     System.out.println("주문 화면으로 이동합니다.");
-                    MenuView.printInputOrder(userId); // 주문하기
+                    OrderView.printInputOrder(userId); // 주문하기
                 } else if (subMenu == 3) {
                     System.out.println("장바구니에 상품을 담습니다.");
-                    MenuView.putCart(userId);
+                    CartView.putCartView(userId);
                 } else if (subMenu == 4) {
                     System.out.println("메인 메뉴로 이동합니다.");
                     break;
@@ -80,12 +78,11 @@ public class ItemController {
 //                    break; // 루프 종료
 //                }
 
-        } catch (SQLException e) {
-            ItemView.printErrorMessage("[조회실패] 오류입니다.");
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            ItemView.printErrorMessage("숫자 번호만 입력해주세요.");
-        }
+            } catch (SQLException e) {
+	            FailView.errorMessage("[조회실패] 오류입니다.");
+            } catch (NumberFormatException e) {
+				FailView.errorMessage("[오류] 숫자 번호만 입력해주세요.");
+            }
     }
 
 
@@ -94,23 +91,17 @@ public class ItemController {
     //관리자 전체상품 조회
     public static void selectAllItems() {
         try {
-
             List<ItemDTO> itemList = itemService.itemSelect();
             ItemView.printAllItems(itemList);
 
         } catch (SQLException e) {
             System.out.println("\n[오류] 상품 목록을 불러오는 중 문제가 발생했습니다.");
-            e.printStackTrace();
         }
     }
   //관리자 상품 추가 메서드 -0313 추가
-    public static void insertItem() {
+    public static void insertItem(ItemDTO newItem) {
         try {
-
-            List<ItemDTO> itemList = itemService.itemSelect();
-            ItemDTO newItem = ItemView.insertItemView(itemList);
-
-             int result = itemService.insertItem(newItem);
+			int result = itemService.insertItem(newItem);
 
             if (result > 0) {
                 System.out.println("\n[등록완료] '" + newItem.getItemName() + "' 상품이 성공적으로 등록되었습니다.");
@@ -122,51 +113,41 @@ public class ItemController {
             System.out.println("\n[오류] 숫자만 입력해야 합니다.");
         } catch (Exception e) {
             System.out.println("\n[오류] 상품 등록 중 문제가 발생했습니다.");
-            e.printStackTrace();
         }
     }
     //관리자 상품 수정 추가
-	public static void updateItem() {
+	public static void updateItem(ItemDTO updateItem) {
+		try {
+			int result = itemService.updateItem(updateItem);
+			if (result > 0) {
+				System.out.println("\n[수정완료] '" + updateItem.getItemName() + "' 상품 정보가 성공적으로 수정되었습니다.");
+			} else {
+				System.out.println("\n[시스템] 상품 수정에 실패했습니다. ");
+			}
 
-		    try {
-		        List<ItemDTO> itemList = itemService.itemSelect();
-		        ItemDTO updateItem = ItemView.updateItemView(itemList);
-		        int result = itemService.updateItem(updateItem);
-		        if (result > 0) {
-		            System.out.println("\n[수정완료] '" + updateItem.getItemName() + "' 상품 정보가 성공적으로 수정되었습니다.");
-		        } else {
-		            System.out.println("\n[시스템] 상품 수정에 실패했습니다. ");
-		        }
-
-		    } catch (NumberFormatException e) {
-		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
-		    } catch (Exception e) {
-		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
-		        e.printStackTrace();
-		    }
-
-
+		} catch (NumberFormatException e) {
+			System.out.println("\n[오류] 숫자만 입력해야 합니다.");
+		} catch (Exception e) {
+			System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
+		}
 
 	}
 	//관리자 상품 삭제 추가
-	public static void deleteItem() {
-		 try {
-		        List<ItemDTO> itemList = itemService.itemSelect();
-		        ItemDTO deleteItem = ItemView.deleteItemView(itemList);
-		        int result = itemService.deleteItem(deleteItem);
+	public static void deleteItem(ItemDTO deleteItem) {
+		try {
+			int result = itemService.deleteItem(deleteItem);
 
-		        if (result > 0) {
-		            System.out.println("\n[삭제완료] 상품 정보가 성공적으로 삭제되었습니다.");
-		        } else {
-		            System.out.println("\n[시스템] 상품 삭제에 실패했습니다. ");
-		        }
+			if (result > 0) {
+				System.out.println("\n[삭제완료] 상품 정보가 성공적으로 삭제되었습니다.");
+			} else {
+				System.out.println("\n[시스템] 상품 삭제에 실패했습니다. ");
+			}
 
-		    } catch (NumberFormatException e) {
-		        System.out.println("\n[오류] 숫자만 입력해야 합니다.");
-		    } catch (Exception e) {
-		        System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
-		        e.printStackTrace();
-		    }
+		} catch (NumberFormatException e) {
+			System.out.println("\n[오류] 숫자만 입력해야 합니다.");
+		} catch (Exception e) {
+			System.out.println("\n[오류] 상품 수정 중 문제가 발생했습니다.");
+		}
 
 	}
 

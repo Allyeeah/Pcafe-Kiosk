@@ -11,8 +11,9 @@ import common.DBManager;
 import model.dto.CategoryDTO;
 
 public class CategoryDAOImpl implements CategoryDAO {
-	private static CategoryDAO instance = new CategoryDAOImpl();
+	private static final CategoryDAO instance = new CategoryDAOImpl();
 
+	private CategoryDAOImpl() {}
 	public static CategoryDAO getInstance() {
 		return instance;
 	}

@@ -7,13 +7,15 @@ import exception.CategoryException;
 import model.dto.CategoryDTO;
 import service.CategoryService;
 import service.CategoryServiceImpl;
+import view.CategoryView;
 import view.FailView;
+import view.SuccessView;
 
 public class CategoryController {
-	 private static CategoryController instance = new CategoryController();
-	 private CategoryService categoryService = CategoryServiceImpl.getInstance();
+	 private static final CategoryController instance = new CategoryController();
+	 private final CategoryService categoryService = CategoryServiceImpl.getInstance();
 
-	 public CategoryController() {}
+	 private CategoryController() {}
 	 public static CategoryController getInstance() {
 		return instance;
 	}
@@ -21,9 +23,9 @@ public class CategoryController {
 	 //카테고리 조회
 	 public void selectAll() {
 		 try {
-			List<CategoryDTO> list = categoryService.getCategoryList();
-			SuccessView.selectCategoryPrint(list);
-		 }catch(Exception e) {
+			 List<CategoryDTO> list = categoryService.getCategoryList();
+			 CategoryView.printAllCategories(list);
+		 } catch (Exception e) {
 			 FailView.errorMessage(e.getMessage());
 		 }
 	 }

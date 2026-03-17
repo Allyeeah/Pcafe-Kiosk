@@ -8,29 +8,26 @@ import model.dao.ItemDAOImpl;
 import model.dto.ItemDTO;
 
 public class ItemServiceImpl implements ItemService {
-	private static ItemServiceImpl instance = new ItemServiceImpl();
-	private ItemDAO itemDAO = ItemDAOImpl.getInstance();
+	private static final ItemServiceImpl instance = new ItemServiceImpl();
+	private final ItemDAO itemDAO = ItemDAOImpl.getInstance();
 
-	public ItemServiceImpl() {}
+	private ItemServiceImpl() {}
 	public static ItemServiceImpl getInstance() {
 		return instance;
 	}
 
 	@Override
 	public List<ItemDTO> itemSelect() throws SQLException {
-		// TODO Auto-generated method stub
 		return itemDAO.ItemSelect();
 	}
 
 	@Override
 	public List<ItemDTO> selectItemsByCategory(int categoryId) throws SQLException {
-		// TODO Auto-generated method stub
 		return itemDAO.selectItemsByCategory(categoryId);
 	}
 
 	@Override
 	public int insertItem(ItemDTO newItem) throws SQLException {
-		// TODO Auto-generated method stub
 		return itemDAO.insertItem(newItem);
 	}
 

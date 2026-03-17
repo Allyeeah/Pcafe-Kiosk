@@ -32,11 +32,11 @@ public class OrderView {
             System.out.println("\n조회된 주문 내역이 없습니다.");
             return;
         }
-
+        //orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
         System.out.println("\n==================================================================================================");
         System.out.println("                                        주문 내역 조회");
         System.out.println("==================================================================================================");
-        System.out.println("주문번호   주문자ID       주문일시              상태           총금액       주문상품");
+        System.out.println("주문번호        주문자ID            주문일시              상태            총금액       주문상품");
         System.out.println("--------------------------------------------------------------------------------------------------");
 
         int totalPrice = 0;
@@ -53,7 +53,7 @@ public class OrderView {
                          .append("(").append(details.get(i).getQty()).append(")");
                 }
             }
-
+            
             System.out.printf(
                     "%-10d %-14s %-21s %-10s %,9d원  %s%n",
                     order.getOrderId(),
@@ -132,38 +132,50 @@ public class OrderView {
         System.out.println("총 금액: " + String.format("%,d원", totalPrice));
     }
 
-    public static void printOrderDateMenu() {
-        System.out.println("------일일 매출 조회------");
-        System.out.print("조회할 날짜를 입력하세요 (yyyy-MM-dd): ");
-        String input = sc.nextLine();
+    public static void printInputOrder(String userId) {
+        try{
+            System.out.print("주문상품번호 : ");
+            String itemCode = sc.nextLine().toUpperCase();
+            if (itemCode.isEmpty()) {
+                throw new InvalidMenuException("상품 번호는 공백일 수 없습니다.");
+            }
 
-        orderController.listOrdersByDate(input);
-    }
+            System.out.print("주문수량 : ");
+            int qty = Integer.parseInt(sc.nextLine());
+            //주문수량 0 안됨
+            if (qty <= 0) {
+                throw new InvalidMenuException("주문 수량은 1개 이상이어야 합니다.");
+            }
 
-    public static void printOrderItemMenu() {
-        ItemController.selectAllItems();
-        System.out.print("조회할 상품 코드> ");
-        String input = sc.nextLine();
-        orderController.listOrderDetailsByItemCode(input);
+            OrdersDTO orders = new OrdersDTO(userId);
+            OrderDetailDTO orderDetail = new OrderDetailDTO(itemCode, qty);
+            orders.getOrderDetails().add(orderDetail);
+
+            orderController.startOrder(orders);
+
+        } catch (NumberFormatException e) {
+            FailView.errorMessage("주문 수량은 숫자만 입력 가능합니다.");
+        } catch (InvalidMenuException e) {
+            FailView.errorMessage(e.getMessage());
+        }
+
     }
 
     public static void printOrderListMenu(String userId) {
-        while (true) {
-            System.out.println(" 1.주문취소 |  2.재주문  |  0.이전메뉴");
-            int menu = Integer.parseInt(sc.nextLine());
-            switch (menu) {
-                case 1:
-                    printOrderCancelMenu(userId);
-                    return;
-                case 2:
-                    printReorderMenu(userId);
-                    return;
-                case 0:
-                    System.out.println("이전 메뉴로 돌아갑니다.");
-                    return;
-                default: //추가
-                    throw new InvalidMenuException("선택하신 [" + menu + "]번은 없는 번호입니다.");
-            }
+        System.out.println(" 1.주문취소 |  2.재주문  |  0.이전메뉴");
+        int menu = Integer.parseInt(sc.nextLine());
+        switch (menu) {
+            case 1:
+                printOrderCancelMenu(userId);
+                return;
+            case 2:
+                printReorderMenu(userId);
+                return;
+            case 0:
+                System.out.println("이전 메뉴로 돌아갑니다.");
+                return;
+            default: //추가
+                throw new InvalidMenuException("선택하신 [" + menu + "]번은 없는 번호입니다.");
         }
     }
 
@@ -179,4 +191,44 @@ public class OrderView {
         orderController.reorder(userId, orderId);
     }
 
+    // Admin Menu
+    public static void printAdminOrderMenu() {
+        while (true) {
+            System.out.println("\n[관리자 메뉴] 매출 조회");
+            System.out.println("1. 전체 매출 | 2. 일일 매출 | 3. 메뉴별 매출 | 0. 이전 메뉴로 이동");
+            System.out.print("메뉴 선택 > ");
+            int menu = Integer.parseInt(sc.nextLine());
+            switch(menu) {
+                case 1 :
+                    orderController.listAllOrders();	//전체 매출 조회
+                    break;
+                case 2 :
+                    printOrderDateMenu();		//일일 매출 조회
+                    break;
+                case 3 :
+                    printOrderItemMenu();		//메뉴별 매출 조회
+                    break;
+                case 0 :
+                    System.out.println("관리자 메인 메뉴로 돌아갑니다.");
+                    return; // 다시 pCafe메인 printMenu()화면으로
+                default:
+                    throw new InvalidMenuException("선택하신 [" + menu + "]번은 없는 번호입니다.");
+            }
+        }
+    }
+
+    private static void printOrderDateMenu() {
+        System.out.println("------일일 매출 조회------");
+        System.out.print("조회할 날짜를 입력하세요 (yyyy-MM-dd): ");
+        String input = sc.nextLine();
+
+        orderController.listOrdersByDate(input);
+    }
+
+    private static void printOrderItemMenu() {
+        ItemController.selectAllItems();
+        System.out.print("조회할 상품 코드> ");
+        String input = sc.nextLine();
+        orderController.listOrderDetailsByItemCode(input);
+    }
 }
