@@ -32,16 +32,14 @@ public class OrderView {
             System.out.println("\n조회된 주문 내역이 없습니다.");
             return;
         }
-        //orders.sort((o1, o2) -> Integer.compare(o1.getOrderId(), o2.getOrderId())); //주문번호 오름차순정렬
+
         System.out.println("\n==================================================================================================");
         System.out.println("                                        주문 내역 조회");
         System.out.println("==================================================================================================");
         System.out.println("주문번호        주문자ID            주문일시              상태            총금액       주문상품");
         System.out.println("--------------------------------------------------------------------------------------------------");
 
-        int totalPrice = 0;
         for (OrdersDTO order : orders) {
-            totalPrice += order.getTotalAmount();
             StringBuilder items = new StringBuilder();
             List<OrderDetailDTO> details = order.getOrderDetails();
             if (details != null && !details.isEmpty()) {
@@ -65,7 +63,6 @@ public class OrderView {
             );
         }
         System.out.println("==================================================================================================");
-        printTotalPrice(totalPrice);
     }
 
     public static void printOrderedItems(OrdersDTO order) {

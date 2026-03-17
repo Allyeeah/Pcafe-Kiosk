@@ -54,7 +54,9 @@ public class OrderController {
 
 	public void listAllOrders() {
 		try {
-			OrderView.printAllOrders(orderService.findAllOrders());
+			List<OrdersDTO> list = orderService.findAllOrders();
+			OrderView.printAllOrders(list);
+			OrderView.printTotalPrice(orderService.getTotalOrderPrice(list));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());
 		}
@@ -62,7 +64,8 @@ public class OrderController {
 
 	public void listOrdersByUserId(String userId) {
 		try {
-			OrderView.printAllOrders(orderService.findOrdersByUserId(userId));
+			List<OrdersDTO> list = orderService.findOrdersByUserId(userId);
+			OrderView.printAllOrders(list);
 			OrderView.printOrderListMenu(userId);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
@@ -71,7 +74,9 @@ public class OrderController {
 
 	public void listOrdersByDate(String date) {
 		try {
-			OrderView.printAllOrders(orderService.findOrdersByDate(date));
+			List<OrdersDTO> list = orderService.findOrdersByDate(date);
+			OrderView.printAllOrders(list);
+			OrderView.printTotalPrice(orderService.getTotalOrderPrice(list));
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -80,7 +85,7 @@ public class OrderController {
 	public void listOrderDetailsByItemCode(String itemCode) {
 		try {
 			List<OrderDetailDTO> details = orderService.findOrderDetailsByItemCode(itemCode);
-			int totalPrice = orderService.getTotalPrice(details);
+			int totalPrice = orderService.getTotalItemPrice(details);
 			OrderView.printOrderDetails(details, totalPrice);
 		} catch (OrderNotFoundException e) {
 			FailView.errorMessage("[조회 실패] " + e.getMessage());

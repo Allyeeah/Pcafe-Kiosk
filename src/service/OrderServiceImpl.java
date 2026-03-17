@@ -179,7 +179,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int getTotalPrice(List<OrderDetailDTO> details) {
+	public int getTotalOrderPrice(List<OrdersDTO> orders) {
+		return orders.stream()
+					.mapToInt(OrdersDTO::getTotalAmount)
+					.sum();
+	}
+
+	@Override
+	public int getTotalItemPrice(List<OrderDetailDTO> details) {
 		return details.stream()
 				.mapToInt(value -> value.getUnitPrice() * value.getQty())
 				.sum();

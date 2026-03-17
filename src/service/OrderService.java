@@ -21,5 +21,7 @@ public interface OrderService {
 
 	List<OrderDetailDTO> findOrderDetailsByItemCode(String itemCode);
 
-	int getTotalPrice(List<OrderDetailDTO> details);
+	int getTotalOrderPrice(List<OrdersDTO> orders);
+
+	int getTotalItemPrice(List<OrderDetailDTO> details);
 }
