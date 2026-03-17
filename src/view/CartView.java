@@ -1,16 +1,10 @@
 package view;
 
-import java.util.List;
+import controller.CartController;
+import model.dto.ItemDTO;
+
 import java.util.Map;
 import java.util.Scanner;
-
-import controller.CartController;
-import controller.OrderController;
-import model.dto.ItemDTO;
-import model.dto.OrderDetailDTO;
-import model.dto.OrdersDTO;
-import mvc.session.Session;
-import mvc.session.SessionSet;
 
 public class CartView {
 	private static final Scanner sc = new Scanner(System.in);
@@ -29,31 +23,11 @@ public class CartView {
 			System.out.println(itemCode + " : " + itemName + " : " + price + " \t " + quantity);
 		}
 
-
-		Scanner sc = new Scanner(System.in);
 		System.out.println("1.주문하기  |  9.나가기");
 		int choice = Integer.parseInt(sc.nextLine());
 		switch (choice) {
 			case 1:
-				OrdersDTO orders = new OrdersDTO(userId);
-				List<OrderDetailDTO> orderLineList = orders.getOrderDetails();
-
-				for (ItemDTO itemkey : cart.keySet()) {
-					int qty = cart.get(itemkey);//map에서 key=Goods에 해당하는 value=수량 조회
-					OrderDetailDTO orderLine = new OrderDetailDTO(
-							0, 0, itemkey.getItemId(), itemkey.getItemCode(), itemkey.getItemName(), itemkey.getPrice(), qty);
-					orderLineList.add(orderLine);
-				}
-
-
-				System.out.println("orderLineList 개수 : " + orderLineList.size());
-
-				OrderController.getInstance().startOrder(orders);// 주문 + 주문상세
-
-				//장바구니비우기
-				SessionSet ss = SessionSet.getInstance();
-				Session session = ss.get(userId);
-				session.removeAttribute("cart");
+				CartController.orderFromCart(userId, cart);
 				break;
 
 			case 9:

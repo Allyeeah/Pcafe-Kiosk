@@ -21,13 +21,16 @@ public class OrderController {
 		return instance;
 	}
 
-	public void startOrder(OrdersDTO order) {
+	public boolean startOrder(OrdersDTO order) {
 		try {
 			orderService.placeOrder(order);
 			OrderView.orderSuccessMessage(order);
+			return true;
 		} catch (OrderFailedException e) {
 			FailView.errorMessage("[주문 실패] " + e.getMessage());
 		}
+
+		return false;
 	}
 
 	public void cancelOrder(String userId, int orderId) {
