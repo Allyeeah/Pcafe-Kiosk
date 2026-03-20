@@ -8,11 +8,12 @@
 
 <br/>
 
-
 ## 🔗 Links
 - [📄 프로젝트 기획서 및 워크스페이스 (Notion)](https://www.notion.so/springwinter/1-PCafe-Kiosk-30df9adf8bf880f286d4e8e5239a467c)
-- [🎬 서비스 시연 영상 (YouTube)](#) <br/>
+- [🎬 서비스 시연 영상 - 사용자 (YouTube)](https://www.youtube.com/watch?v=aCK4eNsM8JQ) <br/>
+- [🎬 서비스 시연 영상 - 관리자 (YouTube)](https://www.youtube.com/watch?v=r0LHylmUjdQ&feature=youtu.be)
 <br/>
+
 
 ## 🖥️🎮 Pcafe Kiosk 소개
 **Pcafe Kiosk**는 PC방에서 사용하는 매점 키오스크 시스템을 Java 콘솔 환경(CLI)에서 구현한 프로그램입니다. 이 시스템은 사용자(손님) 서비스와 관리자 서비스를 분리하여 매점 운영에 필요한 전반적인 기능을 제공합니다.
@@ -45,13 +46,13 @@
 | :---: | :---: | :--- |
 | **이정건** 👑✨ <br>*(코딩천재)* | 팀장 | • 주문하기 기능 구현<br>• 관리자 매출 관리 및 마이페이지 기능 구현<br>• 프로젝트 전반의 트러블슈팅 및 주요 전반적인 에러 해결<br>• 코드리팩토링 장바구니 보기, 담기 F/U  |
 | **김다예** 🐼 | 팀원 | • 세션(Session) 관리 및 로그인 기능<br>• 사용자 정보 수정 기능<br>• 관리자 카테고리 관리 및 사용자 조회 기능  <br>• 마이페이지 - 회원 탈퇴 기능구현|
-| **김준서** 🐼 | 팀원 | • DB ERD 설계<br>• AWS 인프라(RDS 등) 구축 및 연동<br>• Main View 화면 구현 및 발표 자료(PPT) 제작 |
+| **김준서** 🐼 | 팀원 | • AWS 인프라(RDS 등) 구축 및 연동|
 | **오혜진** 🐼 | 팀원 | • 데이터베이스 SQL 쿼리 작성<br>• 사용자 카테고리 조회 기능<br>• 관리자 상품 CRUD(등록/조회/수정/삭제) 구현<br>• 시스템 공통 예외 처리(Exception Handling) 로직 설계 |
 <br/>
 
 ## 🛠️ Tech Stack
-- **Language**: Java (JDK 17)
-- **IDE**: Eclipse
+- **Language**: Java (JDK 21)
+- **IDE**: Eclipse, IntelliJ
 - **Database**: MySQL
 - **Infrastructure**: AWS RDS
 - **Version Control**: Git, GitHub
@@ -60,7 +61,9 @@
 <br/>
 
 ## 👀 Information Architecture (IA)
-![Pcafe Kiosk IA](public/ReadMe/IA.png)
+![Pcafe Kiosk IA](https://github.com/user-attachments/assets/b057ce08-aee9-4f9d-aa59-79db8cfd8338)
+
+
 
 <br/>
 
